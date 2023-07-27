@@ -12,13 +12,17 @@ loaded here
 
 ****************************/
 
-
-// Import Geant4 Libraries
+// Import Geant4 Headers
 #include "G4RunManagerFactory.hh"
 #include "G4UIExecutive.hh"
 #include "G4UImanager.hh"
 #include "G4VisManager.hh"
 #include "G4VisExecutive.hh"
+
+// Import Custom Headers
+#include "ActionInitialization.hh"
+#include "DetectorConstruction.hh"
+#include "PhysicsList.hh"
 
 
 int main(int argc, char** argv) {
@@ -26,6 +30,14 @@ int main(int argc, char** argv) {
     // Set up the simulation
     // i.e. Configure the Run
     auto runManager = G4RunManagerFactory::CreateRunManager();  // This will automatically pick Sequential or MT Run Manager
+
+    // Configure how each run is initialized
+    runManager->SetUserInitialization(new ActionInitialization);
+    runManager->SetUserInitialization(new DetectorConstruction);
+    runManager->SetUserInitialization(new PhysicsList);
+
+    // Punch it!
+    runManager->Initialize();
 
 
     // Evaluate the arguments
