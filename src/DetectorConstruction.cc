@@ -24,6 +24,8 @@ as a detector
 #include "G4PVPlacement.hh"
 #include "G4LogicalVolume.hh"
 #include "G4ThreeVector.hh"
+#include "G4VisAttributes.hh"
+#include "G4Color.hh"
 
 // Some STL Headers that are useful
 #include <vector>
@@ -50,12 +52,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     // Then add to it the rest of the materials that we might need
     CreateMaterials();
 
-    // VISUALIZATION ATTRIBUTES --------------------------------------------
-
     // WORLD VOLUME --------------------------------------------------------
     G4double            worldSize       = 2.0 * m;
     G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_Galactic");
     G4Box*              worldSolid      = new G4Box("worldSolid", worldSize/2, worldSize/2, worldSize/2);
+    G4VisAttributes*    worldColor      = new G4VisAttributes(true,G4Color(0.0, 0.1, 0.0, 0.1));
     G4LogicalVolume*    worldLogical    = new G4LogicalVolume(worldSolid,worldMaterial,"worldLogical");
     G4VPhysicalVolume*  worldPhysical   = new G4PVPlacement(
         0,                                                          // No Rotation Matrix
@@ -67,12 +68,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         0,                                                          // Copy Number
         true                                                        // Check for Overlaps
     );
+    worldLogical->SetVisAttributes(worldColor);
 
 
     // TARGET -------------------------------------------------------------
     G4double            targetThickness = 0.5 * m;
     G4Material*         targetMaterial  = nist->FindOrBuildMaterial("Basalt");
     G4Box*              targetSolid     = new G4Box("targetSolid", worldSize/2, targetThickness/2, worldSize/2);
+    G4VisAttributes*    targetColor     = new G4VisAttributes(1,G4Color(0.7, 0.7, 0.7, 0.3));
     G4LogicalVolume*    targetLogical   = new G4LogicalVolume(targetSolid, targetMaterial, "targetLogical");
     G4VPhysicalVolume*  targetPhysical  = new G4PVPlacement(
         0,                                                          // No Rotation Matrix
@@ -84,8 +87,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         0,                                                          // Copy Number
         true                                                        // Check for Overlaps
     );
-
-
 
 
 }
