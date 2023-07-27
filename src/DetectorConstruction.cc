@@ -20,10 +20,12 @@ as a detector
 #include "G4NistManager.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4Box.hh"
+#include "G4Tubs.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4LogicalVolume.hh"
 #include "G4ThreeVector.hh"
+#include "G4RotationMatrix.hh"
 #include "G4VisAttributes.hh"
 #include "G4Color.hh"
 
@@ -54,40 +56,88 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // WORLD VOLUME --------------------------------------------------------
     G4double            worldSize       = 2.0 * m;
+    G4double            worldHeight     = 1.0 * m;
     G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_Galactic");
-    G4Box*              worldSolid      = new G4Box("worldSolid", worldSize/2, worldSize/2, worldSize/2);
-    G4VisAttributes*    worldColor      = new G4VisAttributes(true,G4Color(0.0, 0.1, 0.0, 0.1));
+    G4Box*              worldSolid      = new G4Box("worldSolid", worldSize/2, worldHeight/2, worldSize/2);
+    G4VisAttributes*    worldColor      = new G4VisAttributes(false,G4Color(0.0, 1, 0.0, 0.4));
     G4LogicalVolume*    worldLogical    = new G4LogicalVolume(worldSolid,worldMaterial,"worldLogical");
     G4VPhysicalVolume*  worldPhysical   = new G4PVPlacement(
-        0,                                                          // No Rotation Matrix
-        G4ThreeVector(0.,0.,0.),                                    // Position of center
-        worldLogical,                                               // Logical Volume to place
-        "worldPhysical",                                            // Name of new Physical Volume
-        0,                                                          // Mother Volume Logical
-        false,                                                      // No boolean operation
-        0,                                                          // Copy Number
-        true                                                        // Check for Overlaps
+        0,                              // No Rotation Matrix
+        G4ThreeVector(0.,0.,0.),        // Position of center
+        worldLogical,                   // Logical Volume to place
+        "worldPhysical",                // Name of new Physical Volume
+        0,                              // Mother Volume Logical
+        false,                          // No boolean operation
+        0,                              // Copy Number
+        true                            // Check for Overlaps
     );
     worldLogical->SetVisAttributes(worldColor);
 
 
     // TARGET -------------------------------------------------------------
     G4double            targetThickness = 0.5 * m;
+    G4ThreeVector       targetPostition = G4ThreeVector(0., - targetThickness/2, 0.);
     G4Material*         targetMaterial  = nist->FindOrBuildMaterial("Basalt");
     G4Box*              targetSolid     = new G4Box("targetSolid", worldSize/2, targetThickness/2, worldSize/2);
-    G4VisAttributes*    targetColor     = new G4VisAttributes(1,G4Color(0.7, 0.7, 0.7, 0.3));
+    G4VisAttributes*    targetColor     = new G4VisAttributes(true,G4Color(0.40, 0.45, 0.5, 0.4));
     G4LogicalVolume*    targetLogical   = new G4LogicalVolume(targetSolid, targetMaterial, "targetLogical");
     G4VPhysicalVolume*  targetPhysical  = new G4PVPlacement(
-        0,                                                          // No Rotation Matrix
-        G4ThreeVector(0., (-worldSize + targetThickness)/2, 0.),    // Position of center
-        targetLogical,                                              // Logical Volume to place
-        "targetPhysical",                                           // Name of new Physical Volume
-        worldLogical,                                               // Mother Volume Logical
-        false,                                                      // Boolean operation
-        0,                                                          // Copy Number
-        true                                                        // Check for Overlaps
+        0,                              // No Rotation Matrix
+        targetPostition,                // Position of center
+        targetLogical,                  // Logical Volume to place
+        "targetPhysical",               // Name of new Physical Volume
+        worldLogical,                   // Mother Volume Logical
+        false,                          // Boolean operation
+        0,                              // Copy Number
+        true                            // Check for Overlaps
     );
+    targetLogical->SetVisAttributes(targetColor);
 
+
+    // SOURCE --------------------------------------------------------------
+    G4double            sourceDiameter  = 5.0 * cm;
+    G4double            sourceThickness = 2.0 * cm;
+    G4ThreeVector       sourcePostition = G4ThreeVector(-worldSize/6,worldHeight/4,0);
+    G4Material*         sourceMaterial  = nist->FindOrBuildMaterial("G4_Cu");
+    G4Tubs*             sourceSolid     = new G4Tubs("sourceSolid", 0, sourceDiameter/2, sourceThickness/2, 0, 2*M_PI*rad);
+    G4VisAttributes*    sourceColor     = new G4VisAttributes(true,G4Color(0.80, 0.0, 0.0, 0.4));
+    G4LogicalVolume*    sourceLogical   = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
+    G4RotationMatrix*   sourceRotation  = new G4RotationMatrix(sourcePostition.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
+    G4VPhysicalVolume*  sourcePhysical  = new G4PVPlacement(
+        sourceRotation,                 // No Rotation Matrix
+        sourcePostition,                // Position of center
+        sourceLogical,                  // Logical Volume to place
+        "sourcePhysical",               // Name of new Physical Volume
+        worldLogical,                   // Mother Volume Logical
+        false,                          // Boolean operation
+        0,                              // Copy Number
+        true                            // Check for Overlaps
+    );
+    sourceLogical->SetVisAttributes(sourceColor);
+
+
+    // DETECTOR ------------------------------------------------------------
+    G4double            detectDiameter  = 10.0 * cm;
+    G4double            detectThickness = 3.0 * cm;
+    G4ThreeVector       detectPostition = G4ThreeVector(worldSize/6,worldHeight/4,0);
+    G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Cu");
+    G4Tubs*             detectSolid     = new G4Tubs("detectSolid", 0, detectDiameter/2, detectThickness/2, 0, 2*M_PI*rad);
+    G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.0, 0.0, 0.80, 0.4));
+    G4LogicalVolume*    detectLogical   = new G4LogicalVolume(detectSolid, detectMaterial, "detectLogical");
+    G4RotationMatrix*   detectRotation  = new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
+    G4VPhysicalVolume*  detectPhysical  = new G4PVPlacement(
+        detectRotation,                 // No Rotation Matrix
+        detectPostition,                // Position of center
+        detectLogical,                  // Logical Volume to place
+        "detectPhysical",               // Name of new Physical Volume
+        worldLogical,                   // Mother Volume Logical
+        false,                          // Boolean operation
+        0,                              // Copy Number
+        true                            // Check for Overlaps
+    );
+    detectLogical->SetVisAttributes(detectColor);
+
+    return worldPhysical;
 
 }
 
