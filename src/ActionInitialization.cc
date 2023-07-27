@@ -9,10 +9,15 @@
 // Import the header file
 #include "ActionInitialization.hh"
 
+// Include the rest of our custom initializations
+#include "PrimaryGeneratorAction.hh"
+
 
 // Constructor
-ActionInitialization::ActionInitialization()
-{}
+ActionInitialization::ActionInitialization(DetectorConstruction* construction)
+{
+    detectorConstruction = construction;
+}
 
 //-----------------------8<-------------[ cut here ]------------------------
 
@@ -33,6 +38,6 @@ void ActionInitialization::BuildForMaster() const
 // Build for Master
 void ActionInitialization::Build() const
 {
-    // SetUserAction(new RunAction())
+    SetUserAction(new PrimaryGeneratorAction(detectorConstruction));
 }
 

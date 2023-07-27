@@ -32,8 +32,9 @@ int main(int argc, char** argv) {
     auto runManager = G4RunManagerFactory::CreateRunManager();  // This will automatically pick Sequential or MT Run Manager
 
     // Configure how each run is initialized
-    runManager->SetUserInitialization(new ActionInitialization);
-    runManager->SetUserInitialization(new DetectorConstruction);
+    DetectorConstruction* detectorConstruction = new DetectorConstruction();
+    runManager->SetUserInitialization(detectorConstruction);
+    runManager->SetUserInitialization(new ActionInitialization(detectorConstruction));
     runManager->SetUserInitialization(new PhysicsList);
 
     // Punch it!
