@@ -18,6 +18,7 @@ ctors and materials
 //Include relevant Geant4 Libraries
 #include "G4VUserDetectorConstruction.hh"
 
+
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
     public:
@@ -26,6 +27,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
         G4VPhysicalVolume* Construct() override;    // Create the full geometry assembly
         void ConstructSDandField() override;        // Assign certain logical volumes as Sensitive Detectors
+
+    private:
+        void CreateMaterials();                     // Defines the Simulation Materials that are not on NIST
 };
 
 #endif
