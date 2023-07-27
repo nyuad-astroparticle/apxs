@@ -34,13 +34,29 @@ as a detector
 
 // Constructor
 DetectorConstruction::DetectorConstruction()
-{}
+{
+    // Initialize the Member Variables
+    worldSize       = 2.0 * m;
+    worldHeight     = 1.0 * m;
+    sourceDiameter  = 5.0 * cm;
+    sourceThickness = 2.0 * cm;
+    sourceRotation  = nullptr;
+    sourceLogical   = nullptr;
+    sourcePhysical  = nullptr;
+    setSourcePosition(G4ThreeVector(-worldSize/6,worldHeight/4,0));
+    setSourceMaterial("G4_Cu");
+}
 
 //-----------------------8<-------------[ cut here ]------------------------
 
 // Destructor
 DetectorConstruction::~DetectorConstruction()
-{}
+{
+    // Free the memory allocated by the pointers
+    delete sourceRotation;
+    delete sourceLogical;
+    delete sourcePhysical;
+}
 
 //-----------------------8<-------------[ cut here ]------------------------
 
@@ -55,8 +71,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     CreateMaterials();
 
     // WORLD VOLUME --------------------------------------------------------
-    G4double            worldSize       = 2.0 * m;
-    G4double            worldHeight     = 1.0 * m;
     G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_Galactic");
     G4Box*              worldSolid      = new G4Box("worldSolid", worldSize/2, worldHeight/2, worldSize/2);
     G4VisAttributes*    worldColor      = new G4VisAttributes(false,G4Color(0.0, 1, 0.0, 0.4));
@@ -95,16 +109,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
     // SOURCE --------------------------------------------------------------
-    G4double            sourceDiameter  = 5.0 * cm;
-    G4double            sourceThickness = 2.0 * cm;
-    G4ThreeVector       sourcePostition = G4ThreeVector(-worldSize/6,worldHeight/4,0);
-    G4Material*         sourceMaterial  = nist->FindOrBuildMaterial("G4_Cu");
     G4Tubs*             sourceSolid     = new G4Tubs("sourceSolid", 0, sourceDiameter/2, sourceThickness/2, 0, 2*M_PI*rad);
     G4VisAttributes*    sourceColor     = new G4VisAttributes(true,G4Color(0.80, 0.0, 0.0, 0.4));
-    G4LogicalVolume*    sourceLogical   = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
-    G4RotationMatrix*   sourceRotation  = new G4RotationMatrix(sourcePostition.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
-    G4VPhysicalVolume*  sourcePhysical  = new G4PVPlacement(
-        sourceRotation,                 // No Rotation Matrix
+    sourceLogical                       = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
+    sourcePhysical                      = new G4PVPlacement(
+        sourceRotation,                 // Rotation Matrix
         sourcePostition,                // Position of center
         sourceLogical,                  // Logical Volume to place
         "sourcePhysical",               // Name of new Physical Volume
@@ -120,7 +129,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4double            detectDiameter  = 10.0 * cm;
     G4double            detectThickness = 3.0 * cm;
     G4ThreeVector       detectPostition = G4ThreeVector(worldSize/6,worldHeight/4,0);
-    G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Cu");
+    G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Si");
     G4Tubs*             detectSolid     = new G4Tubs("detectSolid", 0, detectDiameter/2, detectThickness/2, 0, 2*M_PI*rad);
     G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.0, 0.0, 0.80, 0.4));
     G4LogicalVolume*    detectLogical   = new G4LogicalVolume(detectSolid, detectMaterial, "detectLogical");
@@ -174,4 +183,39 @@ void DetectorConstruction::CreateMaterials()
     massFraction.clear();
 
     return;
+}
+
+//-----------------------8<-------------[ cut here ]------------------------
+// MUTATORS ----------------------------------------------------------------
+
+void DetectorConstruction::setSourceDiameter(G4double diameter) 
+{ sourceDiameter = diameter; }
+
+void DetectorConstruction::setSourceThickness(G4double thickness) 
+{ sourceThickness = thickness; }
+
+void DetectorConstruction::setSourcePosition(G4ThreeVector position) 
+{ 
+    sourcePostition = position;
+
+    // Use the position to assign 
+    setSourceRotation(position);
+}
+
+void DetectorConstruction::setSourceMaterial(const char* name)
+{
+    // Get the nist pointer
+    G4NistManager* nist = G4NistManager::Instance();
+
+    // Assign the material
+    sourceMaterial = nist->FindOrBuildMaterial(name);
+}
+
+void DetectorConstruction::setSourceRotation(G4ThreeVector normal)
+{
+    // Remove the previous thing that was stored there
+    if (sourceRotation) delete sourceRotation;
+
+    // Sets the new rotation perpendicular to the normal vector
+    sourceRotation = new G4RotationMatrix(normal.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
 }
