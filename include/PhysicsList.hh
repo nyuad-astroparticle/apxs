@@ -25,6 +25,8 @@ class PhysicsList : public G4VModularPhysicsList
     public:
         PhysicsList();      // Constructor
         ~PhysicsList();     // Destructor
+
+        void ConstructProcess() override;   
 };
 
 #endif
