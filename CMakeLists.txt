@@ -10,6 +10,9 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 # Project Name
 project(APXS)
 
+# Create an output directory in the build folder
+file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/output)
+
 # Load Geant4 and include its headers
 find_package(Geant4 REQUIRED ui_all vis_all)
 include(${Geant4_USE_FILE})
