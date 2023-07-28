@@ -23,9 +23,6 @@ ctors and materials
 #include "G4RotationMatrix.hh"
 #include "G4Material.hh"
 
-// Releavant Custom Headers
-#include "SensitiveDetector.hh"
-
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
     public:
