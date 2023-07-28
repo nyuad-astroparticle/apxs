@@ -28,9 +28,13 @@ as a detector
 #include "G4RotationMatrix.hh"
 #include "G4VisAttributes.hh"
 #include "G4Color.hh"
+#include "G4SDManager.hh"
 
 // Some STL Headers that are useful
 #include <vector>
+
+// Other custom relevant headers
+#include "SensitiveDetector.hh"
 
 // Constructor
 DetectorConstruction::DetectorConstruction()
@@ -153,7 +157,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //----------------------- 8< -------------[ cut here ]------------------------
 
 void DetectorConstruction::ConstructSDandField()
-{}
+{
+    // Create a master sensitive detector
+    SensitiveDetector* detector = new SensitiveDetector("/APXSDetector","APXSHitsCollection");
+
+    // Let Geant4 know about it
+    G4SDManager::GetSDMpointer()->AddNewDetector(detector);
+
+    // Attach the sensitive Detector to the relevent volumes
+    SetSensitiveDetector(detectLogical, detector);
+}
 
 //----------------------- 8< -------------[ cut here ]------------------------
 

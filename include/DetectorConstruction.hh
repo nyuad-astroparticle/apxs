@@ -23,6 +23,9 @@ ctors and materials
 #include "G4RotationMatrix.hh"
 #include "G4Material.hh"
 
+// Releavant Custom Headers
+#include "SensitiveDetector.hh"
+
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
     public:
@@ -51,6 +54,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4RotationMatrix*   sourceRotation;         // Generator & Messenger
         G4LogicalVolume*    sourceLogical;
         G4VPhysicalVolume*  sourcePhysical;
+
+        G4LogicalVolume*    detectLogical;          // The logical Volume for the detector
 
         friend class PrimaryGeneratorAction;        // We allow PrimaryGeneratorAction to have access the variables of this class
 };
