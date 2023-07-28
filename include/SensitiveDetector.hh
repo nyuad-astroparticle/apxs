@@ -28,9 +28,8 @@ class SensitiveDetector : public G4VSensitiveDetector
         ~SensitiveDetector() override = default;                                        // Destructor
 
         // Methods to override from Parent Class
-        G4bool ProcessHits(G4Step* step, G4TouchableHistory* history) override;         // At every step create the hits if the SD is triggered
-        
         void Initialize(G4HCofThisEvent* hitsCollection) override;                      // Run at the start of each event. Set up the collection
+        G4bool ProcessHits(G4Step* step, G4TouchableHistory* history) override;         // At every step create the hits if the SD is triggered
         void EndOfEvent(G4HCofThisEvent* hitsCollection) override;                      // Run at the end of each event, save the information in the hits
 
     private:
