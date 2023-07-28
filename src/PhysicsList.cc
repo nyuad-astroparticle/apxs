@@ -17,7 +17,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
 	RegisterPhysics (new G4RadioactiveDecayPhysics());
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
 
 // Destructor
 PhysicsList::~PhysicsList()

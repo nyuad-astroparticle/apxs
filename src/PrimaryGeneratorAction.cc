@@ -27,7 +27,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* constructio
     source                  = new G4GeneralParticleSource();
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
 
 //Destructor
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -35,7 +35,8 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
     delete source;
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
+
 
 // Function that sets up the primary particles
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
@@ -62,7 +63,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 	source->GeneratePrimaryVertex(event);
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
+
 
 // Given a material string find the corresponding particle definitions
 void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)

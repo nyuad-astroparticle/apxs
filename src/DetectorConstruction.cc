@@ -47,7 +47,7 @@ DetectorConstruction::DetectorConstruction()
     setSourceMaterial("G4_Cu");
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
 
 // Destructor
 DetectorConstruction::~DetectorConstruction()
@@ -58,7 +58,7 @@ DetectorConstruction::~DetectorConstruction()
     delete sourcePhysical;
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
 
 // Constructs all the Geometry
 G4VPhysicalVolume* DetectorConstruction::Construct()
@@ -150,12 +150,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
 
 void DetectorConstruction::ConstructSDandField()
 {}
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
 
 // Adds materials that are not in NIST's libary to the Materials Manager
 void DetectorConstruction::CreateMaterials()
@@ -185,7 +185,7 @@ void DetectorConstruction::CreateMaterials()
     return;
 }
 
-//-----------------------8<-------------[ cut here ]------------------------
+//----------------------- 8< -------------[ cut here ]------------------------
 // MUTATORS ----------------------------------------------------------------
 
 void DetectorConstruction::setSourceDiameter(G4double diameter) 
