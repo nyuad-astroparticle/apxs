@@ -47,6 +47,7 @@ DetectorConstruction::DetectorConstruction()
     sourceRotation  = nullptr;
     sourceLogical   = nullptr;
     sourcePhysical  = nullptr;
+    detectLogical   = nullptr;
     setSourcePosition(G4ThreeVector(-worldSize/6,worldHeight/4,0));
     setSourceMaterial("G4_Cu");
 }
@@ -136,7 +137,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Si");
     G4Tubs*             detectSolid     = new G4Tubs("detectSolid", 0, detectDiameter/2, detectThickness/2, 0, 2*M_PI*rad);
     G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.0, 0.0, 0.80, 0.4));
-    G4LogicalVolume*    detectLogical   = new G4LogicalVolume(detectSolid, detectMaterial, "detectLogical");
+                        detectLogical   = new G4LogicalVolume(detectSolid, detectMaterial, "detectLogical");
     G4RotationMatrix*   detectRotation  = new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
     G4VPhysicalVolume*  detectPhysical  = new G4PVPlacement(
         detectRotation,                 // No Rotation Matrix
