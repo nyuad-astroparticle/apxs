@@ -56,7 +56,7 @@ class DetectorHit : public G4VHit
         G4int                   getTrackID()                { return trackID; }
         G4String                getParticle()               { return particle; }
         G4double                getInitialEnergy()          { return initialEnergy; }
-        G4double                getdepositedEnergy()        { return depositedEnergy; }
+        G4double                getDepositedEnergy()        { return depositedEnergy; }
         G4ThreeVector           getPosition()               { return position; }
         G4double                getTime()                   { return time; }
         G4String                getVolume()                 { return volume; }
