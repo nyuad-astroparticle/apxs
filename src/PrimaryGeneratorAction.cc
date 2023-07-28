@@ -72,7 +72,7 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
     // Start checking for the available materials
 
     // CURIUM --------------------------------------------------------------
-    if (!material.compare("G4_Cu"))
+    if (!material.compare("G4_Cm"))
     {
         G4ParticleDefinition* curium242 = G4IonTable::GetIonTable()->GetIon(96, 242, 0);
         source->SetParticleDefinition(curium242);
