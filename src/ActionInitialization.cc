@@ -11,7 +11,8 @@
 
 // Include the rest of our custom initializations
 #include "PrimaryGeneratorAction.hh"
-
+#include "RunAction.hh"
+#include "EventAction.hh"
 
 // Constructor
 ActionInitialization::ActionInitialization(DetectorConstruction* construction)
@@ -30,7 +31,7 @@ ActionInitialization::~ActionInitialization()
 // Build for Master
 void ActionInitialization::BuildForMaster() const
 {
-    // SetUserAction(new RunAction())
+    SetUserAction(new RunAction());
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -38,6 +39,8 @@ void ActionInitialization::BuildForMaster() const
 // Build for Master
 void ActionInitialization::Build() const
 {
+    SetUserAction(new RunAction);
+    SetUserAction(new EventAction);
     SetUserAction(new PrimaryGeneratorAction(detectorConstruction));
 }
 

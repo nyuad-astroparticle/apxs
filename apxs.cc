@@ -33,9 +33,9 @@ int main(int argc, char** argv) {
 
     // Configure how each run is initialized
     DetectorConstruction* detectorConstruction = new DetectorConstruction();
+    runManager->SetUserInitialization(new PhysicsList);
     runManager->SetUserInitialization(detectorConstruction);
     runManager->SetUserInitialization(new ActionInitialization(detectorConstruction));
-    runManager->SetUserInitialization(new PhysicsList);
 
     // Punch it!
     runManager->Initialize();
