@@ -49,7 +49,7 @@ DetectorConstruction::DetectorConstruction()
     sourcePhysical  = nullptr;
     detectLogical   = nullptr;
     setSourcePosition(G4ThreeVector(-worldSize/6,worldHeight/4,0));
-    setSourceMaterial("G4_Cu");
+    setSourceMaterial("G4_Cm");
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
