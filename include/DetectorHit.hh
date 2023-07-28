@@ -47,19 +47,19 @@ class DetectorHit : public G4VHit
         void setTrackID         (G4int trackID)             { this->trackID = trackID; }
         void setParticle        (G4String particle)         { this->particle = particle; }
         void setInitialEnergy   (G4double initialEnergy)    { this->initialEnergy = initialEnergy; }
-        void setEnergyDeposited (G4double energyDeposited)  { this->energyDeposited = energyDeposited; }
+        void setdepositedEnergy (G4double depositedEnergy)  { this->depositedEnergy = depositedEnergy; }
         void setPosition        (G4ThreeVector position)    { this->position = position; }
         void setTime            (G4double time)             { this->time = time; }
         void setVolume          (G4String volume)           { this->volume = volume; }
 
         // Getters
-        G4int           getTrackID()            { return trackID; }
-        G4String        getParticle()           { return particle; }
-        G4double        getInitialEnergy()      { return initialEnergy; }
-        G4double        getEnergyDeposited()    { return energyDeposited; }
-        G4ThreeVector   getPosition()           { return position; }
-        G4double        getTime()               { return time; }
-        G4String        getVolume()             { return volume; }
+        G4int                   getTrackID()                { return trackID; }
+        G4String                getParticle()               { return particle; }
+        G4double                getInitialEnergy()          { return initialEnergy; }
+        G4double                getdepositedEnergy()        { return depositedEnergy; }
+        G4ThreeVector           getPosition()               { return position; }
+        G4double                getTime()                   { return time; }
+        G4String                getVolume()                 { return volume; }
 
     
     private:
@@ -68,7 +68,7 @@ class DetectorHit : public G4VHit
         G4int           trackID         = -1;
         G4String        particle        = "";
         G4double        initialEnergy   = 0;
-        G4double        energyDeposited = 0;
+        G4double        depositedEnergy = 0;
         G4ThreeVector   position        = G4ThreeVector(0.,0.,0.);
         G4double        time            = -1;
         G4String        volume          = "";
