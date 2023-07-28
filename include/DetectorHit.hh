@@ -47,7 +47,7 @@ class DetectorHit : public G4VHit
         void setTrackID         (G4int trackID)             { this->trackID = trackID; }
         void setParticle        (G4String particle)         { this->particle = particle; }
         void setInitialEnergy   (G4double initialEnergy)    { this->initialEnergy = initialEnergy; }
-        void setdepositedEnergy (G4double depositedEnergy)  { this->depositedEnergy = depositedEnergy; }
+        void setDepositedEnergy (G4double depositedEnergy)  { this->depositedEnergy = depositedEnergy; }
         void setPosition        (G4ThreeVector position)    { this->position = position; }
         void setTime            (G4double time)             { this->time = time; }
         void setVolume          (G4String volume)           { this->volume = volume; }
