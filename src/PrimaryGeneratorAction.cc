@@ -49,12 +49,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
     source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
 
     // Confine the particle source to the geometry of the source block
-    source->GetCurrentSource()->GetPosDist()->SetPosDisType("Volume");
+    source->GetCurrentSource()->GetPosDist()->SetPosDisType("Surface");
 	source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Cylinder");
 	source->GetCurrentSource()->GetPosDist()->SetCentreCoords(G4ThreeVector( 35.2 * cm / 2 + 1.*cm, -106. * cm / 2 + 11.5*cm + 17*cm, 0));
 	source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
     source->GetCurrentSource()->GetPosDist()->SetRadius(detectorConstruction->sourceDiameter/2);
-    source->GetCurrentSource()->GetPosDist()->SetHalfY(detectorConstruction->sourceThickness/2);
+    source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
     source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePostition);
     source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
     source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
@@ -72,10 +72,10 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
     // Start checking for the available materials
 
     // CURIUM --------------------------------------------------------------
-    if (!material.compare("G4_Cm"))
+    if (!material.compare("G4_Cu"))
     {
-        G4ParticleDefinition* curium242 = G4IonTable::GetIonTable()->GetIon(96, 242, 0);
-        source->SetParticleDefinition(curium242);
+        G4ParticleDefinition* curium244 = G4IonTable::GetIonTable()->GetIon(96, 244, 0);
+        source->SetParticleDefinition(curium244);
     }
 
     // DEFAULT -------------------------------------------------------------

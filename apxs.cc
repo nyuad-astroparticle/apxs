@@ -61,7 +61,10 @@ int main(int argc, char** argv) {
 		uiManager->ApplyCommand("/vis/open OGL");
 		uiManager->ApplyCommand("/vis/drawVolume");
 		uiManager->ApplyCommand("/vis/viewer/set/autoRefresh true");
+        uiManager->ApplyCommand("/vis/modeling/trajectories/create/drawByParticleID");
+        uiManager->ApplyCommand("/vis/scene/endOfEventAction accumulate -1");
 		uiManager->ApplyCommand("/vis/scene/add/trajectories smooth");
+        uiManager->ApplyCommand("/vis/geometry/set/forceSolid");
         ui->SessionStart();
 
         delete ui;

@@ -29,7 +29,6 @@ as a detector
 #include "G4VisAttributes.hh"
 #include "G4Color.hh"
 #include "G4SDManager.hh"
-#include "G4UserLimits.hh"
 
 // Some STL Headers that are useful
 #include <vector>
@@ -49,8 +48,8 @@ DetectorConstruction::DetectorConstruction()
     sourceLogical   = nullptr;
     sourcePhysical  = nullptr;
     detectLogical   = nullptr;
-    setSourcePosition(G4ThreeVector(-worldSize/6,worldHeight/4,0));
-    setSourceMaterial("G4_Cm");
+    setSourcePosition(G4ThreeVector(-worldSize/10,worldHeight/4,0));
+    setSourceMaterial("G4_Cu");
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -93,13 +92,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     );
     worldLogical->SetVisAttributes(worldColor);
 
-    // Set a limit to how long you should track in the world volume
-    G4double maxStepTime    = 3600 * s;
-    G4UserLimits* limits    = new G4UserLimits();
-    limits->SetUserMaxTime(maxStepTime);
-    worldLogical->SetUserLimits(limits);
-
-
     // TARGET -------------------------------------------------------------
     G4double            targetThickness = 0.5 * m;
     G4ThreeVector       targetPostition = G4ThreeVector(0., - targetThickness/2, 0.);
@@ -138,9 +130,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
     // DETECTOR ------------------------------------------------------------
-    G4double            detectDiameter  = 10.0 * cm;
+    G4double            detectDiameter  = 30.0 * cm;
     G4double            detectThickness = 3.0 * cm;
-    G4ThreeVector       detectPostition = G4ThreeVector(worldSize/6,worldHeight/4,0);
+    G4ThreeVector       detectPostition = G4ThreeVector(worldSize/10,worldHeight/4,0);
     G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
     G4Tubs*             detectSolid     = new G4Tubs("detectSolid", 0, detectDiameter/2, detectThickness/2, 0, 2*M_PI*rad);
     G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.0, 0.0, 0.80, 0.4));
@@ -190,8 +182,8 @@ void DetectorConstruction::CreateMaterials()
 
     // BASALT --------------------------------------------------------------
     G4double density = 3.0 * g/cm3;
-    elements.push_back("Fe");       massFraction.push_back(0.1200); 
-    elements.push_back("Ti");       massFraction.push_back(0.0160);   
+    elements.push_back("Fe");       massFraction.push_back(0.1200);
+    elements.push_back("Ti");       massFraction.push_back(0.0160); 
     elements.push_back("Ca");       massFraction.push_back(0.0750); 
     elements.push_back("Si");       massFraction.push_back(0.2160);   
     elements.push_back("Al");       massFraction.push_back(0.0710); 

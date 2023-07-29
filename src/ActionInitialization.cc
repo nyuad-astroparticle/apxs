@@ -13,6 +13,7 @@
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
+#include "TrackingAction.hh"
 
 // Constructor
 ActionInitialization::ActionInitialization(DetectorConstruction* construction)
@@ -41,6 +42,7 @@ void ActionInitialization::Build() const
 {
     SetUserAction(new RunAction);
     SetUserAction(new EventAction);
+    SetUserAction(new TrackingAction);
     SetUserAction(new PrimaryGeneratorAction(detectorConstruction));
 }
 
