@@ -42,9 +42,8 @@ PhysicsList::~PhysicsList()
 // Override to enable Fluorecence and stuff
 void PhysicsList::ConstructProcess()
 {
+	// Call parent method
 	G4VModularPhysicsList::ConstructProcess();
-
-	// AddTransportation();
 
 	// Get the Geant4 Object that manages the EM Physics
 	G4EmParameters* emParameters = G4EmParameters::Instance();

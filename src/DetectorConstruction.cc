@@ -29,6 +29,7 @@ as a detector
 #include "G4VisAttributes.hh"
 #include "G4Color.hh"
 #include "G4SDManager.hh"
+#include "G4UserLimits.hh"
 
 // Some STL Headers that are useful
 #include <vector>
@@ -92,6 +93,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     );
     worldLogical->SetVisAttributes(worldColor);
 
+    // Set a limit to how long you should track in the world volume
+    G4double maxStepTime    = 3600 * s;
+    G4UserLimits* limits    = new G4UserLimits();
+    limits->SetUserMaxTime(maxStepTime);
+    worldLogical->SetUserLimits(limits);
+
 
     // TARGET -------------------------------------------------------------
     G4double            targetThickness = 0.5 * m;
@@ -134,7 +141,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4double            detectDiameter  = 10.0 * cm;
     G4double            detectThickness = 3.0 * cm;
     G4ThreeVector       detectPostition = G4ThreeVector(worldSize/6,worldHeight/4,0);
-    G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Si");
+    G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
     G4Tubs*             detectSolid     = new G4Tubs("detectSolid", 0, detectDiameter/2, detectThickness/2, 0, 2*M_PI*rad);
     G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.0, 0.0, 0.80, 0.4));
                         detectLogical   = new G4LogicalVolume(detectSolid, detectMaterial, "detectLogical");

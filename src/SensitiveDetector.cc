@@ -15,6 +15,7 @@ particle passes through
 
 // Other useful Geant4 headers
 #include "G4SDManager.hh"
+#include "G4String.hh"
 
 // Constructor Calls the parent constructor with the same name and...
 SensitiveDetector::SensitiveDetector(const G4String& name, const G4String& hitsCollectionName)
@@ -47,20 +48,18 @@ void SensitiveDetector::Initialize(G4HCofThisEvent* hitsCollection)
 // What happens after each step?
 G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
 {
-    // Calculate Energy Deposited
-    G4double depositedEnergy = step->GetTotalEnergyDeposit();
-
-    // If there is no energy deposit don't create a hit even though it passed through the detector
-    if (depositedEnergy == 0) return false;
+    // Check if particle is not neutrino
+    G4String particleType = step->GetTrack()->GetParticleDefinition()->GetParticleName();
+    if (G4StrUtil::contains(particleType,"nu")) return false;
 
     // Create the hit
     DetectorHit* hit        = new DetectorHit();
     hit->setTrackID         (step->GetTrack()->GetTrackID());
     hit->setParticle        (step->GetTrack()->GetParticleDefinition()->GetParticleName());
     hit->setInitialEnergy   (step->GetTrack()->GetTotalEnergy());
-    hit->setDepositedEnergy (depositedEnergy);
+    hit->setDepositedEnergy (step->GetTrack()->GetKineticEnergy());
     hit->setPosition        (step->GetPostStepPoint()->GetPosition());
-    hit->setTime            (step->GetPostStepPoint()->GetLocalTime());
+    hit->setTime            (step->GetPostStepPoint()->GetGlobalTime());
     hit->setVolume          (step->GetPostStepPoint()->GetPhysicalVolume()->GetName());
 
     // Add the hit to the hits collection
