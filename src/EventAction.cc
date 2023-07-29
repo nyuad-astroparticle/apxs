@@ -53,7 +53,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
             analysisManager->FillNtupleDColumn(5, hit->getPosition()[0]);
             analysisManager->FillNtupleDColumn(6, hit->getPosition()[1]);
             analysisManager->FillNtupleDColumn(7, hit->getPosition()[2]);
-            analysisManager->FillNtupleDColumn(8, hit->getTime()/ns);               // Divide to return the answer in ns
+            analysisManager->FillNtupleDColumn(8, hit->getTime()/year);               // Divide to return the answer in ns
             analysisManager->FillNtupleSColumn(9, hit->getVolume());
             
             // Finish By adding a row
