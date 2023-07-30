@@ -78,6 +78,13 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
         source->SetParticleDefinition(curium244);
     }
 
+    // IRON ----------------------------------------------------------------
+    if (!material.compare("G4_Fe"))
+    {
+        G4ParticleDefinition* iron55 = G4IonTable::GetIonTable()->GetIon(26, 55, 0);
+        source->SetParticleDefinition(iron55);
+    }
+
     // DEFAULT -------------------------------------------------------------
     else {
         G4cerr << "The material selected for the source is not in the candidates. Please select another one" << G4endl;
