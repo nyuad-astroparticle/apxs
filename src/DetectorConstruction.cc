@@ -34,6 +34,7 @@ as a detector
 #include <vector>
 
 // Other custom relevant headers
+#include "DetectorMessenger.hh"
 #include "SensitiveDetector.hh"
 
 // Constructor
@@ -50,6 +51,9 @@ DetectorConstruction::DetectorConstruction()
     detectLogical   = nullptr;
     setSourcePosition(G4ThreeVector(-worldSize/10,worldHeight/4,0));
     setSourceMaterial("G4_Cu");
+
+    // Create the messenger
+    detectorMessenger = new DetectorMessenger(this);
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -61,6 +65,7 @@ DetectorConstruction::~DetectorConstruction()
     delete sourceRotation;
     delete sourceLogical;
     delete sourcePhysical;
+    delete detectorMessenger;
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -222,6 +227,13 @@ void DetectorConstruction::setSourceMaterial(const char* name)
 
     // Assign the material
     sourceMaterial = nist->FindOrBuildMaterial(name);
+    
+    // If the logical volume already exists
+    if (sourceLogical) {
+        sourceLogical->SetMaterial(sourceMaterial);                 // Set the new Material
+        G4cout << "Source is now made out of " << name << G4endl;   // Let the user know
+    }
+
 }
 
 void DetectorConstruction::setSourceRotation(G4ThreeVector normal)

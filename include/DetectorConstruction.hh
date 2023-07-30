@@ -23,6 +23,9 @@ ctors and materials
 #include "G4RotationMatrix.hh"
 #include "G4Material.hh"
 
+// Other relevant inline definitions
+class DetectorMessenger;
+
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
     public:
@@ -51,8 +54,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4RotationMatrix*   sourceRotation;         // Generator & Messenger
         G4LogicalVolume*    sourceLogical;
         G4VPhysicalVolume*  sourcePhysical;
-
         G4LogicalVolume*    detectLogical;          // The logical Volume for the detector
+
+        DetectorMessenger*  detectorMessenger;      // The messenger Class used to change the materials and other parameters of the simulation
 
         friend class PrimaryGeneratorAction;        // We allow PrimaryGeneratorAction to have access the variables of this class
 };
