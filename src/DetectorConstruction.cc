@@ -132,7 +132,25 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         true                            // Check for Overlaps
     );
     sourceLogical->SetVisAttributes(sourceColor);
-
+    
+    // LEAD BLOCK -----------------------------------------------------------
+    // Separate the source and target with a lead block
+    G4ThreeVector       blockPostition  = G4ThreeVector(-worldSize/10 * 0.8, worldHeight/4, 0.);
+    G4Material*         blockMaterial   = nist->FindOrBuildMaterial("G4_Pb");
+    G4Box*              blockSolid      = new G4Box("blockSolid", 5 * mm, sourceDiameter/2, sourceDiameter/2);
+    G4VisAttributes*    blockColor      = new G4VisAttributes(true,G4Color(0.22, 0.54, 0.5, 0.30));
+    G4LogicalVolume*    blockLogical    = new G4LogicalVolume(blockSolid, blockMaterial, "blockLogical");
+    G4VPhysicalVolume*  blockPhysical   = new G4PVPlacement(
+        0,                              // No Rotation Matrix
+        blockPostition,                 // Position of center
+        blockLogical,                   // Logical Volume to place
+        "blockPhysical",                // Name of new Physical Volume
+        worldLogical,                   // Mother Volume Logical
+        false,                          // Boolean operation
+        0,                              // Copy Number
+        true                            // Check for Overlaps
+    );
+    blockLogical->SetVisAttributes(blockColor);
 
     // DETECTOR ------------------------------------------------------------
     G4double            detectDiameter  = 30.0 * cm;
