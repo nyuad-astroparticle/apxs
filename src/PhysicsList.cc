@@ -19,8 +19,6 @@
 
 // Other Useful Headers
 #include "G4EmParameters.hh"
-#include "G4UserSpecialCuts.hh"
-#include "G4ParticleTableIterator.hh"
 
 // Constructor
 PhysicsList::PhysicsList() : G4VModularPhysicsList()
@@ -54,13 +52,4 @@ void PhysicsList::ConstructProcess()
 	emParameters->SetFluo(true);
 	emParameters->SetPixe(true);
 	emParameters->SetAuger(true);
-
-	// We don't want to simulate the entirety of the radioactive decay chain
-	// so we add a special cut on the volume. We now need to register this
-	theParticleTable->GetIterator()->reset();
-	while ((*(theParticleTable->GetIterator()))()){
-		G4ParticleDefinition* particle = theParticleTable->GetIterator()->value();
-		G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
-		ph->RegisterProcess(new G4UserSpecialCuts(),particle);
-	}
 }

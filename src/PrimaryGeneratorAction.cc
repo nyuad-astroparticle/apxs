@@ -45,6 +45,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
     G4String material = detectorConstruction->sourceMaterial->GetName();
     setParticleFromMaterial(material);
 
+    // Select the number of particles to generate per event
+    source->SetNumberOfParticles(100);
+
     // Set the energy of the initial particle at 0
     source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
 
