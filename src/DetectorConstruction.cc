@@ -156,13 +156,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // LEAD BLOCK -----------------------------------------------------------
     // Separate the source and target with a lead block
-    G4ThreeVector       blockPostition  = G4ThreeVector(-worldSize/10 * 0.8, worldHeight/4, 0.);
+    G4ThreeVector       blockPostition  = G4ThreeVector(-worldSize/10 * 0.7, worldHeight/4, 0.);
     G4Material*         blockMaterial   = nist->FindOrBuildMaterial("G4_Pb");
-    G4Box*              blockSolid      = new G4Box("blockSolid", 5 * mm, sourceDiameter/2*1.1, sourceDiameter/2*1.1);
+    G4Box*              blockSolid      = new G4Box("blockSolid", 5 * mm, sourceDiameter/2*1.5, sourceDiameter/2*1.6);
     G4VisAttributes*    blockColor      = new G4VisAttributes(true,G4Color(0.22, 0.54, 0.5, 0.30));
     G4LogicalVolume*    blockLogical    = new G4LogicalVolume(blockSolid, blockMaterial, "blockLogical");
+    G4RotationMatrix*   blockRotation   = new G4RotationMatrix(blockPostition.cross(G4ThreeVector(0., 1., 0.)).unit(),45*degree);
     G4VPhysicalVolume*  blockPhysical   = new G4PVPlacement(
-        detectRotation,                 // No Rotation Matrix
+        blockRotation,                  // No Rotation Matrix
         blockPostition,                 // Position of center
         blockLogical,                   // Logical Volume to place
         "blockPhysical",                // Name of new Physical Volume
