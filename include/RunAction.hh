@@ -19,6 +19,11 @@ and other goodies.
 // Other Useful headers
 #include "G4String.hh"
 
+// Inline definition for Parallel simulations
+#ifdef MPI_ENABLE
+class G4MPIntupleMerger;        
+#endif
+
 class RunAction : public G4UserRunAction 
 {
     public:
@@ -33,6 +38,12 @@ class RunAction : public G4UserRunAction
         // This static method starts an analysis manager with a particular filename
         // at the beginning of the run
         static void BookAnalysis(const G4String& filename, G4bool ntupleMerging = false);
+
+        // If you are using parallel run, create a manager for merging the output files
+        #ifdef MPI_ENABLE
+        G4MPIntupleMerger* ntupleMerger;
+        #endif
+
 };
 
 #endif
