@@ -111,12 +111,9 @@ void RunAction::EndOfRunAction(const G4Run* run)
     const G4int rank    = G4MPImanager::GetManager()->GetRank();
 
     // Write the file if you are the main thread. 
-    if (!G4MPImanager::GetManager()->IsExtraWorker() ) {
-        // When the rank is zero add the last entries and close the files
-        if (rank == 0) {
-            analysisManager->Write();
-            analysisManager->CloseFile(false);
-        }
+    if (!G4MPImanager::GetManager()->IsExtraWorker()){
+    	analysisManager->Write();
+    	analysisManager->CloseFile(false);
     }
     
     #else
