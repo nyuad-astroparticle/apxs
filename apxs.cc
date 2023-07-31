@@ -13,7 +13,6 @@ loaded here
 ****************************/
 
 // Import Geant4 Headers
-#include "G4RunManagerFactory.hh"
 #include "G4UIExecutive.hh"
 #include "G4UImanager.hh"
 #include "G4VisManager.hh"
@@ -24,12 +23,36 @@ loaded here
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
 
+#ifdef MPI_ENABLE // For a parallel simulation
+// Include headers that create a parallel run
+#include "G4MPImanager.hh"
+#include "G4MPIsession.hh"
+#include "G4RunManager.hh"
+
+#else // For a sequential Simulation
+// Include headers that create a sequential or MT run
+#include "G4RunManagerFactory.hh"
+#endif
 
 int main(int argc, char** argv) {
     
     // Set up the simulation
+    G4VisManager*   visManager  = nullptr;                                  // Controls what you see
+    G4UImanager*    uiManager   = G4UImanager::GetUIpointer();              // Controls executing commands in general
+
     // i.e. Configure the Run
-    auto runManager = G4RunManagerFactory::CreateRunManager();  // This will automatically pick Sequential or MT Run Manager
+    #ifdef MPI_ENABLE
+    G4MPImanager*   mpiManager  = new G4MPImanager(argc, argv);             // Creates Manager for contacting the OpenMPI library
+    G4MPIsession*   ui          = mpiManager->GetMPIsession();              // Manages the UI in Multiprocessing mode
+    G4RunManager*   runManager  = new G4RunManager();
+
+    // Set some parameters for the mpi manager
+    mpiManager->SetVerbose(1);
+
+    #else
+    auto runManager             = G4RunManagerFactory::CreateRunManager();  // This will automatically pick Sequential or MT Run Manager
+    G4UIExecutive*  ui          = nullptr;                                  // Controls the commands you input on the text field
+    #endif
 
     // Configure how each run is initialized
     DetectorConstruction* detectorConstruction = new DetectorConstruction();
@@ -40,13 +63,15 @@ int main(int argc, char** argv) {
     // Punch it!
     runManager->Initialize();
 
+    // start if you are in parallel mode
+    #ifdef MPI_ENABLE
+    ui->SessionStart();
+    delete mpiManager;
+
+    // Otherwise process the arguments
+    #else
 
     // Evaluate the arguments
-    G4UIExecutive*  ui          = nullptr;                      // Controls the commands you input on the text field
-    G4VisManager*   visManager  = nullptr;                      // Controls what you see
-    G4UImanager*    uiManager   = G4UImanager::GetUIpointer();  // Controls executing commands in general
-
-
     // If there are no arguments run in visualization mode
     if (argc == 1){
         ui          = new G4UIExecutive(argc,argv);
@@ -86,6 +111,7 @@ int main(int argc, char** argv) {
             uiManager->ApplyCommand(command + filename);        // Execute it
         }
     }
+    #endif
 
     delete runManager;
     return 0;
