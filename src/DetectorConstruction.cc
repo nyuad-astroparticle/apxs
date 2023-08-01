@@ -47,14 +47,14 @@ DetectorConstruction::DetectorConstruction()
 {
     // Initialize the Member Variables
     worldSize       = 20.0 * cm;
-    worldHeight     = 5.0 * cm;
-    sourceDiameter  = 6.0 * mm;
-    sourceThickness = 3.0 * mm;
+    worldHeight     = 5.00 * cm;
+    sourceDiameter  = 6.00 * mm;
+    sourceThickness = 0.24 * mm;
     sourceRotation  = nullptr;
     sourceLogical   = nullptr;
     sourcePhysical  = nullptr;
     detectLogical   = nullptr;
-    setSourcePosition(G4ThreeVector(-worldSize/20,worldHeight/4,0));
+    setSourcePosition(G4ThreeVector(-worldSize/30,worldHeight/8,0));
     setSourceMaterial("G4_Cm");
 
     // Create the messenger
@@ -138,6 +138,24 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     );
     sourceLogical->SetVisAttributes(sourceColor);
     
+    // SOURCE SUBSTRATE -----------------------------------------------------
+    G4Material*         subMaterial     = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+    G4ThreeVector       subPosition     = G4ThreeVector(0.0, sourceThickness/2 + 0.8/2 * mm, 0.0) + sourcePosition;
+    G4Tubs*             subSolid        = new G4Tubs("sourceSolid", 0.0 , 8.0/2*mm, 0.8/2 * mm, 0, 2*M_PI*rad);
+    G4VisAttributes*    subColor        = new G4VisAttributes(true,G4Color(0.80, 0.5, 0.0, 0.4));
+    G4LogicalVolume*    subLogical      = new G4LogicalVolume(subSolid, subMaterial, "sourceLogical");
+    G4VPhysicalVolume*  subPhysical     = new G4PVPlacement(
+        sourceRotation,                 // Rotation Matrix
+        subPosition,                    // Position of center
+        subLogical,                     // Logical Volume to place
+        "subPhysical",                  // Name of new Physical Volume
+        worldLogical,                   // Mother Volume Logical
+        false,                          // Boolean operation
+        0,                              // Copy Number
+        true                            // Check for Overlaps
+    );
+    subLogical->SetVisAttributes(subColor);
+
     // DETECTOR ------------------------------------------------------------
     // By default place a pure volume that is vacuum and simply tracks what particles go through it.
     #ifndef DETECTOR_GDML
@@ -148,7 +166,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4Tubs*             detectSolid     = new G4Tubs("detectSolid", 0, detectDiameter/2, detectThickness/2, 0, 2*M_PI*rad);
     G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.0, 0.0, 0.80, 0.4));
                         detectLogical   = new G4LogicalVolume(detectSolid, detectMaterial, "detectLogical");
-    G4RotationMatrix*   detectRotation  = new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
+    G4RotationMatrix*   detectRotation  = new G4RotationMatrix(G4ThreeVector(-1., 0., 0.),90*degree); //new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
     G4VPhysicalVolume*  detectPhysical  = new G4PVPlacement(
         detectRotation,                 // No Rotation Matrix
         detectPostition,                // Position of center
@@ -176,12 +194,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // Extract the rest of the detector and place it accordingly
     G4ThreeVector       detectPostition = G4ThreeVector(-sourcePosition[0],sourcePosition[1],sourcePosition[2]);
-    G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.4));
-    G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.2));
-    G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.4));
-    G4RotationMatrix*   detectRotation  = new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., -1.)).unit(),90*degree);
-    G4LogicalVolume*    sddLogical      = parser->GetVolume("sddLogical");
-    G4VPhysicalVolume*  detectPhysical  = new G4PVPlacement(
+    G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.6));
+    G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.6));
+    G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.6));
+    G4VisAttributes*    containerColor  = new G4VisAttributes(false,G4Color(0.72, 0.54, 0.04, 0.6));
+    G4RotationMatrix*   detectRotation  = new G4RotationMatrix(G4ThreeVector(-1., 0., 0.),90*degree); //new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., -1.)).unit(),90*degree);
+    G4LogicalVolume*    sddLogical      = parser->GetVolume("VITUS");
+    G4VPhysicalVolume*  sddPhysical     = new G4PVPlacement(
         detectRotation,                 // Rotation Matrix
         detectPostition,                // Position of center
         sddLogical,                     // Logical Volume to place
@@ -194,8 +213,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // Add some colors
     if (parser->GetVolume("sddWindowLogical")) parser->GetVolume("sddWindowLogical")->SetVisAttributes(windowColor);
-    parser->GetVolume("sddLogical")->SetVisAttributes(caseColor);
+    parser->GetVolume("sddCaseLogical")->SetVisAttributes(caseColor);
     parser->GetVolume("detectLogical")->SetVisAttributes(detectColor);
+    sddLogical->SetVisAttributes(containerColor);
 
     #endif
 
@@ -286,5 +306,6 @@ void DetectorConstruction::setSourceRotation(G4ThreeVector normal)
     if (sourceRotation) delete sourceRotation;
 
     // Sets the new rotation perpendicular to the normal vector
-    sourceRotation = new G4RotationMatrix(normal.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
+    // sourceRotation = new G4RotationMatrix(normal.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
+    sourceRotation = new G4RotationMatrix(G4ThreeVector(-1., 0., 0.),90*degree);
 }

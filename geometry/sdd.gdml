@@ -42,7 +42,10 @@
         <tube name="sddWindowSolid" rmax="5.0" z="0.008" deltaphi="360" lunit="mm" aunit="degree" />
 
         <!-- Silicon Sensort -->
-        <tube name="sddDetectorSolid" rmax="4.0" z="0.470" deltaphi="360" lunit="mm" aunit="degree" />
+        <tube name="sddDetectorSolid" rmax="4.0" z="0.50" deltaphi="360" lunit="mm" aunit="degree" />
+
+        <!-- MINIWORLD Volume -->
+        <tube name="sddWorld" rmax="7.5" z="10.0" deltaphi="360" lunit="mm" aunit="degree" />
 
         <!-- Combine the solids using unions and transformations -->
         <!-- Union of TopCone and InnerCylinder -->
@@ -76,9 +79,15 @@
         </volume>
 
         <!-- Create the logical Volume of the casing -->
-        <volume name="sddLogical">
+        <volume name="sddCaseLogical">
             <materialref ref="G4_Al" />
             <solidref ref="sddCaseSolid" />
+        </volume>
+
+        <!-- MINI World Volume -->
+        <volume name="VITUS">
+            <materialref ref="G4_Galactic" />
+            <solidref ref="sddWorld" />
             <physvol>
                 <volumeref ref="sddWindowLogical" />
                 <positionref ref="WindowPosition" />
@@ -87,11 +96,14 @@
                 <volumeref ref="detectLogical" />
                 <positionref ref="DetectorPosition" />
             </physvol>
+            <physvol>
+                <volumeref ref="sddCaseLogical" />
+            </physvol>
         </volume>
     </structure>
 
-    <setup name="SDD" version="1.0">
-        <world ref="sddLogical" />
+    <setup name="Default" version="1.0">
+        <world ref="VITUS" />
     </setup>
 
 </gdml>
