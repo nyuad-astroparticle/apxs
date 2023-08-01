@@ -70,13 +70,13 @@
         </volume>
 
         <!-- Logical Volume of the Silicon Sensor -->
-        <volume name="detectorLogical">
+        <volume name="detectLogical">
             <materialref ref="G4_Si" />
             <solidref ref="sddDetectorSolid" />
         </volume>
 
         <!-- Create the logical Volume of the casing -->
-        <volume name="sddCaseLogical">
+        <volume name="sddLogical">
             <materialref ref="G4_Al" />
             <solidref ref="sddCaseSolid" />
             <physvol>
@@ -84,14 +84,14 @@
                 <positionref ref="WindowPosition" />
             </physvol>
             <physvol>
-                <volumeref ref="detectorLogical" />
+                <volumeref ref="detectLogical" />
                 <positionref ref="DetectorPosition" />
             </physvol>
         </volume>
     </structure>
 
     <setup name="SDD" version="1.0">
-        <world ref="sddCaseLogical" />
+        <world ref="sddLogical" />
     </setup>
 
 </gdml>
