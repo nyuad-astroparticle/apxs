@@ -30,8 +30,6 @@ as a detector
 #include "G4Color.hh"
 #include "G4SDManager.hh"
 
-#define DETECTOR_GDML
-#define DETECTOR_GDML_FILENAME "./geometry/sdd.gdml"
 // In case we are loading the geometry from a GDML File
 #ifdef DETECTOR_GDML
 #include "G4GDMLParser.hh"
@@ -48,15 +46,15 @@ as a detector
 DetectorConstruction::DetectorConstruction()
 {
     // Initialize the Member Variables
-    worldSize       = 2.0 * m;
-    worldHeight     = 1.0 * m;
-    sourceDiameter  = 5.0 * cm;
-    sourceThickness = 2.0 * cm;
+    worldSize       = 20.0 * cm;
+    worldHeight     = 5.0 * cm;
+    sourceDiameter  = 6.0 * mm;
+    sourceThickness = 3.0 * mm;
     sourceRotation  = nullptr;
     sourceLogical   = nullptr;
     sourcePhysical  = nullptr;
     detectLogical   = nullptr;
-    setSourcePosition(G4ThreeVector(-worldSize/10,worldHeight/4,0));
+    setSourcePosition(G4ThreeVector(-worldSize/20,worldHeight/4,0));
     setSourceMaterial("G4_Cm");
 
     // Create the messenger
@@ -105,7 +103,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     worldLogical->SetVisAttributes(worldColor);
 
     // TARGET -------------------------------------------------------------
-    G4double            targetThickness = 0.5 * m;
+    G4double            targetThickness = 0.5 * cm;
     G4ThreeVector       targetPostition = G4ThreeVector(0., - targetThickness/2, 0.);
     G4Material*         targetMaterial  = nist->FindOrBuildMaterial("Basalt");
     G4Box*              targetSolid     = new G4Box("targetSolid", worldSize/2, targetThickness/2, worldSize/2);
@@ -130,7 +128,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     sourceLogical                       = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
     sourcePhysical                      = new G4PVPlacement(
         sourceRotation,                 // Rotation Matrix
-        sourcePostition,                // Position of center
+        sourcePosition,                 // Position of center
         sourceLogical,                  // Logical Volume to place
         "sourcePhysical",               // Name of new Physical Volume
         worldLogical,                   // Mother Volume Logical
@@ -143,8 +141,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     // DETECTOR ------------------------------------------------------------
     // By default place a pure volume that is vacuum and simply tracks what particles go through it.
     #ifndef DETECTOR_GDML
-    G4double            detectDiameter  = 30.0 * cm;
-    G4double            detectThickness = 3.0 * cm;
+    G4double            detectDiameter  = 30.0 * mm;
+    G4double            detectThickness = 3.0 * mm;
     G4ThreeVector       detectPostition = G4ThreeVector(worldSize/10,worldHeight/4,0);
     G4Material*         detectMaterial  = nist->FindOrBuildMaterial("G4_Galactic");
     G4Tubs*             detectSolid     = new G4Tubs("detectSolid", 0, detectDiameter/2, detectThickness/2, 0, 2*M_PI*rad);
@@ -177,7 +175,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     detectLogical = parser->GetVolume("detectLogical");
 
     // Extract the rest of the detector and place it accordingly
-    G4ThreeVector       detectPostition = G4ThreeVector(worldSize/10,worldHeight/4,0);
+    G4ThreeVector       detectPostition = G4ThreeVector(-sourcePosition[0],sourcePosition[1],sourcePosition[2]);
     G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.4));
     G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.2));
     G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.4));
@@ -200,28 +198,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     parser->GetVolume("detectLogical")->SetVisAttributes(detectColor);
 
     #endif
-
-
-    // LEAD BLOCK -----------------------------------------------------------
-    // Separate the source and target with a lead block
-    G4ThreeVector       blockPostition  = G4ThreeVector(-worldSize/10 * 0.7, worldHeight/4, 0.);
-    G4Material*         blockMaterial   = nist->FindOrBuildMaterial("G4_Pb");
-    G4Box*              blockSolid      = new G4Box("blockSolid", 5 * mm, sourceDiameter/2*1.5, sourceDiameter/2*1.6);
-    G4VisAttributes*    blockColor      = new G4VisAttributes(true,G4Color(0.22, 0.54, 0.5, 0.30));
-    G4LogicalVolume*    blockLogical    = new G4LogicalVolume(blockSolid, blockMaterial, "blockLogical");
-    G4RotationMatrix*   blockRotation   = new G4RotationMatrix(blockPostition.cross(G4ThreeVector(0., 1., 0.)).unit(),45*degree);
-    G4VPhysicalVolume*  blockPhysical   = new G4PVPlacement(
-        blockRotation,                  // No Rotation Matrix
-        blockPostition,                 // Position of center
-        blockLogical,                   // Logical Volume to place
-        "blockPhysical",                // Name of new Physical Volume
-        worldLogical,                   // Mother Volume Logical
-        false,                          // Boolean operation
-        0,                              // Copy Number
-        true                            // Check for Overlaps
-    );
-    blockLogical->SetVisAttributes(blockColor);
-
 
     return worldPhysical;
 
@@ -282,7 +258,7 @@ void DetectorConstruction::setSourceThickness(G4double thickness)
 
 void DetectorConstruction::setSourcePosition(G4ThreeVector position) 
 { 
-    sourcePostition = position;
+    sourcePosition = position;
 
     // Use the position to assign 
     setSourceRotation(position);
