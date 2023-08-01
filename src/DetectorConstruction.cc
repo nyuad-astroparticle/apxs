@@ -54,7 +54,7 @@ DetectorConstruction::DetectorConstruction()
     sourceLogical   = nullptr;
     sourcePhysical  = nullptr;
     detectLogical   = nullptr;
-    setSourcePosition(G4ThreeVector(-worldSize/20,worldHeight/4,0));
+    setSourcePosition(G4ThreeVector(-worldSize/30,worldHeight/8,0));
     setSourceMaterial("G4_Cm");
 
     // Create the messenger
