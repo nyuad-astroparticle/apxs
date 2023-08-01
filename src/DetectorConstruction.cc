@@ -30,6 +30,13 @@ as a detector
 #include "G4Color.hh"
 #include "G4SDManager.hh"
 
+#define DETECTOR_GDML
+#define DETECTOR_GDML_FILENAME "./geometry/sdd.gdml"
+// In case we are loading the geometry from a GDML File
+#ifdef DETECTOR_GDML
+#include "G4GDMLParser.hh"
+#endif
+
 // Some STL Headers that are useful
 #include <vector>
 
@@ -134,6 +141,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     sourceLogical->SetVisAttributes(sourceColor);
     
     // DETECTOR ------------------------------------------------------------
+    // By default place a pure volume that is vacuum and simply tracks what particles go through it.
+    #ifndef DETECTOR_GDML
     G4double            detectDiameter  = 30.0 * cm;
     G4double            detectThickness = 3.0 * cm;
     G4ThreeVector       detectPostition = G4ThreeVector(worldSize/10,worldHeight/4,0);
@@ -153,6 +162,45 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         true                            // Check for Overlaps
     );
     detectLogical->SetVisAttributes(detectColor);
+    #endif
+
+    // Alternatively you can load a GDML File!
+    #ifdef DETECTOR_GDML
+    // Start the parser
+    G4GDMLParser* parser = new G4GDMLParser();
+
+    // Read the file 
+    // (the `false` flag turns off the check to make sure the GDML file is properly formatted)
+    parser->Read(DETECTOR_GDML_FILENAME,false);
+
+    // Extract the logical volume of the sensitive part of the detector
+    detectLogical = parser->GetVolume("detectLogical");
+
+    // Extract the rest of the detector and place it accordingly
+    G4ThreeVector       detectPostition = G4ThreeVector(worldSize/10,worldHeight/4,0);
+    G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.4));
+    G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.2));
+    G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.4));
+    G4RotationMatrix*   detectRotation  = new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., -1.)).unit(),90*degree);
+    G4LogicalVolume*    sddLogical      = parser->GetVolume("sddLogical");
+    G4VPhysicalVolume*  detectPhysical  = new G4PVPlacement(
+        detectRotation,                 // Rotation Matrix
+        detectPostition,                // Position of center
+        sddLogical,                     // Logical Volume to place
+        "detectPhysical",               // Name of new Physical Volume
+        worldLogical,                   // Mother Volume Logical
+        false,                          // Boolean operation
+        0,                              // Copy Number
+        true                            // Check for Overlaps
+    );
+
+    // Add some colors
+    if (parser->GetVolume("sddWindowLogical")) parser->GetVolume("sddWindowLogical")->SetVisAttributes(windowColor);
+    parser->GetVolume("sddLogical")->SetVisAttributes(caseColor);
+    parser->GetVolume("detectLogical")->SetVisAttributes(detectColor);
+
+    #endif
+
 
     // LEAD BLOCK -----------------------------------------------------------
     // Separate the source and target with a lead block

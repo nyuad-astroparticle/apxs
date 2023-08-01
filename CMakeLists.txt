@@ -13,8 +13,9 @@ project(APXS)
 # Create an output directory in the build folder
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/output)
 
-# Copy the macros in the target directory
+# Copy the macros and geometry dicretories in the target directory
 file(COPY ${PROJECT_SOURCE_DIR}/macros DESTINATION ${PROJECT_BINARY_DIR})
+file(COPY ${PROJECT_SOURCE_DIR}/geometry DESTINATION ${PROJECT_BINARY_DIR})
 
 # Load Geant4 and include its headers
 find_package(Geant4 REQUIRED ui_all vis_all)
