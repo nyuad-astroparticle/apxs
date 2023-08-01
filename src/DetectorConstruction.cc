@@ -30,8 +30,6 @@ as a detector
 #include "G4Color.hh"
 #include "G4SDManager.hh"
 
-#define DETECTOR_GDML
-#define DETECTOR_GDML_FILENAME "./geometry/sdd.gdml"
 // In case we are loading the geometry from a GDML File
 #ifdef DETECTOR_GDML
 #include "G4GDMLParser.hh"
@@ -49,7 +47,7 @@ DetectorConstruction::DetectorConstruction()
 {
     // Initialize the Member Variables
     worldSize       = 20.0 * cm;
-    worldHeight     = 10.0 * cm;
+    worldHeight     = 5.0 * cm;
     sourceDiameter  = 6.0 * mm;
     sourceThickness = 3.0 * mm;
     sourceRotation  = nullptr;
