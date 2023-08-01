@@ -58,7 +58,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 	source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
     source->GetCurrentSource()->GetPosDist()->SetRadius(detectorConstruction->sourceDiameter/2);
     source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
-    source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePostition);
+    source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePosition);
     source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
     source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
 

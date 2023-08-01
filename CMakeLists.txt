@@ -13,8 +13,20 @@ project(APXS)
 # Create an output directory in the build folder
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/output)
 
-# Copy the macros in the target directory
+# Copy the macros directory
 file(COPY ${PROJECT_SOURCE_DIR}/macros DESTINATION ${PROJECT_BINARY_DIR})
+
+# Create the option to enable 3D model support using GDML
+option(GDML_DETECTOR "Compile using the 3D model of the SDD through GDML" ON)
+if(GDML_DETECTOR)
+
+# Copy the directory with the detector geometry and data to the build directory
+file(COPY ${PROJECT_SOURCE_DIR}/geometry DESTINATION ${PROJECT_BINARY_DIR})
+
+# Create the appropriate definitions to the compiler
+add_compile_definitions(DETECTOR_GDML)
+add_compile_definitions(DETECTOR_GDML_FILENAME="${PROJECT_BINARY_DIR}/geometry/sdd.gdml")
+endif()
 
 # Load Geant4 and include its headers
 find_package(Geant4 REQUIRED ui_all vis_all)
