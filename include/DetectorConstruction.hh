@@ -49,7 +49,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4double            worldHeight;
         G4double            sourceDiameter;         // Parameters of the
         G4double            sourceThickness;        // radioactive source
-        G4ThreeVector       sourcePostition;        // that we want to access
+        G4ThreeVector       sourcePosition;         // that we want to access
         G4Material*         sourceMaterial;         // from other classes i.e.
         G4RotationMatrix*   sourceRotation;         // Generator & Messenger
         G4LogicalVolume*    sourceLogical;
