@@ -194,10 +194,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // Extract the rest of the detector and place it accordingly
     G4ThreeVector       detectPostition = G4ThreeVector(-sourcePosition[0],sourcePosition[1],sourcePosition[2]);
-    G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.4));
-    G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.2));
-    G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.4));
-    G4VisAttributes*    containerColor  = new G4VisAttributes(false,G4Color(0.72, 0.54, 0.04, 0.4));
+    G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.6));
+    G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.6));
+    G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.6));
+    G4VisAttributes*    containerColor  = new G4VisAttributes(false,G4Color(0.72, 0.54, 0.04, 0.6));
     G4RotationMatrix*   detectRotation  = new G4RotationMatrix(G4ThreeVector(-1., 0., 0.),90*degree); //new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., -1.)).unit(),90*degree);
     G4LogicalVolume*    sddLogical      = parser->GetVolume("VITUS");
     G4VPhysicalVolume*  sddPhysical     = new G4PVPlacement(
