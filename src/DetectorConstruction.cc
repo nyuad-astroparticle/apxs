@@ -169,7 +169,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // Read the file 
     // (the `false` flag turns off the check to make sure the GDML file is properly formatted)
-    parser->Read(DETECTOR_GDML_FILENAME,false);
+    parser->Read(DETECTOR_GDML_FILENAME,true);
 
     // Extract the logical volume of the sensitive part of the detector
     detectLogical = parser->GetVolume("detectLogical");
@@ -179,9 +179,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.4));
     G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.2));
     G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.4));
+    G4VisAttributes*    containerColor  = new G4VisAttributes(false,G4Color(0.72, 0.54, 0.04, 0.4));
     G4RotationMatrix*   detectRotation  = new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., -1.)).unit(),90*degree);
-    G4LogicalVolume*    sddLogical      = parser->GetVolume("sddLogical");
-    G4VPhysicalVolume*  detectPhysical  = new G4PVPlacement(
+    G4LogicalVolume*    sddLogical      = parser->GetVolume("VITUS");
+    G4VPhysicalVolume*  sddPhysical     = new G4PVPlacement(
         detectRotation,                 // Rotation Matrix
         detectPostition,                // Position of center
         sddLogical,                     // Logical Volume to place
@@ -194,8 +195,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // Add some colors
     if (parser->GetVolume("sddWindowLogical")) parser->GetVolume("sddWindowLogical")->SetVisAttributes(windowColor);
-    parser->GetVolume("sddLogical")->SetVisAttributes(caseColor);
+    parser->GetVolume("sddCaseLogical")->SetVisAttributes(caseColor);
     parser->GetVolume("detectLogical")->SetVisAttributes(detectColor);
+    sddLogical->SetVisAttributes(containerColor);
 
     #endif
 
