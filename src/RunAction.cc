@@ -37,7 +37,7 @@ RunAction::RunAction()
     }
 
     // Enable table merging
-    G4bool mergeNtuple  = true;
+    G4bool mergeNtuple  = false;
     #else
     // Set if tables are merged at the end, can only happen if you output ROOT0
     G4bool mergeNtuple  = false;
