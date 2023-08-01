@@ -23,7 +23,7 @@ source load_modules.sh
 # Run the application
 cd /scratch/po524/apxs/build/
 start_time=`date +%s`
-mpiexec -n 1024 ./apxs ./macros/start.mac
+mpiexec -n 1024 ./apxs ./macros/run_hpc.mac
 end_time=`date +%s`
 echo execution time was `expr $end_time - $start_time` s.
 echo "SIM IS DONE!"
