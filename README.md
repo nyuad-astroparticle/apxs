@@ -16,8 +16,8 @@ Here is how to do certain things:
 1. [Guide to Compile](#compiling)\
 	The Guide will help you compile on the your computer, on the `arneodolab HPC`, or `Jubail`.
 2. [Guide to Run](#running-the-simulation)
-	- With Visualization
-	- Batch Mode
+	- [With Visualization](#interactive-mode)
+	- [Batch Mode](#batch-mode)
 3. Guide to Analyse
 
 ## Compiling
@@ -55,6 +55,11 @@ $ git clone git@github.com:nyuad-astroparticle/apxs.git
 This will create a folder called `apxs` in the location you chose. It contains all the code you need in order to run this!
 
 - [ ] Have `cmake` installed in your computer. (If you have Geant4 you probably already do unless you did something weird in which case you know what you are doing so stop reasing this.)
+- [ ] In `Jubail` you can load all of these modules if you run
+	```console
+	$ source hpc/load_modules.sh
+	```
+	from inside the `apxs` directory.
 
 ### Choose Your Options
 
@@ -181,5 +186,43 @@ You can load any of these macros by typing the following command
 /control/execute ./macros/filter.mac
 ```
 
-
 ### Batch Mode
+
+Running in batch mode depends on your compiler options. If you have compiled the simulation using MPI you will need to run with `mpiexec` as shown later. However, in all cases you will need a macro file. 
+
+A macro file is a text file with the extension `.mac` that contains commands that are executed by the simulation line-by-line. There are already some examples of macro files in the simulation. For example the one in `macros/run_hpc.mac` is shown below
+
+```
+/apxs/setSourceMaterial G4_Cm
+/run/beamOn 10000000
+/apxs/setSourceMaterial G4_Fe
+/run/beamOn 10000000
+/apxs/setSourceMaterial G4_Cd
+/run/beamOn 10000000
+/apxs/setSourceMaterial G4_Co
+/run/beamOn 10000000
+/apxs/setSourceMaterial G4_Am
+/run/beamOn 10000000
+```
+
+This macro sets the source material, then simulates a bunch of decays, then sets the source to a different material and so on. 
+
+In compilation all macros that are in the `apxs/macros` directory are automatically copied to `apxs/build/macros` so make sure if you edit them to edit the copies on the build directory.
+
+To start the simulation in batch mode you need to do the following
+
+1. If you have **not** enabled **MPI**. Go to the build directory and run
+   ```console
+   $ ./apxs ./macros/macroname.mac
+   ```
+2. If you have enabled **MPI** go to the build directory and run
+   ```console
+   $ mpiexec -n 5 ./apxs ./macros/macroname.mac
+   ```
+   chanve the `-n 5` to the number of parallel processes you want to start (it should be less than number of cores you have available).
+
+3. If you are in `Jubail` you need to use slurm to run the simulation. in that case the `apxs/hpc` folder is your friend. It contains a sample script you can use to submit a job that will run the `apxs/build/macros/run_hpc.mac`. To do this you just need to run (from the `apxs` directory)
+   ```console
+   $ cd hpc
+   $ sbatch run_start.sh
+   ```
