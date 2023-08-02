@@ -14,7 +14,7 @@ You can view and update milestones, etc. [here](https://github.com/nyuad-astropa
 
 Here is how to do certain things:
 
-1. Guide to Compile
+1. [Guide to Compile](#compiling)
 	- On Arneodola HPC
 	- On Jubail
 	- On Your Computer
@@ -23,4 +23,6 @@ Here is how to do certain things:
 	- Batch Mode
 3. Guide to Analyse
 
-These will be updated soonish.
+## Compiling
+
+
