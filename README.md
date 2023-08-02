@@ -115,13 +115,13 @@ Keys: [enter] Edit an entry [d] Delete an entry                                 
 
 To continue press `c`. The interface should show something like this. *(If it doesn't, you either got an error or cmake is simply showing you some output. Press `e` to exit in that case.)*
 
-```
- CMAKE_BUILD_TYPE                *
- CMAKE_INSTALL_PREFIX            */usr/local
- ENABLE_MPI                      *OFF
- GDML_DETECTOR                   *ON
- Geant4_DIR                      */path-to/geant4/....
- ....
+```console
+CMAKE_BUILD_TYPE                *
+CMAKE_INSTALL_PREFIX            */usr/local
+ENABLE_MPI                      *OFF
+GDML_DETECTOR                   *ON
+Geant4_DIR                      */path-to/geant4/....
+....
 ```
 
 In particular look at the options `ENABLE_MPI` and `GDML_DETECTOR` these are the default values, however, if you want to change them you simply navigate in that line using your arrow keys and press enter to select the options you want. *The default configuration should be pretty god for most things*
