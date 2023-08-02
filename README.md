@@ -24,9 +24,9 @@ Here is how to do certain things:
 
 This section can help you compile the simulation on whatever system you use. If you are on the `arneodolab HPC` you will have a great time because a lot of these stuff are installed there by default.
 
-### I JUST WANNA COMPILE THIS DON'T TEACH ME ANYTHING
+### I JUST WANNA COMPILE THIS PLEASE DON'T TEACH ME ANYTHING
 <details>
-<summary>This are the the commands to run. If it doesn't work for you look below</summary>
+<summary>These are the the commands to run. If it doesn't work for you look below</summary>
 <br>
 
 git clone git@github.com:nyuad-astroparticle/apxs.git \
