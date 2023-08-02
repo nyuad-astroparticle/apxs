@@ -15,7 +15,7 @@ Here is how to do certain things:
 
 1. [Guide to Compile](#compiling)\
 	The Guide will help you compile on the your computer, on the `arneodolab HPC`, or `Jubail`.
-2. Guide to Run
+2. [Guide to Run](#running-the-simulation)
 	- With Visualization
 	- Batch Mode
 3. Guide to Analyse
@@ -134,3 +134,52 @@ $ make
 ```
 
 **AND YOU ARE DONE!**
+
+## Running the simulation
+There are 2 ways to run the simulation, both of which create output files
+
+1. **In Interactive Mode |** A window opens up with a visualization of the tracks and the geometry so that you can see what the hell is happening with those stupid particles.
+2. **In Batch Mode |** No window, no visualization, it only runs a macro and saves data in `/build/output`. It runs much much faster though.
+
+*If you are on `Jubail` you can only run in **Batch Node**.*
+
+### Interactive Mode
+
+To run in interactive mode go to the build directory and run the executable by using
+```console
+$ cd build
+$ ./apxs
+```
+
+This is literally it. Then a bunch of output will come and a window will pop up. There is a command input on the bottom. You can use it to enter simulation commands.
+
+To make it do something you can **select the material for the source** (by default is curium) by typing the following command
+```
+/apxs/setSourceMaterial G4_Cm
+```
+
+The supported options are:
+1. `G4_Cm`: Curium-244
+2. `G4_Fe`: Iron-55
+3. `G4_Cd`: Cadmium-109
+4. `G4_Co`: Cobalt-60
+5. `G4_Am`: Americium-241
+
+Then you can create a number of nuclei in the substrate that then the simulation will automatically decay and track by running this command *(change 10 with the number of nuclei you want)*
+```
+/run/beamOn 10
+```
+
+This will generate a bunch of stuff that could be hard to see, therefore there are three macros at your disposal that you can run **prior** to the `/run/beamOn` command to filter the tracks that are visible on the screen. *Note: The rest of the tracks will still be simulated they will just not be shown.*
+
+1. `filter.mac`: Only shows the tracks that hit the target
+2. `filter-detector.mac`: Only shows the tracks that hit the detector
+3. `filter-full.mac`: Only shows the tracks that hit the detector or the target
+
+You can load any of these macros by typing the following command
+```
+/control/execute ./macros/filter.mac
+```
+
+
+### Batch Mode
