@@ -27,16 +27,16 @@ This section can help you compile the simulation on whatever system you use. If 
 ### I JUST WANNA COMPILE THIS PLEASE DON'T TEACH ME ANYTHING
 <details>
 <summary>These are the the commands to run. If it doesn't work for you look below</summary>
-<br>
 
-git clone git@github.com:nyuad-astroparticle/apxs.git \
-cd apxs \
-mkdir build \
-cd build \
-source /path/to/geant4/installation/bin/geant4.sh \
-cmake -DGDML_DETECTOR=ON .. \
+```console
+git clone git@github.com:nyuad-astroparticle/apxs.git
+cd apxs
+mkdir build
+cd build
+source /path/to/geant4/installation/bin/geant4.sh
+cmake -DGDML_DETECTOR=ON ..
 make -j10
-
+```
 </details>
 
 ### Preparation
