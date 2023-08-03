@@ -18,7 +18,7 @@ Here is how to do certain things:
 2. [Guide to Run](#running-the-simulation)
 	- [With Visualization](#interactive-mode)
 	- [Batch Mode](#batch-mode)
-3. Guide to Analyse
+3. [Guide to Analyse](#analysis-guide)
 
 ## Compiling
 
