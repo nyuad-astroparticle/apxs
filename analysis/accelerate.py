@@ -101,7 +101,7 @@ def smear_gaussian(energy,std=0.005):
     return normal(energy,scale=std)
 
 def smear_lognormal(energy,std=0.005):
-    return normal(energy,scale=std)
+    return lognormal(energy,sigma=std)
 
 # Apply it to the dataframe
 def smearEnergy(data,smearfunc=smear_gaussian,*args,**kwargs):
@@ -144,7 +144,8 @@ def plotParticleHistogram(particleEnergies,
                           NBINS         = 1000,
                           LIMS          = (0,10),
                           SHOW_MATERIAL = True,
-                          SAVE          = True):
+                          SAVE          = True,
+                          yscale        = 'log'):
     
     fig = plt.figure(figsize=(10,5))
     ax  = fig.add_subplot(111)
@@ -177,7 +178,7 @@ def plotParticleHistogram(particleEnergies,
     ax.set_xlabel(f'Energy of {PARTICLE} particles through the detector [keV]')
     ax.set_ylabel('Density')
     ax.legend(frameon=False)
-    ax.set_yscale('log')
+    ax.set_yscale(yscale)
     ax.set_ylim(None,ax.get_ylim()[1]*2)
     ax.set_title(f'{MATERIAL["name"]} spectrum by {source} source')
 
