@@ -51,6 +51,7 @@ class DetectorHit : public G4VHit
         void setPosition        (G4ThreeVector position)    { this->position = position; }
         void setTime            (G4double time)             { this->time = time; }
         void setVolume          (G4String volume)           { this->volume = volume; }
+        void setParentVolume    (G4String parentVolume)     { this->parentVolume = parentVolume; }
 
         // Getters
         G4int                   getTrackID()                { return trackID; }
@@ -60,6 +61,7 @@ class DetectorHit : public G4VHit
         G4ThreeVector           getPosition()               { return position; }
         G4double                getTime()                   { return time; }
         G4String                getVolume()                 { return volume; }
+        G4String                getParentVolume()           { return parentVolume; }
 
     
     private:
@@ -72,6 +74,7 @@ class DetectorHit : public G4VHit
         G4ThreeVector   position        = G4ThreeVector(0.,0.,0.);
         G4double        time            = -1;
         G4String        volume          = "";
+        G4String        parentVolume    = "";
 
         // Set how much you should be printing out.
         G4int           verboseLevel    = 0;

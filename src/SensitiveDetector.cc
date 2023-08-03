@@ -52,15 +52,22 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
     G4String particleType = step->GetTrack()->GetParticleDefinition()->GetParticleName();
     if (G4StrUtil::contains(particleType,"nu")) return false;
 
+    // Check if the particle has a parent volume
+    G4String parentVolume = "NA";
+    if (step->GetTrack()->GetOriginTouchable()){
+        parentVolume = step->GetTrack()->GetOriginTouchable()->GetVolume()->GetName();
+    }
+
     // Create the hit
     DetectorHit* hit        = new DetectorHit();
     hit->setTrackID         (step->GetTrack()->GetTrackID());
     hit->setParticle        (step->GetTrack()->GetParticleDefinition()->GetParticleName());
-    hit->setInitialEnergy   (step->GetTrack()->GetTotalEnergy());
-    hit->setDepositedEnergy (step->GetTrack()->GetKineticEnergy());
+    hit->setInitialEnergy   (step->GetTrack()->GetKineticEnergy());
+    hit->setDepositedEnergy (step->GetTotalEnergyDeposit());
     hit->setPosition        (step->GetPostStepPoint()->GetPosition());
     hit->setTime            (step->GetPostStepPoint()->GetGlobalTime());
     hit->setVolume          (step->GetPreStepPoint()->GetPhysicalVolume()->GetName());
+    hit->setParentVolume    (parentVolume);
 
     // Add the hit to the hits collection
     hitsCollection->insert(hit);

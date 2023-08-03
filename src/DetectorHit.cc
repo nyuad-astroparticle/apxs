@@ -67,6 +67,7 @@ void DetectorHit::Print(){
         << " Position: "    << std::setw(7) << G4BestUnit(position,         "Length")
         << " Time: "        << std::setw(7) << G4BestUnit(time,             "Time")
         << " Volume: "      << volume
+        << " ParentVolume: "<< parentVolume
         << G4endl;
 
 }
