@@ -61,6 +61,7 @@ void DetectorHit::Print(){
     // If we told it to be talkative
     if (verboseLevel > 0) G4cout
         << " trackID: "     << trackID
+        << " MigrantID: "   << migrantID
         << " Particle: "    << particle
         << " Einitial: "    << std::setw(7) << G4BestUnit(initialEnergy,    "Energy")
         << " Edeposited: "  << std::setw(7) << G4BestUnit(depositedEnergy,  "Energy")

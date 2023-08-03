@@ -45,6 +45,7 @@ class DetectorHit : public G4VHit
 
         // Setters
         void setTrackID         (G4int trackID)             { this->trackID = trackID; }
+        void setMigrantID       (G4int migrantID)           { this->migrantID = migrantID; }
         void setParticle        (G4String particle)         { this->particle = particle; }
         void setInitialEnergy   (G4double initialEnergy)    { this->initialEnergy = initialEnergy; }
         void setDepositedEnergy (G4double depositedEnergy)  { this->depositedEnergy = depositedEnergy; }
@@ -55,6 +56,7 @@ class DetectorHit : public G4VHit
 
         // Getters
         G4int                   getTrackID()                { return trackID; }
+        G4int                   getMigrantID()              { return migrantID; }
         G4String                getParticle()               { return particle; }
         G4double                getInitialEnergy()          { return initialEnergy; }
         G4double                getDepositedEnergy()        { return depositedEnergy; }
@@ -68,6 +70,7 @@ class DetectorHit : public G4VHit
     
         // Parameters that are stored in a hit
         G4int           trackID         = -1;
+        G4int           migrantID       = -1;
         G4String        particle        = "";
         G4double        initialEnergy   = 0;
         G4double        depositedEnergy = 0;

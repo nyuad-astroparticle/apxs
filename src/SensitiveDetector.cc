@@ -16,6 +16,7 @@ particle passes through
 // Other useful Geant4 headers
 #include "G4SDManager.hh"
 #include "G4String.hh"
+#include "TrackInformation.hh"
 
 // Constructor Calls the parent constructor with the same name and...
 SensitiveDetector::SensitiveDetector(const G4String& name, const G4String& hitsCollectionName)
@@ -58,9 +59,17 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
         parentVolume = step->GetTrack()->GetOriginTouchable()->GetVolume()->GetName();
     }
 
+    // Get the migrantID if any
+    G4int migrantID = -1;
+    if (step->GetTrack()->GetUserInformation()){
+        TrackInformation* info  = static_cast<TrackInformation*> (step->GetTrack()->GetUserInformation());
+        migrantID               = info->GetMigrantID();
+    }
+
     // Create the hit
     DetectorHit* hit        = new DetectorHit();
     hit->setTrackID         (step->GetTrack()->GetTrackID());
+    hit->setMigrantID       (migrantID);
     hit->setParticle        (step->GetTrack()->GetParticleDefinition()->GetParticleName());
     hit->setInitialEnergy   (step->GetTrack()->GetKineticEnergy());
     hit->setDepositedEnergy (step->GetTotalEnergyDeposit());

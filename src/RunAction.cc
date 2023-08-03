@@ -144,6 +144,7 @@ void RunAction::BookAnalysis(const G4String& filename, G4bool ntupleMerging)
     analysisManager->CreateNtuple("hits","APXS Detector Hits");
     analysisManager->CreateNtupleIColumn("EventID");
     analysisManager->CreateNtupleIColumn("TrackID");
+    analysisManager->CreateNtupleIColumn("MigrantID");
     analysisManager->CreateNtupleSColumn("Particle");
     analysisManager->CreateNtupleDColumn("InitialEnergy");
     analysisManager->CreateNtupleDColumn("DepositedEnergy");
