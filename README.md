@@ -226,3 +226,44 @@ To start the simulation in batch mode you need to do the following
    $ cd hpc
    $ sbatch run_start.sh
    ```
+
+## Analysis Guide
+
+The simulation by default outputs particle interactions in the detector using `.csv` files. There are python scripts that can run in parallel that read out these files and make pretty plots.
+
+### Output file Structure
+
+Every time a track interacts in the sensitive detector the data is stored in the directory `apxs/build/output`. 
+
+If you are running in **Multithreaded Mode** (default) or in **Multiprocessing Mode** (MPI Option) one file will be created per thread. The files are **not** merged by default. Rather the analysis scripts use them to read the large output in parallel (It's not a bug, it's a feature! lol).
+
+If you open a file it looks something like this
+
+```
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+2002,3,alpha,3.73318e+06,5804.88,199.186,269.861,5.22229,1.30652,worldPhysical
+2012,367,alpha,3.7325e+06,5123.58,103.168,346.675,-45.9375,3860.8,worldPhysical
+....
+```
+
+The likes with `#` are the header and then there are the comma separated values we recorded during the run. Each line corresponds to particle stepping through the detector region.
+
+The first 4 lines are information about the file. The next 10 lines starting with `#` are the column headers. So the first value is the `EventID` the second is the `TrackID` and so on. These are automatically in the analysis scripts.
+
+
+### Doing analysis in Python
+
+I don't know how to use `Root` so I did the analysis in python. 
