@@ -47,7 +47,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
             // Save the data in the table maintained by the analysis manager
             analysisManager->FillNtupleIColumn(0, event->GetEventID());
             analysisManager->FillNtupleIColumn(1, hit->getTrackID());
-            analysisManager->FillNtupleDColumn(2, hit->getMigrantID());
+            analysisManager->FillNtupleIColumn(2, hit->getMigrantID());
             analysisManager->FillNtupleSColumn(3, hit->getParticle());
             analysisManager->FillNtupleDColumn(4, hit->getInitialEnergy()/keV);         // Divide to return the answer in keV
             analysisManager->FillNtupleDColumn(5, hit->getDepositedEnergy()/keV);       // Divide to return the answer in keV

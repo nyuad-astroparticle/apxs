@@ -74,27 +74,28 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
     // If there are any
     if (children) {
         // Get their number
-        size_t numberOfChilder = children->size();
+        size_t numberOfChilder = (*children).size();
 
         // For all children
         for (size_t i=0; i < numberOfChilder; i++){
 
             // Get Child
             G4Track* child = (*children)[i];
-            
+
             // If the child has an origin volume
-            if (child->GetOriginTouchable()) continue;
+            if (!child->GetVolume()) continue;
 
             // If the child's volume is detectorLogical_PV
-            if (!(child->GetOriginTouchable()->GetVolume()->GetName()).compare("detectLogical_PV")){
-                
+            if (!(child->GetVolume()->GetName()).compare("detectLogical_PV")){
+                G4cout << child->GetVolume()->GetName() << G4endl;
+
                 // If the parent does not originate from detectLogical
                 if (volume.compare("detectLogical_PV")){
                     // This was the first migrant, add its information
                     child->SetUserInformation(new TrackInformation(track->GetTrackID()));
                 } else {
                     // This was already inside, so get it's parent
-                    
+
                     //Extract the track information
                     TrackInformation* info = static_cast<TrackInformation*>(track->GetUserInformation());
 
@@ -103,10 +104,6 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
                 }
             }
         }
-    }
-
-    if (!volume.compare("detectPhysical")) {
-
     }
 
     

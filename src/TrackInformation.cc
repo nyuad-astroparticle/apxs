@@ -26,5 +26,5 @@ TrackInformation::~TrackInformation()
 //----------------------- 8< -------------[ cut here ]------------------------
 
 // Mutators
-void        TrackInformation::SetMigrantID(G4int migrantId) { this->migrantID = migrantID; }
+void        TrackInformation::SetMigrantID(G4int migrantID) { this->migrantID = migrantID; }
 const G4int TrackInformation::GetMigrantID()                { return migrantID; }
