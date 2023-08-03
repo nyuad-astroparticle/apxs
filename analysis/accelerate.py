@@ -84,7 +84,7 @@ def loadFile(filename):
     return pd.read_csv(filename,skiprows=len(header)+4,names=header)
 
 # Function to extract the energy deposited per track
-def getEnergy(data,columnName='DepositedEnergy'):
+def getEnergy(data,columnName='DepositedEnergy',groupBy='TrackID'):
     """Given a python data frame it groups particles by their volume and returns an energy value
 
     Args:
@@ -93,7 +93,9 @@ def getEnergy(data,columnName='DepositedEnergy'):
     Returns:
         pd.dataframe: The dataframe with the energies summed by trackid
     """
-    return data.groupby(['EventID','TrackID','Particle'])[columnName].sum().reset_index()
+    data[groupBy] = data[groupBy].replace({-1: (-data.index[data[groupBy] == -1]).tolist()})
+
+    return data.groupby(['EventID',groupBy,'Particle'])[columnName].sum().reset_index().rename(columns={columnName:'Energy'})
 
 
 # Define some smear function
@@ -104,9 +106,9 @@ def smear_lognormal(energy,std=0.005):
     return lognormal(energy,sigma=std)
 
 # Apply it to the dataframe
-def smearEnergy(data,smearfunc=smear_gaussian,*args,**kwargs):
+def smearEnergy(data,smearfunc=smear_gaussian,columnName='Energy',*args,**kwargs):
     smear = partial(smearfunc,*args,**kwargs)
-    data.DepositedEnergy = data.DepositedEnergy.apply(smear)
+    data[columnName] = data[columnName].apply(smear)
     return data
 
 # PARALLEL VERSIONS OF FUNCTIONS
@@ -117,9 +119,9 @@ smearEnergies       = concat(parallel(smearEnergy))
 
 
 # Put in one function
-def getParticleEnergies(files,columnName='DepositedEnergy'):
+def getParticleEnergies(files,columnName='DepositedEnergy',groupBy='TrackID'):
     # Get the deposited energies
-    energy = getEnergies(files,columnName=columnName)
+    energy = getEnergies(files,columnName=columnName,groupBy=groupBy)
 
     # Split into the energy per particle
     particleEnergies = {particle:energy.loc[energy.Particle == particle] for particle in energy.Particle.unique()}
@@ -127,9 +129,9 @@ def getParticleEnergies(files,columnName='DepositedEnergy'):
     return particleEnergies
 
 # We will sample a lognormal distribution with a set standard deviation for each energy
-def getParticleEnergiesSmeared(files,columnName='DepositedEnergy',smearfunc=smear_gaussian,size=0.005):
+def getParticleEnergiesSmeared(files,columnName='DepositedEnergy',groupBy='TrackID',smearfunc=smear_gaussian,size=0.005):
     # Run it
-    energyData      = getEnergyBatches(files,columnName=columnName)
+    energyData      = getEnergyBatches(files,columnName=columnName,groupBy=groupBy)
     energySmeared   = smearEnergies(energyData,smearfunc=smearfunc,std=size)
 
     # Split into the energy per particle
@@ -145,13 +147,14 @@ def plotParticleHistogram(particleEnergies,
                           LIMS          = (0,10),
                           SHOW_MATERIAL = True,
                           SAVE          = True,
-                          yscale        = 'log'):
+                          yscale        = 'log',
+                          columnName    = 'Energy'):
     
     fig = plt.figure(figsize=(10,5))
     ax  = fig.add_subplot(111)
 
     BINS        = np.linspace(*LIMS,NBINS+1)
-    histogram   = np.histogram(particleEnergies[PARTICLE].DepositedEnergy,bins=BINS)[0]
+    histogram   = np.histogram(particleEnergies[columnName],bins=BINS)[0]
     color       = np.round(np.random.rand(1,3),1)
     ax.step(BINS[:-1],histogram,label=PARTICLE,color=color[0])
 
