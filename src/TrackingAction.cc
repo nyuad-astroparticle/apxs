@@ -87,7 +87,6 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
 
             // If the child's volume is detectorLogical_PV
             if (!(child->GetVolume()->GetName()).compare("detectLogical_PV")){
-                G4cout << child->GetVolume()->GetName() << G4endl;
 
                 // If the parent does not originate from detectLogical
                 if (volume.compare("detectLogical_PV")){
