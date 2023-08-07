@@ -18,7 +18,7 @@ Here is how to do certain things:
 2. [Guide to Run](#running-the-simulation)
 	- [With Visualization](#interactive-mode)
 	- [Batch Mode](#batch-mode)
-3. Guide to Analyse
+3. [Guide to Analyse](#analysis-guide)
 
 ## Compiling
 
@@ -266,4 +266,11 @@ The first 4 lines are information about the file. The next 10 lines starting wit
 
 ### Doing analysis in Python
 
-I don't know how to use `Root` so I did the analysis in python. 
+I don't know how to use `Root` so I did the analysis in python. The scripts are in the `apxs/analysis` folder. 
+
+They are designed so that you copy the output into a new folder called `runsomething` in `apxs/analysis/data/runsomething`. That said, of course you can use a different folder. 
+
+There are 2 files in `apxs/analysis`
+
+1. `accellerate.py`: Contains functions that can run in paralle that laod and process the data based on the file using multiple threads. Functions in there are suuuuper fast so feel free to use them.
+2. `analysis.ipynb`: This jupyter notebook contains an example of an analysis for the apxs. It loads the data, groups the hits by `TrackID` (or by their `MigrantID` which is the ID of the particle that they were created as a result of, e.g. all the ionization electrons from a signle particle will have the same `MigrantID`) and the gets the energy deposited to the detector, or the kinetic energy, and plots histograms for the various sources. It can also do some rudementary peak finding id you load the composition of the target material. The script will output pictures in the analsysis directory that are automatically ignored by `.git`.
