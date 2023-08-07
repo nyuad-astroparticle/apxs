@@ -154,7 +154,7 @@ def plotParticleHistogram(particleEnergies,
     ax  = fig.add_subplot(111)
 
     BINS        = np.linspace(*LIMS,NBINS+1)
-    histogram   = np.histogram(particleEnergies[columnName],bins=BINS)[0]
+    histogram   = np.histogram(particleEnergies[particleEnergies[columnName]!=0][columnName],bins=BINS)[0]
     color       = np.round(np.random.rand(1,3),1)
     ax.step(BINS[:-1],histogram,label=PARTICLE,color=color[0])
 
