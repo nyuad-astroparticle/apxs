@@ -105,7 +105,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     // TARGET -------------------------------------------------------------
     G4double            targetThickness = 0.5 * cm;
     G4ThreeVector       targetPostition = G4ThreeVector(0., - targetThickness/2, 0.);
-    G4Material*         targetMaterial  = nist->FindOrBuildMaterial("Basalt");
+    G4Material*         targetMaterial  = nist->FindOrBuildMaterial("G4_Au");
     G4Box*              targetSolid     = new G4Box("targetSolid", worldSize/2, targetThickness/2, worldSize/2);
     G4VisAttributes*    targetColor     = new G4VisAttributes(true,G4Color(0.40, 0.45, 0.5, 0.4));
     G4LogicalVolume*    targetLogical   = new G4LogicalVolume(targetSolid, targetMaterial, "targetLogical");
