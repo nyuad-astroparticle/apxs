@@ -41,7 +41,7 @@
         <!-- SDD Window -->
         <tube name="sddWindowSolid" rmax="5.0" z="0.008" deltaphi="360" lunit="mm" aunit="degree" />
 
-        <!-- Silicon Sensort -->
+        <!-- Silicon Sensor -->
         <tube name="sddDetectorSolid" rmax="4.0" z="0.50" deltaphi="360" lunit="mm" aunit="degree" />
 
         <!-- MINIWORLD Volume -->
@@ -74,7 +74,7 @@
 
         <!-- Logical Volume of the Silicon Sensor -->
         <volume name="detectLogical">
-            <materialref ref="G4_Si" />
+            <materialref ref="G4_Galactic" />
             <solidref ref="sddDetectorSolid" />
         </volume>
 
