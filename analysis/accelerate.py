@@ -137,6 +137,9 @@ def getParticleEnergiesSmeared(files,columnName='DepositedEnergy',groupBy='Track
     # Split into the energy per particle
     return {particle:energySmeared.loc[energySmeared.Particle.str.contains(particle)] for particle in energySmeared.Particle.unique()}
 
+def adjustByEfficiency(histogram, bins, efficiency):
+    return histogram*np.interp((bins[1:]+bins[:-1])/2, efficiency['Energy'], efficiency['Efficiency'])
+
 # Plot a histogram
 def plotParticleHistogram(particleEnergies,
                           PARTICLE      = 'gamma',
@@ -148,13 +151,16 @@ def plotParticleHistogram(particleEnergies,
                           SHOW_MATERIAL = True,
                           SAVE          = True,
                           yscale        = 'log',
-                          columnName    = 'Energy'):
+                          columnName    = 'Energy',
+                          efficiency    = None):
     
     fig = plt.figure(figsize=(10,5))
     ax  = fig.add_subplot(111)
 
     BINS        = np.linspace(*LIMS,NBINS+1)
     histogram   = np.histogram(particleEnergies[particleEnergies[columnName]!=0][columnName],bins=BINS)[0]
+    if efficiency is not None: histogram = adjustByEfficiency(histogram,BINS,efficiency)
+
     color       = np.round(np.random.rand(1,3),1)
     ax.step(BINS[:-1],histogram,label=PARTICLE,color=color[0])
 
