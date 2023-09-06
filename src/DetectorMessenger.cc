@@ -57,4 +57,7 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String value)
     if (command == setSourceMaterial){
         detectorConstruction->setSourceMaterial(value);
     }
+    if (command == setTargetMaterial){
+        detectorConstruction->setTargetMaterial(value);
+    }
 }

@@ -56,6 +56,7 @@ DetectorConstruction::DetectorConstruction()
     detectLogical   = nullptr;
     setSourcePosition(G4ThreeVector(-worldSize/30,worldHeight/8,0));
     setSourceMaterial("G4_Cm");
+    setTargetMaterial("G4_Au");
 
     // Create the messenger
     detectorMessenger = new DetectorMessenger(this);
@@ -105,11 +106,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     // TARGET -------------------------------------------------------------
     G4double            targetThickness = 0.5 * cm;
     G4ThreeVector       targetPostition = G4ThreeVector(0., - targetThickness/2, 0.);
-    G4Material*         targetMaterial  = nist->FindOrBuildMaterial("G4_Au");
+    //targetMaterial  = nist->FindOrBuildMaterial("G4_Au");
     G4Box*              targetSolid     = new G4Box("targetSolid", worldSize/2, targetThickness/2, worldSize/2);
     G4VisAttributes*    targetColor     = new G4VisAttributes(true,G4Color(0.40, 0.45, 0.5, 0.4));
-    G4LogicalVolume*    targetLogical   = new G4LogicalVolume(targetSolid, targetMaterial, "targetLogical");
-    G4VPhysicalVolume*  targetPhysical  = new G4PVPlacement(
+    targetLogical   = new G4LogicalVolume(targetSolid, targetMaterial, "targetLogical");
+    targetPhysical  = new G4PVPlacement(
         0,                              // No Rotation Matrix
         targetPostition,                // Position of center
         targetLogical,                  // Logical Volume to place
@@ -243,7 +244,7 @@ void DetectorConstruction::ConstructSDandField()
 void DetectorConstruction::CreateMaterials()
 {
     // Get the NIST Manager
-    G4NistManager* nist = G4NistManager::Instance();
+    nist = G4NistManager::Instance();
 
     // Define a vector to store the elements
     std::vector<G4String>   elements;
@@ -264,6 +265,115 @@ void DetectorConstruction::CreateMaterials()
     elements.clear();
     massFraction.clear();
 
+    // Ferroan Noritic Anorthosite --------------------------------------------------------------
+    elements.push_back("O" );       massFraction.push_back(0.4497951);
+    elements.push_back("Si");       massFraction.push_back(0.2070582);   
+    elements.push_back("Al");       massFraction.push_back(0.1572021); 
+    elements.push_back("Fe");       massFraction.push_back(0.0310920);
+    elements.push_back("Mn");       massFraction.push_back(0.0004647); 
+    elements.push_back("Mg");       massFraction.push_back(0.0229140); 
+    elements.push_back("Ca");       massFraction.push_back(0.1236431); 
+    elements.push_back("Na");       massFraction.push_back(0.0015580); 
+    elements.push_back("K");       massFraction.push_back(0.0001328); 
+    elements.push_back("Cr");       massFraction.push_back(0.0004600); 
+    elements.push_back("Sr");       massFraction.push_back(0.0001500); 
+
+    // add it to the material
+    nist->ConstructNewMaterial("FerroanNoriticAnorthosite", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
+
+    // Pigeonite Basalt --------------------------------------------------------------
+    elements.push_back("O" );       massFraction.push_back(0.4172228);
+    elements.push_back("Si");       massFraction.push_back(0.2159855);   
+    elements.push_back("Ti");       massFraction.push_back(0.0198968); 
+    elements.push_back("Al");       massFraction.push_back(0.0536710); 
+    elements.push_back("Fe");       massFraction.push_back(0.1536722);
+    elements.push_back("Mn");       massFraction.push_back(0.0021686); 
+    elements.push_back("Mg");       massFraction.push_back(0.0492651); 
+    elements.push_back("Ca");       massFraction.push_back(0.0786885); 
+    elements.push_back("Na");       massFraction.push_back(0.0019289); 
+    elements.push_back("K");       massFraction.push_back(0.0005396); 
+    elements.push_back("P");       massFraction.push_back(0.0006110); 
+    elements.push_back("S");       massFraction.push_back(0.0008000); 
+    elements.push_back("V");       massFraction.push_back(0.0001480); 
+    elements.push_back("Cr");       massFraction.push_back(0.0033500); 
+    elements.push_back("Sr");       massFraction.push_back(0.0001300); 
+    elements.push_back("Zr");       massFraction.push_back(0.0001380); 
+
+    // add it to the material
+    nist->ConstructNewMaterial("PigeoniteBasalt", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
+
+    // Impact Melt Breccia --------------------------------------------------------------
+    elements.push_back("O" );       massFraction.push_back(0.4530908);
+    elements.push_back("Si");       massFraction.push_back(0.2075256);   
+    elements.push_back("Ti");       massFraction.push_back(0.0017979); 
+    elements.push_back("Al");       massFraction.push_back(0.1635537); 
+    elements.push_back("Fe");       massFraction.push_back(0.0230858);
+    elements.push_back("Mn");       massFraction.push_back(0.0003098); 
+    elements.push_back("Mg");       massFraction.push_back(0.0167031); 
+    elements.push_back("Ca");       massFraction.push_back(0.1266448); 
+    elements.push_back("Na");       massFraction.push_back(0.0043030); 
+    elements.push_back("K");       massFraction.push_back(0.0004981); 
+    elements.push_back("P");       massFraction.push_back(0.0000873); 
+    elements.push_back("Cr");       massFraction.push_back(0.0003700); 
+    elements.push_back("Sr");       massFraction.push_back(0.0002500); 
+    elements.push_back("Ni");       massFraction.push_back(0.0003600); 
+    elements.push_back("Ba");       massFraction.push_back(0.0000920); 
+
+
+    // add it to the material
+    nist->ConstructNewMaterial("ImpactMeltBreccia", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
+
+    // Troctolite --------------------------------------------------------------
+    elements.push_back("O" );       massFraction.push_back(0.4465796);
+    elements.push_back("Si");       massFraction.push_back(0.2004211);   
+    elements.push_back("Ti");       massFraction.push_back(0.0002997); 
+    elements.push_back("Al");       massFraction.push_back(0.1097239); 
+    elements.push_back("Fe");       massFraction.push_back(0.0387873);
+    elements.push_back("Mn");       massFraction.push_back(0.0005422); 
+    elements.push_back("Mg");       massFraction.push_back(0.1151127); 
+    elements.push_back("Ca");       massFraction.push_back(0.0815473); 
+    elements.push_back("Na");       massFraction.push_back(0.0017064); 
+    elements.push_back("K");       massFraction.push_back(0.0002491); 
+    elements.push_back("P");       massFraction.push_back(0.0001309); 
+    elements.push_back("Cr");       massFraction.push_back(0.0007530); 
+    elements.push_back("Sr");       massFraction.push_back(0.0001140); 
+
+    // add it to the material
+    nist->ConstructNewMaterial("Troctolite", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
+
+    // Apollo 17 Orange --------------------------------------------------------------
+    elements.push_back("O" );       massFraction.push_back(0.4007786);
+    elements.push_back("Si");       massFraction.push_back(0.1802762);   
+    elements.push_back("Ti");       massFraction.push_back(0.0527983); 
+    elements.push_back("Al");       massFraction.push_back(0.0334518); 
+    elements.push_back("Fe");       massFraction.push_back(0.1713169);
+    elements.push_back("Mn");       massFraction.push_back(0.0023235); 
+    elements.push_back("Mg");       massFraction.push_back(0.0870732); 
+    elements.push_back("Ca");       massFraction.push_back(0.0548890); 
+    elements.push_back("Na");       massFraction.push_back(0.0026708); 
+    elements.push_back("K");       massFraction.push_back(0.0007472); 
+    elements.push_back("P");       massFraction.push_back(0.0001746); 
+    elements.push_back("S");       massFraction.push_back(0.0007000); 
+    elements.push_back("Cr");       massFraction.push_back(0.0046500); 
+    elements.push_back("Ni");       massFraction.push_back(0.0001010); 
+    elements.push_back("Zn");       massFraction.push_back(0.0002920); 
+    elements.push_back("Sr");       massFraction.push_back(0.0002050); 
+    elements.push_back("Zr");       massFraction.push_back(0.0001820); 
+    elements.push_back("Ba");       massFraction.push_back(0.0001120); 
+
+
+    // add it to the material
+    nist->ConstructNewMaterial("Apollo17Orange", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
     return;
 }
 
@@ -286,9 +396,6 @@ void DetectorConstruction::setSourcePosition(G4ThreeVector position)
 
 void DetectorConstruction::setSourceMaterial(const char* name)
 {
-    // Get the nist pointer
-    G4NistManager* nist = G4NistManager::Instance();
-
     // Assign the material
     sourceMaterial = nist->FindOrBuildMaterial(name);
     
@@ -308,4 +415,17 @@ void DetectorConstruction::setSourceRotation(G4ThreeVector normal)
     // Sets the new rotation perpendicular to the normal vector
     // sourceRotation = new G4RotationMatrix(normal.cross(G4ThreeVector(0., 0., 1.)).unit(),90*degree);
     sourceRotation = new G4RotationMatrix(G4ThreeVector(-1., 0., 0.),90*degree);
+}
+
+void DetectorConstruction::setTargetMaterial(const char* name)
+{
+    // Assign the material
+    targetMaterial = nist->FindOrBuildMaterial(name);
+    
+    // If the logical volume already exists
+    if (targetLogical) {
+        targetLogical->SetMaterial(targetMaterial);                 // Set the new Material
+        G4cout << "Target is now made out of " << name << G4endl;   // Let the user know
+    }
+
 }
