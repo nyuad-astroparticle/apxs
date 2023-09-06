@@ -22,6 +22,7 @@ ctors and materials
 #include "G4ThreeVector.hh"
 #include "G4RotationMatrix.hh"
 #include "G4Material.hh"
+#include "G4NistManager.hh"
 
 // Other relevant inline definitions
 class DetectorMessenger;
@@ -41,6 +42,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         void setSourcePosition(G4ThreeVector);      // Sets the position of the detector and then it's rotation
         void setSourceMaterial(const char*);        // Finds the material given its string name
         void setSourceRotation(G4ThreeVector);      // Sets source rotation 90° perpendicular to a vector
+        void setTargetMaterial(const char*);        // Finds the material given its string name
 
     private:
         void CreateMaterials();                     // Defines the Simulation Materials that are not on NIST
@@ -55,8 +57,11 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4LogicalVolume*    sourceLogical;
         G4VPhysicalVolume*  sourcePhysical;
         G4LogicalVolume*    detectLogical;          // The logical Volume for the detector
-
+        G4Material*         targetMaterial;   
+        G4VPhysicalVolume*  targetPhysical;      
+        G4LogicalVolume*    targetLogical;          // The logical Volume of the target
         DetectorMessenger*  detectorMessenger;      // The messenger Class used to change the materials and other parameters of the simulation
+        G4NistManager*      nist;
 
         friend class PrimaryGeneratorAction;        // We allow PrimaryGeneratorAction to have access the variables of this class
 };
