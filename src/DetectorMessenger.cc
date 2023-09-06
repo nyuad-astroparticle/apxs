@@ -37,6 +37,13 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
     setSourceMaterial->SetGuidance("Change the material of the source into any of the predefined ones.");
     setSourceMaterial->SetParameterName("Material",false);
     setSourceMaterial->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    setTargetMaterial = new G4UIcmdWithAString("/apxs/setTargetMaterial",this);
+    setTargetMaterial->SetGuidance("Change the material of the Target into any of the predefined ones.");
+    setTargetMaterial->SetParameterName("Material",false);
+    setTargetMaterial->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -45,6 +52,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
 DetectorMessenger::~DetectorMessenger()
 {
     delete setSourceMaterial;
+    delete setTargetMaterial;
     delete directory;
 }
 

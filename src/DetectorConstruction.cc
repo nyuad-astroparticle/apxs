@@ -54,6 +54,7 @@ DetectorConstruction::DetectorConstruction()
     sourceLogical   = nullptr;
     sourcePhysical  = nullptr;
     detectLogical   = nullptr;
+    nist = G4NistManager::Instance();
     setSourcePosition(G4ThreeVector(-worldSize/30,worldHeight/8,0));
     setSourceMaterial("G4_Cm");
     setTargetMaterial("G4_Au");
@@ -79,9 +80,6 @@ DetectorConstruction::~DetectorConstruction()
 // Constructs all the Geometry
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-    // MATERIALS -----------------------------------------------------------
-    // First off invite NIST to the party
-    G4NistManager* nist = G4NistManager::Instance();
 
     // Then add to it the rest of the materials that we might need
     CreateMaterials();
@@ -244,7 +242,6 @@ void DetectorConstruction::ConstructSDandField()
 void DetectorConstruction::CreateMaterials()
 {
     // Get the NIST Manager
-    nist = G4NistManager::Instance();
 
     // Define a vector to store the elements
     std::vector<G4String>   elements;
