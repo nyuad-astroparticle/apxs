@@ -54,6 +54,8 @@ DetectorConstruction::DetectorConstruction()
     sourceLogical   = nullptr;
     sourcePhysical  = nullptr;
     detectLogical   = nullptr;
+    targetLogical   = nullptr;
+    targetPhysical  = nullptr;
     nist = G4NistManager::Instance();
     setSourcePosition(G4ThreeVector(-worldSize/30,worldHeight/8,0));
     setSourceMaterial("G4_Cm");
@@ -72,6 +74,8 @@ DetectorConstruction::~DetectorConstruction()
     delete sourceRotation;
     delete sourceLogical;
     delete sourcePhysical;
+    delete targetLogical;
+    delete targetPhysical;
     delete detectorMessenger;
 }
 
@@ -104,7 +108,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     // TARGET -------------------------------------------------------------
     G4double            targetThickness = 0.5 * cm;
     G4ThreeVector       targetPostition = G4ThreeVector(0., - targetThickness/2, 0.);
-    //targetMaterial  = nist->FindOrBuildMaterial("G4_Au");
+    //targetMaterial  =   nist->FindOrBuildMaterial("G4_Au");
     G4Box*              targetSolid     = new G4Box("targetSolid", worldSize/2, targetThickness/2, worldSize/2);
     G4VisAttributes*    targetColor     = new G4VisAttributes(true,G4Color(0.40, 0.45, 0.5, 0.4));
     targetLogical   = new G4LogicalVolume(targetSolid, targetMaterial, "targetLogical");
