@@ -1,0 +1,36 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+7251,235,-1,gamma,1.72052,0,5.40683,7.36344,-3.79642,9.08904,detectLogical_PV,NA
+10917,212,-1,gamma,1.72052,0,6.5652,7.8,-0.303101,67.043,detectLogical_PV,NA
+22129,119,-1,gamma,0.52309,0,6.58338,7.8,0.702252,58.5988,detectLogical_PV,NA
+25814,105,-1,gamma,0.52309,0,3.09029,7.45041,-1.79153,1.27907,detectLogical_PV,NA
+37071,107,-1,gamma,0.52309,0,8.53947,7.8,-3.01112,34.1067,detectLogical_PV,NA
+41195,2551,-1,gamma,3.6598,0,7.12021,7.8,-3.97108,15.1215,detectLogical_PV,NA
+41471,106,-1,gamma,0.52309,0,7.82283,7.8,0.407145,21.1662,detectLogical_PV,NA
+51063,2662,-1,e-,1.32104,2.17021e-21,4.19841,7.8,-1.68589,36.4898,detectLogical_PV,sddWindowC2AluminumLogical_PV
+65878,1940,-1,gamma,1.46917,0,5.42103,7.8,2.64378,21.5659,detectLogical_PV,NA
+66854,2427,-1,gamma,1.23826,0,9.20811,7.8,-0.781543,74.653,detectLogical_PV,NA
+70851,109,-1,gamma,0.52309,0,4.97504,7.8,-1.65889,10.7962,detectLogical_PV,NA
+75078,2032,-1,gamma,1.4687,0,4.84207,7.8,-0.95674,95.1012,detectLogical_PV,NA
+89960,2004,-1,gamma,1.46917,0,5.50071,7.8,0.638962,1.36004,detectLogical_PV,NA
+103669,2008,-1,gamma,1.46917,0,10.6597,7.34321,0.235927,2.38405,detectLogical_PV,NA
+121322,3048,-1,gamma,0.52313,0,8.44122,7.8,-0.300242,6.53164,detectLogical_PV,NA
+126376,2664,-1,gamma,0.52309,0,8.98849,7.8,-0.00392115,80.0461,detectLogical_PV,NA
+128588,110,-1,gamma,0.52313,0,5.18951,7.8,0.205614,41.1933,detectLogical_PV,NA
+128798,2522,-1,gamma,3.6598,0,8.88859,7.8,0.835229,41.8842,detectLogical_PV,NA
+133166,2716,-1,gamma,0.52309,0,9.56947,7.8,1.78173,1.83161,detectLogical_PV,NA
+146207,237,-1,gamma,1.71983,0,7.27953,7.8,-2.23349,12.1349,detectLogical_PV,NA

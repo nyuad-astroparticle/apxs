@@ -1,0 +1,36 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+6307,4285,-1,gamma,1.46917,0,4.89789,7.8,2.20768,465.085,detectLogical_PV,NA
+17535,1864,-1,gamma,1.4687,0,6.46261,7.46232,-3.99479,657.542,detectLogical_PV,NA
+43040,1862,-1,gamma,1.4687,0,4.95424,7.8,-1.84438,801.989,detectLogical_PV,NA
+46042,105,-1,gamma,0.52313,0,4.97215,7.8,-2.18431,107.039,detectLogical_PV,NA
+65669,2733,-1,gamma,1.4687,0,7.00363,7.8,-2.41637,275.811,detectLogical_PV,targetPhysical
+70904,105,-1,gamma,0.52313,0,6.6755,7.8,-1.75035,182.108,detectLogical_PV,NA
+92660,2992,-1,e-,0.290224,4.52754e-21,9.72785,7.8,0.65291,310.979,detectLogical_PV,sddWindowC2AluminumLogical_PV
+94700,107,-1,gamma,0.52313,0,5.067,7.8,-3.65399,462.58,detectLogical_PV,NA
+105386,1976,-1,gamma,1.46917,0,9.99037,7.8,-2.03189,409.759,detectLogical_PV,NA
+125911,1899,-1,gamma,1.46917,0,10.1743,7.78786,-1.92263,791.789,detectLogical_PV,NA
+131872,106,-1,gamma,0.52313,0,7.96097,7.8,1.56187,673.978,detectLogical_PV,NA
+133169,124,-1,gamma,0.52313,0,7.70103,7.8,2.88485,974.598,detectLogical_PV,NA
+138261,103,-1,gamma,0.52313,0,8.34346,7.8,2.91181,942.157,detectLogical_PV,NA
+140266,3301,-1,gamma,0.52313,0,8.33836,7.8,1.67688,36.3078,detectLogical_PV,NA
+140413,2505,-1,gamma,0.30204,0,9.11905,7.8,0.363265,499.011,detectLogical_PV,NA
+141363,232,-1,gamma,1.71983,0,7.31295,7.8,-2.74004,41.6033,detectLogical_PV,NA
+151275,224,-1,gamma,1.72052,0,4.35403,7.8,0.211559,83.2098,detectLogical_PV,NA
+154725,2823,-1,gamma,1.82195,0,7.41033,7.8,2.56358,17.1108,detectLogical_PV,NA
+154828,110,-1,gamma,0.52313,0,7.24118,7.46382,-3.95853,251.536,detectLogical_PV,NA
+160678,111,-1,gamma,0.52313,0,5.71537,7.8,2.82336,1013.48,detectLogical_PV,NA

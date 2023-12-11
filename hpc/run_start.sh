@@ -1,6 +1,6 @@
 #!/bin/bash
 # Number of tasks 
-#SBATCH --ntasks 3000 
+#SBATCH --ntasks 2000 
 # Set Memory
 #SBATCH --mem 64GB
 # Set WALLTIME
@@ -10,7 +10,7 @@
 #SBATCH -e start-job.%J.err
 # Send email when done
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=po524@nyu.edu
+#SBATCH --mail-user=ibs257@nyu.edu
 
 #----------------------------------#
 #------------EXECUTION-------------#
@@ -21,9 +21,9 @@ module purge
 source load_modules.sh
 
 # Run the application
-cd /scratch/po524/apxs/build/
+cd /scratch/ibs257/apxs/build/
 start_time=`date +%s`
-mpiexec -n 3000 ./apxs ./macros/run_hpc.mac
+mpiexec -n 3000 ./apxs ./macros/ferroannoriticanorthosite.mac
 end_time=`date +%s`
 echo execution time was `expr $end_time - $start_time` s.
 echo "SIM IS DONE!"

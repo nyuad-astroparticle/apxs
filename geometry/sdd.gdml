@@ -10,6 +10,9 @@
         <position name="LipPosition" unit="mm" x="0" y="0" z="0.6" />
         <!-- Translation for Window -->
         <position name="WindowPosition" unit="mm" x="0" y="0" z="0.9" />
+        <!-- Translation for the Si3N4 since the Aluminum is inthe  window place-->
+        <position name="SecondWindowPosition" unit="mm" x="0" y="0" z="0.89975" />
+
         <!-- Translation for sensor -->
         <position name="DetectorPosition" unit="mm" x="0" y="0" z="-1.3" />
     </define>
@@ -26,6 +29,27 @@
             <D value="1.85" unit="g/cm3" />
             <atom value="9.012182" />
         </material>
+
+        <element name="Nitrogen" formula="N" Z = "7">
+        <atom value = "14.01"/>
+        </element>
+        
+        <element name="Silicon" formula="Si" Z = "14">
+        <atom value = "28.0855"/>
+        </element>
+        
+        <element name="Oxygen" formula="O" Z = "8">
+        <atom value = "15.999"/>
+        </element>
+        
+        <material name="siliconNitride" state="solid" formula="siliconNitride">
+            <D value="3.17" unit="g/cm3"/>
+            <composite n="3" ref="Silicon"/>
+            <composite n="4" ref="Nitrogen"/>
+        </material>
+
+
+
     </materials>
 
     <solids>
@@ -38,8 +62,14 @@
         <!-- The little lip that sits below the TopCone and Holds the Window0 -->
         <tube name="Lip" rmax="5.583" rmin="3.5" z="0.3" deltaphi="360" lunit="mm" aunit="deg"/>
 
-        <!-- SDD Window -->
-        <tube name="sddWindowSolid" rmax="5.0" z="0.008" deltaphi="360" lunit="mm" aunit="degree" />
+        <!-- SDD Window Beryllium -->
+        <!--tube name="sddWindowSolid" rmax="5.0" z="0.008" deltaphi="360" lunit="mm" aunit="degree" /-->
+
+        <!-- SDD Window C1 Si3N4 -->
+        <tube name="sddWindowSolid" rmax="6.3" z="0.00015" deltaphi="360" lunit="mm" aunit="degree" />
+
+        <!-- SDD Window C1 Aluminum Coating -->
+        <tube name="sddWindowAluminumSolid" rmax="6.3" z="0.00025" deltaphi="360" lunit="mm" aunit="degree" />
 
         <!-- Silicon Sensor -->
         <tube name="sddDetectorSolid" rmax="4.0" z="0.50" deltaphi="360" lunit="mm" aunit="degree" />
@@ -67,9 +97,21 @@
 
     <structure>
         <!-- Logical Volume of the Beryllium Window -->
-        <volume name="sddWindowLogical">
+        <!--volume name="sddWindowLogical">
             <materialref ref="G4_Be" />
             <solidref ref="sddWindowSolid" />
+        </volume-->
+
+        <!-- Logical Volume of the C1 Si3N4 -->
+        <volume name="sddWindowLogical">
+            <materialref ref="siliconNitride" />
+            <solidref ref="sddWindowSolid" />
+        </volume>
+
+        <!-- Logical Volume of the C1 Aluminum Coating -->
+        <volume name="sddWindowC1AluminumLogical">
+            <materialref ref="G4_Al" />
+            <solidref ref="sddWindowAluminumSolid" />
         </volume>
 
         <!-- Logical Volume of the Silicon Sensor -->
@@ -89,8 +131,12 @@
             <materialref ref="G4_Galactic" />
             <solidref ref="sddWorld" />
             <physvol>
-                <volumeref ref="sddWindowLogical" />
+                <volumeref ref="sddWindowC1AluminumLogical" />
                 <positionref ref="WindowPosition" />
+            </physvol>
+            <physvol>
+                <volumeref ref="sddWindowLogical" />
+                <positionref ref="SecondWindowPosition" />
             </physvol>
             <physvol>
                 <volumeref ref="detectLogical" />

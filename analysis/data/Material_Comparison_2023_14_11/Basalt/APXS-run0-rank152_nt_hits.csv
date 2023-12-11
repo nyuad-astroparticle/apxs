@@ -1,0 +1,21 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+7486,2061,-1,gamma,1.4687,0,9.93549,7.8,-1.1526,0.860765,detectLogical_PV,NA
+13903,252,-1,gamma,1.72052,0,9.68466,7.8,0.964759,22.9682,detectLogical_PV,NA
+20106,2181,-1,gamma,1.23826,0,7.41415,7.8,-0.393529,43.5478,detectLogical_PV,NA
+30612,249,-1,gamma,1.72052,0,10.1365,7.48153,1.98995,65.7033,detectLogical_PV,NA
+40304,103,-1,gamma,6.36271,0,3.87003,7.8,-1.52083,13.4506,detectLogical_PV,NA

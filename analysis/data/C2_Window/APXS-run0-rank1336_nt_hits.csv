@@ -1,0 +1,25 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+2262,2719,-1,gamma,0.52309,0,5.72535,7.8,2.34947,10.5494,detectLogical_PV,NA
+25834,2002,-1,gamma,1.4687,0,5.01376,7.8,0.783602,8.52363,detectLogical_PV,NA
+46095,1958,-1,gamma,1.46917,0,5.17591,7.8,3.19492,26.3684,detectLogical_PV,NA
+46412,2029,-1,gamma,1.46917,0,3.82366,7.8,-1.72763,5.6106,detectLogical_PV,NA
+49668,1956,-1,gamma,1.46917,0,5.05658,7.8,2.39647,59.9643,detectLogical_PV,NA
+51277,1949,-1,gamma,1.46917,0,7.29911,7.58763,-3.94969,14.0613,detectLogical_PV,NA
+56188,125,-1,gamma,0.52309,0,5.63419,7.8,0.331502,6.32301,detectLogical_PV,NA
+88980,1937,-1,gamma,1.46917,0,6.38149,7.8,-1.21236,61.3523,detectLogical_PV,NA
+90704,5249,-1,gamma,1.46917,0,9.24783,7.73369,-3.05574,31.6835,detectLogical_PV,sddWindowC2AluminumLogical_PV

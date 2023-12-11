@@ -1,0 +1,36 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+5445,5249,-1,gamma,1.46917,0,5.87052,7.8,-0.132301,2.43335,detectLogical_PV,targetPhysical
+8982,114,-1,gamma,0.52313,0,5.50184,7.8,-2.53251,11.5397,detectLogical_PV,NA
+9108,113,-1,gamma,0.52313,0,10.04,7.37414,-2.14958,2.20495,detectLogical_PV,NA
+12194,122,-1,gamma,0.52313,0,3.26073,7.8,-0.901167,10.8339,detectLogical_PV,NA
+14677,2382,-1,gamma,1.23826,0,7.83353,7.8,2.82271,59.0317,detectLogical_PV,NA
+20916,2937,-1,gamma,1.71983,0,10.5052,7.46978,-1.12492,34.2594,detectLogical_PV,NA
+24357,1917,-1,gamma,1.46917,0,9.71385,7.77923,-2.59127,12.5085,detectLogical_PV,NA
+52850,245,-1,gamma,1.72052,0,10.5865,7.56588,0.79658,32.9572,detectLogical_PV,NA
+67906,5163,-1,gamma,3.6598,0,7.68542,7.8,0.0787885,97.6078,detectLogical_PV,NA
+90204,2824,-1,gamma,0.52313,0,8.48486,7.8,-2.26624,3.63994,detectLogical_PV,NA
+107619,5160,-1,e-,0.242285,2.59961e-21,2.89396,7.57071,-1.32918,9.39891,detectLogical_PV,sddWindowLogical_PV
+108751,249,-1,gamma,1.72052,0,6.23977,7.8,2.18963,1.04565,detectLogical_PV,NA
+109742,109,-1,gamma,0.52313,0,3.25314,7.8,0.176944,1.97076,detectLogical_PV,NA
+114637,107,-1,gamma,0.52309,0,4.94136,7.8,1.81999,36.5744,detectLogical_PV,NA
+116736,111,-1,gamma,0.52309,0,7.08329,7.8,-3.26835,26.7285,detectLogical_PV,NA
+131395,105,-1,gamma,0.52309,0,9.44736,7.8,-1.3015,6.8279,detectLogical_PV,NA
+139400,2565,-1,gamma,3.65596,0,5.86019,7.8,-2.21848,8.24756,detectLogical_PV,NA
+142149,2869,-1,gamma,1.72052,0,9.02433,7.8,-1.34238,14.6316,detectLogical_PV,NA
+147371,2023,-1,gamma,1.4687,0,5.83983,7.8,-0.143834,191.675,detectLogical_PV,NA
+160326,230,-1,gamma,1.72052,0,7.54786,7.8,-2.24762,9.5792,detectLogical_PV,NA
