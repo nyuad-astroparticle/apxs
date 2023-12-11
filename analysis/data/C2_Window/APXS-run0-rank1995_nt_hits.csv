@@ -1,0 +1,36 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+2804,234,-1,gamma,1.72052,0,6.30996,7.8,-1.95831,7.95819,detectLogical_PV,NA
+9464,1876,-1,gamma,1.4687,0,7.43019,7.8,-1.69781,18.9291,detectLogical_PV,NA
+19823,1955,-1,gamma,1.46917,0,6.62515,7.8,-0.688176,13.1935,detectLogical_PV,NA
+21650,105,-1,gamma,0.52309,0,6.08645,7.8,2.5148,18.332,detectLogical_PV,NA
+22369,1992,-1,gamma,1.46917,0,9.80411,7.8,-1.16599,20.5319,detectLogical_PV,NA
+23549,116,-1,gamma,0.52313,0,9.46165,7.8,-0.760821,65.9476,detectLogical_PV,NA
+26597,249,-1,gamma,1.72052,0,8.38218,7.8,3.38596,27.335,detectLogical_PV,NA
+28710,1901,-1,gamma,1.4687,0,4.63717,7.8,-1.03745,2.70745,detectLogical_PV,NA
+32368,106,-1,gamma,0.52313,0,4.92838,7.8,-0.995757,9.02952,detectLogical_PV,NA
+38073,1982,-1,gamma,1.46917,0,7.79668,7.8,2.05396,5.21939,detectLogical_PV,NA
+62247,243,-1,gamma,1.71983,0,4.41525,7.8,1.40723,79.9435,detectLogical_PV,NA
+70489,2378,-1,gamma,7.01695,0,6.47753,7.8,1.08082,0.283734,detectLogical_PV,NA
+81312,249,-1,gamma,1.82195,0,2.87282,7.8,0.368561,83.973,detectLogical_PV,NA
+81694,2000,-1,gamma,1.54503,0,6.06379,7.8,-0.560391,52.7516,detectLogical_PV,NA
+84176,2654,-1,gamma,1.46917,0,4.69926,7.8,1.82384,1.09313,detectLogical_PV,targetPhysical
+85859,113,-1,gamma,0.52313,0,6.89162,7.8,-1.08572,22.1467,detectLogical_PV,NA
+98334,114,-1,gamma,0.52313,0,6.52019,7.8,-0.884752,47.4374,detectLogical_PV,NA
+120008,103,-1,gamma,0.52313,0,4.33068,7.8,-0.943879,45.4973,detectLogical_PV,NA
+155253,1960,-1,gamma,1.46917,0,9.81864,7.8,-1.67888,11.5968,detectLogical_PV,NA
+156483,5356,-1,e-,0.396961,3.3719e-21,5.38331,7.8,-1.20812,19.5419,detectLogical_PV,sddWindowC2AluminumLogical_PV

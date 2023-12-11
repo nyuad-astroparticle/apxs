@@ -1,0 +1,38 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+5745,219,-1,gamma,1.72052,0,7.49871,7.8,0.978326,25.5823,detectLogical_PV,NA
+12944,114,-1,gamma,0.52309,0,3.7374,7.8,0.591679,1.36414,detectLogical_PV,NA
+30125,234,-1,gamma,1.72052,0,8.33643,7.8,-2.86436,11.0206,detectLogical_PV,NA
+30584,235,-1,gamma,1.72052,0,5.30561,7.8,-0.745444,19.8117,detectLogical_PV,NA
+32186,2686,-1,gamma,0.52313,0,9.4631,7.8,2.33819,45.7076,detectLogical_PV,NA
+41869,110,-1,gamma,0.52313,0,7.04051,7.8,2.04032,37.575,detectLogical_PV,NA
+44380,112,-1,gamma,0.52313,0,10.2892,7.8,-1.13369,17.8479,detectLogical_PV,NA
+46325,106,-1,gamma,0.52313,0,3.78055,7.33481,2.76954,17.0645,detectLogical_PV,NA
+48383,108,-1,gamma,0.52309,0,9.93687,7.77734,-2.30343,31.7009,detectLogical_PV,NA
+58718,2365,-1,gamma,1.23795,0,9.63724,7.8,-0.725965,10.637,detectLogical_PV,NA
+61875,4625,-1,gamma,1.4687,0,6.5339,7.8,0.97847,36.119,detectLogical_PV,NA
+69026,1930,-1,gamma,1.4687,0,4.76168,7.8,1.93307,26.8117,detectLogical_PV,NA
+69884,1982,-1,gamma,1.46917,0,8.33937,7.8,2.75017,32.0208,detectLogical_PV,NA
+75302,1986,-1,gamma,1.4687,0,5.58234,7.8,1.48141,35.4423,detectLogical_PV,NA
+87922,2503,-1,gamma,3.65596,0,6.67452,7.8,0.57015,99.9941,detectLogical_PV,NA
+91265,226,-1,gamma,1.72052,0,10.1925,7.8,-1.00634,1.2733,detectLogical_PV,NA
+91308,2499,-1,gamma,3.65596,0,2.97751,7.8,1.39401,43.4214,detectLogical_PV,NA
+95860,1937,-1,gamma,1.46917,0,9.97646,7.8,2.22426,18.1755,detectLogical_PV,NA
+104153,2513,-1,gamma,3.6598,0,4.36115,7.8,-1.22961,41.8481,detectLogical_PV,NA
+119365,1970,-1,gamma,1.46917,0,4.37667,7.8,2.13791,8.98845,detectLogical_PV,NA
+122408,4431,-1,gamma,1.4687,0,7.05948,7.8,-3.65579,33.0106,detectLogical_PV,NA
+158320,258,-1,gamma,1.72052,0,8.97714,7.51498,3.26523,0.670185,detectLogical_PV,NA

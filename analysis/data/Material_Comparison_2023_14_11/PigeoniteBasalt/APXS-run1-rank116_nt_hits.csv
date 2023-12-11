@@ -1,0 +1,27 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+87969,109,-1,gamma,3.6598,0,5.75813,7.8,2.94143,6.58073,detectLogical_PV,targetPhysical
+120281,108,-1,gamma,4.47536,0,4.74218,7.8,2.30083,1.05677,detectLogical_PV,targetPhysical
+136057,122,-1,gamma,5.85869,0,8.10622,7.8,-2.13398,0.751733,detectLogical_PV,sourcePhysical
+159688,124,-1,gamma,4.47536,0,8.98604,7.8,1.4141,3.07306,detectLogical_PV,targetPhysical
+191678,109,-1,gamma,4.47536,0,8.52107,7.63737,3.54418,0.928757,detectLogical_PV,targetPhysical
+242580,109,-1,gamma,3.6598,0,9.13467,7.8,-2.80434,3.1705,detectLogical_PV,targetPhysical
+265645,117,-1,gamma,3.65596,0,4.30788,7.8,-1.46189,9.4366,detectLogical_PV,targetPhysical
+360055,109,-1,gamma,4.47536,0,3.87825,7.8,1.24876,0.202559,detectLogical_PV,targetPhysical
+386489,129,-1,gamma,3.6598,0,3.11876,7.8,-1.06706,4.22486,detectLogical_PV,targetPhysical
+389360,119,-1,gamma,5.37679,0,7.04956,7.67535,-3.98163,0.703913,detectLogical_PV,targetPhysical
+458717,108,-1,gamma,3.65596,0,7.76944,7.8,0.32136,1.76852,detectLogical_PV,targetPhysical

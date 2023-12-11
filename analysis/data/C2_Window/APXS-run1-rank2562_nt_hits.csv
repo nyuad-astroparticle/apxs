@@ -1,0 +1,101 @@
+#class tools::wcsv::ntuple
+#title APXS Detector Hits
+#separator 44
+#vector_separator 59
+#column int EventID
+#column int TrackID
+#column int MigrantID
+#column string Particle
+#column double InitialEnergy
+#column double DepositedEnergy
+#column double XPosition
+#column double YPosition
+#column double ZPosition
+#column double LocalTime
+#column string Volume
+#column string ParentVolume
+1577,108,-1,e-,3.55033,8.39351e-22,9.20561,7.8,2.50718,5.96218,detectLogical_PV,sourcePhysical
+5530,125,-1,e-,1.7141,1.50108e-21,9.22169,7.8,1.27104,1.85334,detectLogical_PV,sourcePhysical
+5602,106,-1,e-,3.31498,9.36128e-22,7.81271,7.8,0.464921,4.35491,detectLogical_PV,sourcePhysical
+7000,106,-1,e-,3.28011,6.37632e-22,6.86799,7.8,-0.884515,3.03202,detectLogical_PV,sourcePhysical
+7078,120,-1,e-,2.95821,8.27465e-22,7.49921,7.8,2.12157,1.83826,detectLogical_PV,sourcePhysical
+9672,120,-1,e-,3.64025,6.58833e-22,6.36474,7.8,2.06614,1.42689,detectLogical_PV,sourcePhysical
+13003,107,-1,e-,3.86869,5.83676e-22,6.20187,7.8,-2.22875,1.33772,detectLogical_PV,sourcePhysical
+15488,123,-1,e-,2.36749,8.11183e-22,6.75585,7.8,-0.785658,5.36789,detectLogical_PV,sourcePhysical
+16974,108,-1,e-,2.6963,1.37274e-21,9.06772,7.8,-2.54431,2.67547,detectLogical_PV,sourcePhysical
+17206,108,-1,e-,4.41557,5.07794e-22,8.91824,7.8,0.835534,2.59747,detectLogical_PV,sourcePhysical
+18493,125,-1,e-,3.69969,5.55958e-22,6.9373,7.8,-3.52981,1.15802,detectLogical_PV,sourcePhysical
+19597,114,-1,e-,3.75958,7.84594e-22,3.72348,7.8,1.68823,2.19126,detectLogical_PV,sourcePhysical
+21618,107,-1,e-,2.90045,7.55235e-22,6.28077,7.8,-0.716047,0.19193,detectLogical_PV,sourcePhysical
+26854,118,-1,e-,4.19731,6.37586e-22,6.12231,7.8,0.412453,0.475377,detectLogical_PV,sourcePhysical
+27919,106,-1,e-,2.8066,7.46043e-22,10.1361,7.8,-0.0300422,0.431763,detectLogical_PV,sourcePhysical
+31121,122,-1,gamma,3.6598,0,8.36648,7.8,-1.2317,1.16054,detectLogical_PV,targetPhysical
+33035,121,-1,e-,3.67199,6.65596e-22,8.61635,7.8,-1.97054,0.417079,detectLogical_PV,sourcePhysical
+37726,119,-1,e-,3.97418,5.77252e-22,6.32333,7.8,-1.8491,3.98387,detectLogical_PV,sourcePhysical
+37991,119,-1,e-,4.70745,9.89907e-22,3.3758,7.8,-1.09457,8.03749,detectLogical_PV,sourcePhysical
+40787,107,-1,e-,4.22306,5.04515e-22,6.55748,7.8,-2.65893,0.898985,detectLogical_PV,sourcePhysical
+46341,108,-1,e-,1.02249,1.90527e-21,7.22274,7.8,-0.535569,0.753247,detectLogical_PV,sourcePhysical
+47978,108,-1,e-,4.06159,5.11515e-22,10.0753,7.68719,2.0931,2.64374,detectLogical_PV,sourcePhysical
+53422,106,-1,e-,2.53945,8.07719e-22,9.19828,7.69058,-3.09692,0.342729,detectLogical_PV,sourcePhysical
+54997,107,-1,e-,1.27997,1.52557e-21,6.14323,7.8,2.84361,23.6055,detectLogical_PV,sourcePhysical
+57800,125,-1,e-,3.1836,7.46522e-22,6.91406,7.8,3.91411,1.14032,detectLogical_PV,sourcePhysical
+58801,106,-1,e-,2.89851,8.23097e-22,8.44229,7.73844,-3.5843,6.08893,detectLogical_PV,sourcePhysical
+59307,109,-1,e-,3.42438,5.97494e-22,5.38143,7.8,-0.959817,3.11992,detectLogical_PV,sourcePhysical
+59971,112,-1,e-,1.72902,1.24225e-21,7.73937,7.8,-1.56842,4.41839,detectLogical_PV,sourcePhysical
+63567,108,-1,e-,4.1406,5.04245e-22,9.01279,7.8,-0.433047,5.2482,detectLogical_PV,sourcePhysical
+63764,107,-1,e-,3.91886,5.58464e-22,6.19934,7.8,-2.42386,10.6845,detectLogical_PV,sourcePhysical
+63894,111,-1,e-,2.20388,6.60869e-22,3.58644,7.45042,-2.5519,7.37841,detectLogical_PV,sourcePhysical
+70374,105,-1,e-,4.04844,6.81455e-22,3.28665,7.8,0.836461,7.79719,detectLogical_PV,sourcePhysical
+70559,106,-1,e-,2.62795,1.51667e-21,10.4002,7.8,-1.0284,2.04952,detectLogical_PV,sourcePhysical
+71172,110,-1,e-,2.43892,8.37411e-22,3.32902,7.8,-0.0308947,2.42527,detectLogical_PV,sourcePhysical
+72406,108,-1,e-,4.2253,1.06259e-21,7.34864,7.8,3.24798,0.0929826,detectLogical_PV,sourcePhysical
+76225,116,-1,e-,4.1119,5.85683e-22,5.74549,7.8,0.0736745,4.08284,detectLogical_PV,sourcePhysical
+82288,109,-1,e-,1.96757,1.22813e-21,6.50828,7.8,-1.09524,1.39008,detectLogical_PV,sourcePhysical
+83008,111,-1,e-,1.95985,1.05034e-21,8.89046,7.8,-2.93973,1.73633,detectLogical_PV,sourcePhysical
+83520,116,-1,e-,1.55753,3.02871e-23,7.36491,7.30719,3.93859,2.77937,detectLogical_PV,sourcePhysical
+84494,108,-1,e-,1.47812,1.2489e-21,7.12791,7.8,1.88307,1.92318,detectLogical_PV,sourcePhysical
+87184,108,-1,e-,1.54863,1.35321e-21,9.34351,7.8,-0.720468,0.866263,detectLogical_PV,sourcePhysical
+89096,108,-1,e-,2.52701,1.54196e-21,2.8005,7.8,-0.781847,11.4734,detectLogical_PV,sourcePhysical
+90883,125,-1,e-,4.49029,6.3297e-22,6.96809,7.8,-3.15117,0.871893,detectLogical_PV,worldPhysical
+91945,126,-1,e-,4.34978,8.26371e-22,9.48695,7.8,0.301915,2.02257,detectLogical_PV,sourcePhysical
+92452,105,-1,e-,1.61322,1.41928e-21,4.31159,7.8,0.640445,9.4958,detectLogical_PV,sourcePhysical
+93350,122,-1,e-,0.158933,6.12232e-21,9.87935,7.8,-2.19909,4.08793,detectLogical_PV,sourcePhysical
+99717,108,-1,e-,4.37268,6.27564e-22,3.08568,7.8,-1.14646,6.51064,detectLogical_PV,sourcePhysical
+102012,126,-1,e-,1.45565,1.54462e-21,5.39218,7.8,3.21899,4.94793,detectLogical_PV,worldPhysical
+102046,110,-1,e-,4.34144,6.04384e-22,9.39299,7.8,1.63123,0.818015,detectLogical_PV,sourcePhysical
+104544,116,-1,e-,2.7108,8.16734e-22,9.58916,7.8,1.56634,6.4562,detectLogical_PV,sourcePhysical
+105096,104,-1,e-,0.69724,2.91779e-21,7.89997,7.8,-1.20187,8.9353,detectLogical_PV,sourcePhysical
+105832,118,-1,e-,4.70935,4.98144e-22,5.13905,7.8,-2.24382,1.31039,detectLogical_PV,sourcePhysical
+106494,108,-1,e-,1.9339,1.24819e-21,8.7752,7.8,3.17225,0.471887,detectLogical_PV,sourcePhysical
+108987,110,-1,e-,1.23912,2.58389e-21,7.09477,7.8,-0.772552,4.97924,detectLogical_PV,sourcePhysical
+109455,120,-1,e-,5.75114,5.12073e-22,8.02104,7.8,1.68109,0.184232,detectLogical_PV,sourcePhysical
+109991,107,-1,e-,0.232842,9.52081e-21,5.45896,7.8,0.995503,3.29242,detectLogical_PV,worldPhysical
+111250,116,-1,e-,3.44763,8.63759e-22,7.46673,7.8,0.388926,4.12353,detectLogical_PV,sourcePhysical
+113927,106,-1,e-,4.98096,4.39504e-22,3.75895,7.8,-1.33485,0.664198,detectLogical_PV,sourcePhysical
+113978,108,-1,e-,3.62358,5.64599e-22,8.12392,7.8,0.645006,6.08357,detectLogical_PV,sourcePhysical
+114219,119,-1,e-,3.40492,6.07867e-22,10.3985,7.8,0.634159,1.01127,detectLogical_PV,sourcePhysical
+115793,107,-1,e-,4.94646,5.33077e-22,9.2211,7.8,2.60225,0.304015,detectLogical_PV,sourcePhysical
+116591,122,-1,e-,2.14754,1.23527e-21,6.98943,7.8,0.150216,8.56675,detectLogical_PV,sourcePhysical
+117250,121,-1,e-,1.42118,1.57905e-21,7.14567,7.8,0.278512,0.162012,detectLogical_PV,sourcePhysical
+117468,113,-1,e-,3.06372,9.58276e-22,3.97197,7.8,1.48625,1.56684,detectLogical_PV,sourcePhysical
+118341,106,-1,e-,3.69761,1.20077e-21,9.94577,7.8,-1.16242,0.517021,detectLogical_PV,sourcePhysical
+118727,112,-1,e-,4.32574,5.85019e-22,6.69191,7.8,2.60027,0.428736,detectLogical_PV,sourcePhysical
+119481,110,-1,e-,3.94949,8.01469e-22,5.48867,7.8,-2.10657,4.99092,detectLogical_PV,sourcePhysical
+119773,108,-1,e-,3.65527,7.31519e-22,9.91237,7.8,-1.03672,2.97235,detectLogical_PV,sourcePhysical
+122171,127,-1,e-,2.93389,7.49049e-22,7.58565,7.8,-0.832423,11.9492,detectLogical_PV,sourcePhysical
+130354,106,-1,e-,2.13491,9.89953e-22,7.17664,7.8,-1.20351,5.35346,detectLogical_PV,sourcePhysical
+133881,105,-1,e-,2.84738,1.19845e-21,4.60743,7.8,2.80361,11.6033,detectLogical_PV,worldPhysical
+134115,123,-1,e-,5.11439,4.69101e-22,9.23759,7.8,-0.702188,1.46406,detectLogical_PV,sourcePhysical
+135029,128,-1,e-,3.72124,5.47979e-22,5.20409,7.8,-1.44813,5.30322,detectLogical_PV,sourcePhysical
+139560,108,-1,e-,3.33136,1.03484e-21,9.06914,7.8,-1.48903,1.00454,detectLogical_PV,sourcePhysical
+139920,104,-1,e-,4.56126,7.35999e-22,9.88596,7.69867,2.37406,0.476567,detectLogical_PV,sourcePhysical
+140730,108,-1,e-,3.70249,7.88856e-22,8.60714,7.8,2.63606,13.8712,detectLogical_PV,sourcePhysical
+141691,104,-1,e-,1.52193,1.80599e-21,4.07986,7.8,0.302213,1.14005,detectLogical_PV,sourcePhysical
+142331,122,-1,e-,2.52952,9.33368e-22,8.03705,7.8,2.77045,8.05579,detectLogical_PV,sourcePhysical
+143901,119,-1,e-,4.19152,4.28637e-22,2.88918,7.70477,1.31552,0.294264,detectLogical_PV,sourcePhysical
+147449,119,-1,e-,3.91475,6.70864e-22,7.6513,7.8,-0.995212,2.4972,detectLogical_PV,sourcePhysical
+150611,121,-1,e-,0.294849,4.12173e-21,6.56944,7.8,3.09049,5.68266,detectLogical_PV,sourcePhysical
+152519,109,-1,gamma,3.6598,0,4.38096,7.8,-0.774378,1.59713,detectLogical_PV,targetPhysical
+153891,112,-1,e-,2.51293,7.65186e-22,7.68517,7.8,-1.85412,3.54059,detectLogical_PV,worldPhysical
+155767,127,-1,e-,2.67167,1.5585e-21,9.99954,7.8,1.68781,15.9229,detectLogical_PV,sourcePhysical
+163762,129,-1,e-,2.2498,1.03854e-21,6.33966,7.8,-1.02156,1.26676,detectLogical_PV,sourcePhysical

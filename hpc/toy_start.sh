@@ -21,7 +21,7 @@ module purge
 source load_modules.sh
 
 # Run the application
-cd /scratch/ibs257/apxs/build2/
+cd /scratch/ibs257/apxs/build/
 start_time=`date +%s`
 mpiexec -n 30 ./apxs ./macros/toy_hpc.mac
 end_time=`date +%s`
