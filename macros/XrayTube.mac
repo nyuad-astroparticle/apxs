@@ -1,0 +1,25 @@
+/control/verbose 0
+/tracking/verbose 0
+
+/gps/source/clear
+/gps/source/add 1
+/gps/particle gamma
+
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre -0.67 0.5 0 cm
+/gps/pos/radius 0.1 mm
+/gps/pos/rot1 1 0 0
+/gps/pos/rot2 0 0 1
+
+/gps/ang/type beam1d
+/gps/direction 0 -1 0
+
+/gps/ene/type Arb
+/gps/ene/diffspec true
+/gps/hist/type arb 
+/gps/hist/file ./macros/GEANT4_ThMantleSpectrum_1024.txt
+
+/gps/hist/inter Lin
+
+/run/beamOn 1000
