@@ -25,7 +25,7 @@ file(COPY ${PROJECT_SOURCE_DIR}/geometry DESTINATION ${PROJECT_BINARY_DIR})
 
 # Create the appropriate definitions to the compiler
 add_compile_definitions(DETECTOR_GDML)
-add_compile_definitions(DETECTOR_GDML_FILENAME="${PROJECT_BINARY_DIR}/geometry/sdd.gdml")
+# add_compile_definitions(DETECTOR_GDML_FILENAME="${PROJECT_BINARY_DIR}/geometry/sdd.gdml")
 endif()
 
 # Load Geant4 and include its headers

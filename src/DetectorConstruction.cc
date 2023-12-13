@@ -43,7 +43,7 @@ as a detector
 #include "SensitiveDetector.hh"
 
 // Constructor
-DetectorConstruction::DetectorConstruction()
+DetectorConstruction::DetectorConstruction(G4String aFilename) : filename(aFilename)
 {
     // Initialize the Member Variables
     worldSize       = 20.0 * cm;
@@ -190,7 +190,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     // Read the file 
     // (the `false` flag turns off the check to make sure the GDML file is properly formatted)
-    parser->Read(DETECTOR_GDML_FILENAME,false);
+    
+    parser->Read(filename,false);
 
     // Extract the logical volume of the sensitive part of the detector
     detectLogical = parser->GetVolume("detectLogical");

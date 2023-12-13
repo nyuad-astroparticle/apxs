@@ -30,7 +30,7 @@ class DetectorMessenger;
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
     public:
-        DetectorConstruction();                     // Constructor
+        DetectorConstruction(G4String filename);                     // Constructor
         ~DetectorConstruction();                    // Destructor
 
         G4VPhysicalVolume* Construct() override;    // Create the full geometry assembly
@@ -47,6 +47,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     private:
         void CreateMaterials();                     // Defines the Simulation Materials that are not on NIST
 
+        G4String filename = "";
         G4double            worldSize;
         G4double            worldHeight;
         G4double            sourceDiameter;         // Parameters of the

@@ -35,6 +35,19 @@ loaded here
 #endif
 
 int main(int argc, char** argv) {
+
+    // Flags
+    G4String world = "./geometry/sdd.gdml";
+    G4String macro = "";
+
+    for (G4int i = 1; i < argc; i = i+2)
+    {
+        G4String flagValue = argv[i];
+        if (flagValue == "-g") world = argv[i+1];
+        if (flagValue == "-m") macro = argv[i+1];
+
+    }
+
     
     // Set up the simulation
     G4VisManager*   visManager  = nullptr;                                  // Controls what you see
@@ -55,7 +68,7 @@ int main(int argc, char** argv) {
     #endif
 
     // Configure how each run is initialized
-    DetectorConstruction* detectorConstruction = new DetectorConstruction();
+    DetectorConstruction* detectorConstruction = new DetectorConstruction(world);
     runManager->SetUserInitialization(new PhysicsList);
     runManager->SetUserInitialization(detectorConstruction);
     runManager->SetUserInitialization(new ActionInitialization(detectorConstruction));
@@ -73,7 +86,7 @@ int main(int argc, char** argv) {
 
     // Evaluate the arguments
     // If there are no arguments run in visualization mode
-    if (argc == 1){
+    if (macro == ""){
         ui          = new G4UIExecutive(argc,argv);
         visManager  = new G4VisExecutive();
         visManager->Initialise();
@@ -98,7 +111,7 @@ int main(int argc, char** argv) {
 
     // Otherwise Run in Batch mode by loading the macro file
     // provided in the argument
-    else if (argc > 1) {
+    else {
         // Don't print anything
         // Unless it's a serious error
         uiManager->ApplyCommand("/run/verbose 0");
@@ -107,7 +120,7 @@ int main(int argc, char** argv) {
         //Run the commands in batch mode
         for (int i=1;i<argc;i++){                               // For each input
             G4String command  = "/control/execute ";            // The command to execute it in Geant4
-            G4String filename = argv[1];                        // The input filename
+            G4String filename = macro;                        // The input filename
             uiManager->ApplyCommand(command + filename);        // Execute it
         }
     }
