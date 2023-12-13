@@ -3,7 +3,7 @@
 
 /gps/source/clear
 /gps/source/add 1
-/gps/particle gamma
+/gps/particle e-
 
 /gps/pos/type Plane
 /gps/pos/shape Circle
@@ -15,11 +15,8 @@
 /gps/ang/type beam1d
 /gps/direction 0 -1 0
 
-/gps/ene/type Arb
-/gps/ene/diffspec true
-/gps/hist/type arb 
-/gps/hist/file ./macros/GEANT4_ThMantleSpectrum_1024.txt
+/gps/ene/type Gauss
+/gps/ene/ezero 7 keV 
+/gps/ene/sigma 0.5 keV
 
-/gps/hist/inter Lin
-
-/run/beamOn 1000
+/run/beamOn 10
