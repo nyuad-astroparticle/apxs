@@ -1,0 +1,22 @@
+/control/verbose 0
+/tracking/verbose 0
+
+/gps/source/clear
+/gps/source/add 1
+/gps/particle e-
+
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 3 0.3 0 cm
+/gps/pos/radius 0.5 mm
+/gps/pos/rot1 0 1 0
+/gps/pos/rot2 0 0 1
+
+/gps/ang/type beam1d
+/gps/direction -1 0 0
+
+/gps/ene/type Gauss
+/gps/ene/ezero 7 keV 
+/gps/ene/sigma 0.5 keV
+
+/run/beamOn 100
