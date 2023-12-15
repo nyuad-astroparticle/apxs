@@ -125,39 +125,39 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     targetLogical->SetVisAttributes(targetColor);
 
 
-    // SOURCE --------------------------------------------------------------
-    G4Tubs*             sourceSolid     = new G4Tubs("sourceSolid", 0, sourceDiameter/2, sourceThickness/2, 0, 2*M_PI*rad);
-    G4VisAttributes*    sourceColor     = new G4VisAttributes(true,G4Color(0.80, 0.0, 0.0, 0.4));
-    sourceLogical                       = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
-    sourcePhysical                      = new G4PVPlacement(
-        sourceRotation,                 // Rotation Matrix
-        sourcePosition,                 // Position of center
-        sourceLogical,                  // Logical Volume to place
-        "sourcePhysical",               // Name of new Physical Volume
-        worldLogical,                   // Mother Volume Logical
-        false,                          // Boolean operation
-        0,                              // Copy Number
-        true                            // Check for Overlaps
-    );
-    sourceLogical->SetVisAttributes(sourceColor);
+    // // SOURCE --------------------------------------------------------------
+    // G4Tubs*             sourceSolid     = new G4Tubs("sourceSolid", 0, sourceDiameter/2, sourceThickness/2, 0, 2*M_PI*rad);
+    // G4VisAttributes*    sourceColor     = new G4VisAttributes(true,G4Color(0.80, 0.0, 0.0, 0.4));
+    // sourceLogical                       = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
+    // sourcePhysical                      = new G4PVPlacement(
+    //     sourceRotation,                 // Rotation Matrix
+    //     sourcePosition,                 // Position of center
+    //     sourceLogical,                  // Logical Volume to place
+    //     "sourcePhysical",               // Name of new Physical Volume
+    //     worldLogical,                   // Mother Volume Logical
+    //     false,                          // Boolean operation
+    //     0,                              // Copy Number
+    //     true                            // Check for Overlaps
+    // );
+    // sourceLogical->SetVisAttributes(sourceColor);
     
-    // SOURCE SUBSTRATE -----------------------------------------------------
-    G4Material*         subMaterial     = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
-    G4ThreeVector       subPosition     = G4ThreeVector(0.0, sourceThickness/2 + 0.8/2 * mm, 0.0) + sourcePosition;
-    G4Tubs*             subSolid        = new G4Tubs("sourceSolid", 0.0 , 8.0/2*mm, 0.8/2 * mm, 0, 2*M_PI*rad);
-    G4VisAttributes*    subColor        = new G4VisAttributes(true,G4Color(0.80, 0.5, 0.0, 0.4));
-    G4LogicalVolume*    subLogical      = new G4LogicalVolume(subSolid, subMaterial, "sourceLogical");
-    G4VPhysicalVolume*  subPhysical     = new G4PVPlacement(
-        sourceRotation,                 // Rotation Matrix
-        subPosition,                    // Position of center
-        subLogical,                     // Logical Volume to place
-        "subPhysical",                  // Name of new Physical Volume
-        worldLogical,                   // Mother Volume Logical
-        false,                          // Boolean operation
-        0,                              // Copy Number
-        true                            // Check for Overlaps
-    );
-    subLogical->SetVisAttributes(subColor);
+    // // SOURCE SUBSTRATE -----------------------------------------------------
+    // G4Material*         subMaterial     = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+    // G4ThreeVector       subPosition     = G4ThreeVector(0.0, sourceThickness/2 + 0.8/2 * mm, 0.0) + sourcePosition;
+    // G4Tubs*             subSolid        = new G4Tubs("sourceSolid", 0.0 , 8.0/2*mm, 0.8/2 * mm, 0, 2*M_PI*rad);
+    // G4VisAttributes*    subColor        = new G4VisAttributes(true,G4Color(0.80, 0.5, 0.0, 0.4));
+    // G4LogicalVolume*    subLogical      = new G4LogicalVolume(subSolid, subMaterial, "sourceLogical");
+    // G4VPhysicalVolume*  subPhysical     = new G4PVPlacement(
+    //     sourceRotation,                 // Rotation Matrix
+    //     subPosition,                    // Position of center
+    //     subLogical,                     // Logical Volume to place
+    //     "subPhysical",                  // Name of new Physical Volume
+    //     worldLogical,                   // Mother Volume Logical
+    //     false,                          // Boolean operation
+    //     0,                              // Copy Number
+    //     true                            // Check for Overlaps
+    // );
+    // subLogical->SetVisAttributes(subColor);
 
     // DETECTOR ------------------------------------------------------------
     // By default place a pure volume that is vacuum and simply tracks what particles go through it.
