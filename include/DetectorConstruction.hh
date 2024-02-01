@@ -43,6 +43,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         void setSourceMaterial(const char*);        // Finds the material given its string name
         void setSourceRotation(G4ThreeVector);      // Sets source rotation 90° perpendicular to a vector
         void setTargetMaterial(const char*);        // Finds the material given its string name
+        
+        // Create multiple sources
+        void createMultipleSources(G4int numberOfSources);
 
     private:
         void CreateMaterials();                     // Defines the Simulation Materials that are not on NIST
@@ -63,6 +66,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4LogicalVolume*    targetLogical;          // The logical Volume of the target
         DetectorMessenger*  detectorMessenger;      // The messenger Class used to change the materials and other parameters of the simulation
         G4NistManager*      nist;
+        G4LogicalVolume*    worldLogical;
 
         friend class PrimaryGeneratorAction;        // We allow PrimaryGeneratorAction to have access the variables of this class
 };
