@@ -40,7 +40,7 @@ class DetectorMessenger : public G4UImessenger
         G4UIdirectory*          directory;                      // Name of the command directory i.e. /apxs/<command>
         G4UIcmdWithAString*     setSourceMaterial;              // Command that changes the material of the source
         G4UIcmdWithAString*     setTargetMaterial;              // Command that changes the material of the source
-
+        G4UIcmdWithAString*     createMultipleSources;          // Add many disk source around at the same time
 };
 
 #endif

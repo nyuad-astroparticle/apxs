@@ -223,8 +223,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     #endif
 
-    createMultipleSources(6);
-
     return worldPhysical;
 
 }
@@ -450,7 +448,7 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
     G4LogicalVolume* diskLV = new G4LogicalVolume(diskSolid, sourceMaterial, "DiskLV");
 
     // Number of disks
-    int n = 6; // Number of copies
+    int n = numberOfSources; // Number of copies
     double radius = 2*cm; // Radius of the circle where disks will be placed
     double angleStep = 360.0 * deg / n;
 
@@ -472,6 +470,6 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
         G4Transform3D transform(rotm, position);
 
         // Place the copy
-        new G4PVPlacement(transform, diskLV, "DiskPV_" + std::to_string(i), worldLogical, false, i, true);
+        new G4PVPlacement(transform, diskLV, "DiskPV", worldLogical, false, i, true);
     }
 }
