@@ -44,8 +44,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         void setSourceRotation(G4ThreeVector);      // Sets source rotation 90° perpendicular to a vector
         void setTargetMaterial(const char*);        // Finds the material given its string name
         void setSourceMaterialAndName(const char*, G4String);
+        void setSourceVolume(G4String);
 
        G4LogicalVolume* GetDaughterLogicalByName(G4LogicalVolume*, const G4String & );
+       G4VPhysicalVolume* GetDaughterPhysicalByName(G4LogicalVolume*, const G4String & );
         
         // Create multiple sources
         void createMultipleSources(G4int numberOfSources);

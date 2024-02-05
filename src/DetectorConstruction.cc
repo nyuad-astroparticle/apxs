@@ -490,7 +490,7 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
 }
 
 // Function to find a daughter logical volume by name from a specific parent logical volume
-G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume* parentLogical, const G4String& daughterName) {
+G4VPhysicalVolume* DetectorConstruction::GetDaughterPhysicalByName(G4LogicalVolume* parentLogical, const G4String& daughterName) {
     // G4cout << "GetDaughterLogicalByName was called\n";
     if (!parentLogical) return nullptr; // Safety check
     // G4cout << "worldLogical was found\n";
@@ -501,10 +501,28 @@ G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume*
         // G4cout << daughterPhys->GetName() << "\n";
         if (daughterPhys && daughterPhys->GetName() == daughterName) {
             // G4cout << "the volume was found\n";
-            return daughterPhys->GetLogicalVolume();
+            return daughterPhys;
         }
     }
 
     // G4cout << "the volume was not found\n";
     return nullptr; // If not found
+}
+
+G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume* parentLogical, const G4String & daughterName)
+{
+    G4VPhysicalVolume* physVol = DetectorConstruction::GetDaughterPhysicalByName(parentLogical, daughterName);
+    
+    if (physVol)
+    {
+    return physVol->GetLogicalVolume();
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+void DetectorConstruction::setSourceVolume(G4String volumeName)
+{
 }
