@@ -39,6 +39,20 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
     setSourceMaterial->SetParameterName("Material",false);
     setSourceMaterial->AvailableForStates(G4State_PreInit,G4State_Idle);
     
+    setSourceMaterialAndName = new G4UIcommand("/apxs/setSourceMaterialAndName", this);
+    setSourceMaterialAndName->SetGuidance("Change the material of the source and set the source name.");
+    setSourceMaterialAndName->SetGuidance("This command requires two parameters: Material and SourceName.");
+
+    G4UIparameter* materialParam = new G4UIparameter("Material", 's', false);
+    materialParam->SetGuidance("Material name.");
+    setSourceMaterialAndName->SetParameter(materialParam);
+
+    G4UIparameter* sourceNameParam = new G4UIparameter("SourceName", 's', false);
+    sourceNameParam->SetGuidance("Source name.");
+    setSourceMaterialAndName->SetParameter(sourceNameParam);
+
+    setSourceMaterialAndName->AvailableForStates(G4State_PreInit, G4State_Idle);
+
     setTargetMaterial = new G4UIcmdWithAString("/apxs/setTargetMaterial",this);
     setTargetMaterial->SetGuidance("Change the material of the Target into any of the predefined ones.");
     setTargetMaterial->SetParameterName("Material",false);
@@ -60,6 +74,7 @@ DetectorMessenger::~DetectorMessenger()
     delete setTargetMaterial;
     delete createMultipleSources;
     delete directory;
+    delete setSourceMaterialAndName;
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -68,6 +83,16 @@ DetectorMessenger::~DetectorMessenger()
 void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String value)
 {
     // PARSING ---------------------------------------------------------------
+    if (command == setSourceMaterialAndName) {
+        std::istringstream iss(value);
+        G4String material, sourceName;
+        iss >> material >> sourceName;
+
+        // G4cout << "detector messenger has passed the command";
+
+        // Assuming your DetectorConstruction class has a method to handle both parameters
+        detectorConstruction->setSourceMaterialAndName(material, sourceName);
+    }
     if (command == setSourceMaterial){
         detectorConstruction->setSourceMaterial(value);
     }
