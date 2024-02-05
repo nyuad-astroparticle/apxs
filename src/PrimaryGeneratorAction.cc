@@ -42,10 +42,12 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
     // Get the material from Detector construction
-    G4String material = detectorConstruction->sourceMaterial->GetName();
-    setParticleFromMaterial(material);
 
-    G4ThreeVector pos = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, "DiskPV_0")->GetTranslation();
+    G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
+    G4ThreeVector pos = physVol->GetTranslation();
+
+    G4String material = physVol->GetLogicalVolume()->GetMaterial()->GetName();
+    setParticleFromMaterial(material);
 
     // // Select the number of particles to generate per event
     source->SetNumberOfParticles(1);
@@ -116,3 +118,8 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
         G4cerr << "The material selected for the source is not in the candidates. Please select another one" << G4endl;
     }
 }
+
+
+// things to do
+// add a command for setSourceVolume
+// use setParticleFromMaterial on my defined volumes

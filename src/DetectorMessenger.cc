@@ -38,6 +38,11 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
     setSourceMaterial->SetGuidance("Change the material of the source into any of the predefined ones.");
     setSourceMaterial->SetParameterName("Material",false);
     setSourceMaterial->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    setSourceVolume = new G4UIcmdWithAString("/apxs/setSourceVolume",this);
+    setSourceVolume->SetGuidance("Change which disk is the source");
+    setSourceVolume->SetParameterName("Disk volume",false);
+    setSourceVolume->AvailableForStates(G4State_PreInit,G4State_Idle);
     
     setSourceMaterialAndName = new G4UIcommand("/apxs/setSourceMaterialAndName", this);
     setSourceMaterialAndName->SetGuidance("Change the material of the source and set the source name.");
@@ -101,5 +106,9 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String value)
     }
     if (command == createMultipleSources){
         detectorConstruction->createMultipleSources(std::stoi(value));
+    }
+    if (command == setSourceVolume)
+    {
+        detectorConstruction->setSourceVolume(value);
     }
 }

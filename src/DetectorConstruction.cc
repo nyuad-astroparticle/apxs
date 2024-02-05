@@ -526,4 +526,5 @@ G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume*
 
 void DetectorConstruction::setSourceVolume(G4String volumeName)
 {
+    sourceVolume = volumeName;
 }
