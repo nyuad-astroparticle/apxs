@@ -409,6 +409,21 @@ void DetectorConstruction::setSourceMaterial(const char* name)
 
 }
 
+void DetectorConstruction::setSourceMaterialAndName(const char* materialName, G4String volumeName)
+{
+    // Assign the material
+    
+    G4Material* material = nist->FindOrBuildMaterial(materialName);
+    G4LogicalVolume * volume = DetectorConstruction::GetDaughterLogicalByName(worldLogical, volumeName);
+    
+    // If the logical volume already exists
+    if (volume) {
+        volume->SetMaterial(material);                 // Set the new Material
+        G4cout << volumeName << " is now made out of " << materialName << G4endl;   // Let the user know
+    }
+
+}
+
 void DetectorConstruction::setSourceRotation(G4ThreeVector normal)
 {
     // Remove the previous thing that was stored there
@@ -470,6 +485,26 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
         G4Transform3D transform(rotm, position);
 
         // Place the copy
-        new G4PVPlacement(transform, diskLV, "DiskPV", worldLogical, false, i, true);
+        new G4PVPlacement(transform, diskLV, "DiskPV_" + std::to_string(i), worldLogical, false, i, true);
     }
+}
+
+// Function to find a daughter logical volume by name from a specific parent logical volume
+G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume* parentLogical, const G4String& daughterName) {
+    // G4cout << "GetDaughterLogicalByName was called\n";
+    if (!parentLogical) return nullptr; // Safety check
+    // G4cout << "worldLogical was found\n";
+
+
+    for (G4int i = 0; i < parentLogical->GetNoDaughters(); ++i) {
+        G4VPhysicalVolume* daughterPhys = parentLogical->GetDaughter(i);
+        // G4cout << daughterPhys->GetName() << "\n";
+        if (daughterPhys && daughterPhys->GetName() == daughterName) {
+            // G4cout << "the volume was found\n";
+            return daughterPhys->GetLogicalVolume();
+        }
+    }
+
+    // G4cout << "the volume was not found\n";
+    return nullptr; // If not found
 }

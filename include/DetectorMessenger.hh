@@ -41,6 +41,7 @@ class DetectorMessenger : public G4UImessenger
         G4UIcmdWithAString*     setSourceMaterial;              // Command that changes the material of the source
         G4UIcmdWithAString*     setTargetMaterial;              // Command that changes the material of the source
         G4UIcmdWithAString*     createMultipleSources;          // Add many disk source around at the same time
+        G4UIcommand*            setSourceMaterialAndName;
 };
 
 #endif
