@@ -47,7 +47,7 @@ DetectorConstruction::DetectorConstruction(G4String aFilename) : filename(aFilen
 {
     // Initialize the Member Variables
     worldSize       = 20.0 * cm;
-    worldHeight     = 5.00 * cm;
+    worldHeight     = 10.00 * cm;
     sourceDiameter  = 6.00 * mm;
     sourceThickness = 0.24 * mm;
     sourceRotation  = nullptr;
@@ -58,7 +58,7 @@ DetectorConstruction::DetectorConstruction(G4String aFilename) : filename(aFilen
     targetPhysical  = nullptr;
     nist = G4NistManager::Instance();
     setSourcePosition(G4ThreeVector(-worldSize/30,worldHeight/8,0));
-    setSourceMaterial("G4_Cm");
+    // setSourceMaterial("G4_Cm");
     setTargetMaterial("G4_Au");
 
     // Create the messenger
@@ -92,7 +92,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_Galactic");
     G4Box*              worldSolid      = new G4Box("worldSolid", worldSize/2, worldHeight/2, worldSize/2);
     G4VisAttributes*    worldColor      = new G4VisAttributes(false,G4Color(0.0, 1, 0.0, 0.4));
-    G4LogicalVolume*    worldLogical    = new G4LogicalVolume(worldSolid,worldMaterial,"worldLogical");
+    worldLogical    = new G4LogicalVolume(worldSolid,worldMaterial,"worldLogical");
     G4VPhysicalVolume*  worldPhysical   = new G4PVPlacement(
         0,                              // No Rotation Matrix
         G4ThreeVector(0.,0.,0.),        // Position of center
@@ -125,39 +125,39 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     targetLogical->SetVisAttributes(targetColor);
 
 
-    // SOURCE --------------------------------------------------------------
-    G4Tubs*             sourceSolid     = new G4Tubs("sourceSolid", 0, sourceDiameter/2, sourceThickness/2, 0, 2*M_PI*rad);
-    G4VisAttributes*    sourceColor     = new G4VisAttributes(true,G4Color(0.80, 0.0, 0.0, 0.4));
-    sourceLogical                       = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
-    sourcePhysical                      = new G4PVPlacement(
-        sourceRotation,                 // Rotation Matrix
-        sourcePosition,                 // Position of center
-        sourceLogical,                  // Logical Volume to place
-        "sourcePhysical",               // Name of new Physical Volume
-        worldLogical,                   // Mother Volume Logical
-        false,                          // Boolean operation
-        0,                              // Copy Number
-        true                            // Check for Overlaps
-    );
-    sourceLogical->SetVisAttributes(sourceColor);
+    // // SOURCE --------------------------------------------------------------
+    // G4Tubs*             sourceSolid     = new G4Tubs("sourceSolid", 0, sourceDiameter/2, sourceThickness/2, 0, 2*M_PI*rad);
+    // G4VisAttributes*    sourceColor     = new G4VisAttributes(true,G4Color(0.80, 0.0, 0.0, 0.4));
+    // sourceLogical                       = new G4LogicalVolume(sourceSolid, sourceMaterial, "sourceLogical");
+    // sourcePhysical                      = new G4PVPlacement(
+    //     sourceRotation,                 // Rotation Matrix
+    //     sourcePosition,                 // Position of center
+    //     sourceLogical,                  // Logical Volume to place
+    //     "sourcePhysical",               // Name of new Physical Volume
+    //     worldLogical,                   // Mother Volume Logical
+    //     false,                          // Boolean operation
+    //     0,                              // Copy Number
+    //     true                            // Check for Overlaps
+    // );
+    // sourceLogical->SetVisAttributes(sourceColor);
     
-    // SOURCE SUBSTRATE -----------------------------------------------------
-    G4Material*         subMaterial     = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
-    G4ThreeVector       subPosition     = G4ThreeVector(0.0, sourceThickness/2 + 0.8/2 * mm, 0.0) + sourcePosition;
-    G4Tubs*             subSolid        = new G4Tubs("sourceSolid", 0.0 , 8.0/2*mm, 0.8/2 * mm, 0, 2*M_PI*rad);
-    G4VisAttributes*    subColor        = new G4VisAttributes(true,G4Color(0.80, 0.5, 0.0, 0.4));
-    G4LogicalVolume*    subLogical      = new G4LogicalVolume(subSolid, subMaterial, "sourceLogical");
-    G4VPhysicalVolume*  subPhysical     = new G4PVPlacement(
-        sourceRotation,                 // Rotation Matrix
-        subPosition,                    // Position of center
-        subLogical,                     // Logical Volume to place
-        "subPhysical",                  // Name of new Physical Volume
-        worldLogical,                   // Mother Volume Logical
-        false,                          // Boolean operation
-        0,                              // Copy Number
-        true                            // Check for Overlaps
-    );
-    subLogical->SetVisAttributes(subColor);
+    // // SOURCE SUBSTRATE -----------------------------------------------------
+    // G4Material*         subMaterial     = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+    // G4ThreeVector       subPosition     = G4ThreeVector(0.0, sourceThickness/2 + 0.8/2 * mm, 0.0) + sourcePosition;
+    // G4Tubs*             subSolid        = new G4Tubs("sourceSolid", 0.0 , 8.0/2*mm, 0.8/2 * mm, 0, 2*M_PI*rad);
+    // G4VisAttributes*    subColor        = new G4VisAttributes(true,G4Color(0.80, 0.5, 0.0, 0.4));
+    // G4LogicalVolume*    subLogical      = new G4LogicalVolume(subSolid, subMaterial, "sourceLogical");
+    // G4VPhysicalVolume*  subPhysical     = new G4PVPlacement(
+    //     sourceRotation,                 // Rotation Matrix
+    //     subPosition,                    // Position of center
+    //     subLogical,                     // Logical Volume to place
+    //     "subPhysical",                  // Name of new Physical Volume
+    //     worldLogical,                   // Mother Volume Logical
+    //     false,                          // Boolean operation
+    //     0,                              // Copy Number
+    //     true                            // Check for Overlaps
+    // );
+    // subLogical->SetVisAttributes(subColor);
 
     // DETECTOR ------------------------------------------------------------
     // By default place a pure volume that is vacuum and simply tracks what particles go through it.
@@ -409,6 +409,21 @@ void DetectorConstruction::setSourceMaterial(const char* name)
 
 }
 
+void DetectorConstruction::setSourceMaterialAndName(const char* materialName, G4String volumeName)
+{
+    // Assign the material
+    
+    G4Material* material = nist->FindOrBuildMaterial(materialName);
+    G4LogicalVolume * volume = DetectorConstruction::GetDaughterLogicalByName(worldLogical, volumeName);
+    
+    // If the logical volume already exists
+    if (volume) {
+        volume->SetMaterial(material);                 // Set the new Material
+        G4cout << volumeName << " is now made out of " << materialName << G4endl;   // Let the user know
+    }
+
+}
+
 void DetectorConstruction::setSourceRotation(G4ThreeVector normal)
 {
     // Remove the previous thing that was stored there
@@ -430,4 +445,86 @@ void DetectorConstruction::setTargetMaterial(const char* name)
         G4cout << "Target is now made out of " << name << G4endl;   // Let the user know
     }
 
+}
+
+void DetectorConstruction::createMultipleSources(G4int numberOfSources)
+{
+
+    // Define the disk shape
+    double innerRadius = 0.0;
+    double outerRadius = sourceDiameter;
+    double thickness = sourceThickness;
+    G4Tubs* diskSolid = new G4Tubs("Disk", innerRadius, outerRadius, thickness/2, 0.0, 360.0*deg);
+
+    // Iron
+    sourceMaterial = nist->FindOrBuildMaterial("G4_Fe");
+
+    // Create a logical volume
+
+    // Number of disks
+    int n = numberOfSources; // Number of copies
+    double radius = 2*cm; // Radius of the circle where disks will be placed
+    double angleStep = 360.0 * deg / n;
+
+    for (int i = 0; i < n; ++i) {
+        
+        G4LogicalVolume* diskLV = new G4LogicalVolume(diskSolid, sourceMaterial, "DiskLV" + std::to_string(i));
+        double angle = i * angleStep;
+        double x = radius * cos(angle);
+        double z = radius * sin(angle);
+        double y = 0.0;
+
+        // Create a rotation matrix
+        G4RotationMatrix rotm = G4RotationMatrix();
+        rotm.rotateX(90.0*deg); // Adjust this as needed
+        // rotm.rotateZ(angle);
+
+        // Combine rotation and translation
+        G4ThreeVector position(x, y, z);
+        G4ThreeVector shift(6.7*mm,12.5*mm,0);
+        position += shift;
+        G4Transform3D transform(rotm, position);
+
+        // Place the copy
+        new G4PVPlacement(transform, diskLV, "DiskPV_" + std::to_string(i), worldLogical, false, i, true);
+    }
+}
+
+// Function to find a daughter logical volume by name from a specific parent logical volume
+G4VPhysicalVolume* DetectorConstruction::GetDaughterPhysicalByName(G4LogicalVolume* parentLogical, const G4String& daughterName) {
+    // G4cout << "GetDaughterLogicalByName was called\n";
+    if (!parentLogical) return nullptr; // Safety check
+    // G4cout << "worldLogical was found\n";
+
+
+    for (G4int i = 0; i < parentLogical->GetNoDaughters(); ++i) {
+        G4VPhysicalVolume* daughterPhys = parentLogical->GetDaughter(i);
+        // G4cout << daughterPhys->GetName() << "\n";
+        if (daughterPhys && daughterPhys->GetName() == daughterName) {
+            // G4cout << "the volume was found\n";
+            return daughterPhys;
+        }
+    }
+
+    // G4cout << "the volume was not found\n";
+    return nullptr; // If not found
+}
+
+G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume* parentLogical, const G4String & daughterName)
+{
+    G4VPhysicalVolume* physVol = DetectorConstruction::GetDaughterPhysicalByName(parentLogical, daughterName);
+    
+    if (physVol)
+    {
+    return physVol->GetLogicalVolume();
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+void DetectorConstruction::setSourceVolume(G4String volumeName)
+{
+    sourceVolume = volumeName;
 }
