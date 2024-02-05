@@ -460,7 +460,6 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
     sourceMaterial = nist->FindOrBuildMaterial("G4_Fe");
 
     // Create a logical volume
-    G4LogicalVolume* diskLV = new G4LogicalVolume(diskSolid, sourceMaterial, "DiskLV");
 
     // Number of disks
     int n = numberOfSources; // Number of copies
@@ -468,6 +467,8 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
     double angleStep = 360.0 * deg / n;
 
     for (int i = 0; i < n; ++i) {
+        
+        G4LogicalVolume* diskLV = new G4LogicalVolume(diskSolid, sourceMaterial, "DiskLV" + std::to_string(i));
         double angle = i * angleStep;
         double x = radius * cos(angle);
         double z = radius * sin(angle);
