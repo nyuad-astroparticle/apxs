@@ -3,7 +3,10 @@
 /apxs/setSourceMaterialAndName G4_Cm DiskPV_1
 /apxs/setSourceMaterialAndName G4_Fe DiskPV_2
 
+/apxs/setTiltAngle 30
+
 /control/execute ./macros/vis.mac
+
 
 /apxs/setSourceVolume DiskPV_0
 /run/beamOn 1
