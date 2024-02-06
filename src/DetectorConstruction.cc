@@ -89,7 +89,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     CreateMaterials();
 
     // WORLD VOLUME --------------------------------------------------------
-    G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_Galactic");
+    G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_AIR");
     G4Box*              worldSolid      = new G4Box("worldSolid", worldSize/2, worldHeight/2, worldSize/2);
     G4VisAttributes*    worldColor      = new G4VisAttributes(false,G4Color(0.0, 1, 0.0, 0.4));
     worldLogical    = new G4LogicalVolume(worldSolid,worldMaterial,"worldLogical");
@@ -527,4 +527,13 @@ G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume*
 void DetectorConstruction::setSourceVolume(G4String volumeName)
 {
     sourceVolume = volumeName;
+    G4cout << volumeName + " is now the source Volume\n";
+}
+
+void DetectorConstruction::tiltTarget(G4int tiltAngle)
+{
+    G4RotationMatrix* rotX = new G4RotationMatrix;
+    rotX->rotateX(tiltAngle*deg);
+    targetPhysical->SetRotation(rotX);
+    G4cout << "Tilted the target about X axis by " + std::to_string(tiltAngle) + " degrees\n";
 }
