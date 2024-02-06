@@ -118,11 +118,16 @@ int main(int argc, char** argv) {
 		uiManager->ApplyCommand("/hits/verbose 0");
 
         //Run the commands in batch mode
-        for (int i=1;i<argc;i++){                               // For each input
-            G4String command  = "/control/execute ";            // The command to execute it in Geant4
-            G4String filename = macro;                        // The input filename
-            uiManager->ApplyCommand(command + filename);        // Execute it
-        }
+        // for (int i=1;i<argc;i++){                               // For each input
+        //     G4String command  = "/control/execute ";            // The command to execute it in Geant4
+        //     G4String filename = macro;                        // The input filename
+        //     uiManager->ApplyCommand(command + filename);        // Execute it
+        // }
+
+        G4String command  = "/control/execute ";            // The command to execute it in Geant4
+        G4String filename = macro;                        // The input filename
+        uiManager->ApplyCommand(command + filename);        // Execute it
+
     }
     #endif
 
