@@ -530,10 +530,12 @@ void DetectorConstruction::setSourceVolume(G4String volumeName)
     G4cout << volumeName + " is now the source Volume\n";
 }
 
-void DetectorConstruction::tiltTarget(G4int tiltAngle)
+void DetectorConstruction::tiltTarget(G4int x, G4int z)
 {
-    G4RotationMatrix* rotX = new G4RotationMatrix;
-    rotX->rotateX(tiltAngle*deg);
-    targetPhysical->SetRotation(rotX);
-    G4cout << "Tilted the target about X axis by " + std::to_string(tiltAngle) + " degrees\n";
+    G4RotationMatrix* rot = new G4RotationMatrix;
+    rot->rotateX(x*deg);
+    rot->rotateZ(z*deg);
+    targetPhysical->SetRotation(rot);
+    G4cout << "Tilted the target about X axis by " + std::to_string(x) + " degrees\n";
+    G4cout << "Tilted the target about Z axis by " + std::to_string(z) + " degrees\n";
 }

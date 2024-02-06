@@ -43,7 +43,7 @@ class DetectorMessenger : public G4UImessenger
         G4UIcmdWithAString*     createMultipleSources;          // Add many disk source around at the same time
         G4UIcommand*            setSourceMaterialAndName;
         G4UIcmdWithAString*     setSourceVolume;
-        G4UIcmdWithAString*     setTiltAngle;
+        G4UIcommand*            setTiltAngle;
 };
 
 #endif

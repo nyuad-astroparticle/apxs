@@ -73,10 +73,25 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
         createMultipleSources           ->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     // Tilt the target surface
-        setTiltAngle = new G4UIcmdWithAString("/apxs/setTiltAngle",this);
-        setTiltAngle->SetGuidance("Title the target below about x axis by this angle in degrees");
-        setTiltAngle->SetParameterName("Angle", false);
-        setTiltAngle->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+        setTiltAngle        = new G4UIcommand("/apxs/setTiltAngle", this);
+        setTiltAngle        ->SetGuidance("Title the target below about x and z axis by this angle in degrees.");
+        setTiltAngle        ->SetGuidance("This command requires two parameters: x angle and z angle.");
+
+        G4UIparameter* x    = new G4UIparameter("xAngle", 's', false);
+        x                   ->SetGuidance("Material name.");
+        setSourceMaterialAndName        ->SetParameter(x);
+
+        G4UIparameter* z  = new G4UIparameter("zAngle", 's', false);
+        z                 ->SetGuidance("Source name.");
+        setTiltAngle        ->SetParameter(z);
+
+        setTiltAngle        ->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+        // setTiltAngle = new G4UIcmdWithAString("/apxs/setTiltAngle",this);
+        // setTiltAngle->SetGuidance("Title the target below about x axis by this angle in degrees");
+        // setTiltAngle->SetParameterName("Angle", false);
+        // setTiltAngle->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 }
 
@@ -102,10 +117,6 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String value)
         std::istringstream iss(value);
         G4String material, sourceName;
         iss >> material >> sourceName;
-
-        // G4cout << "detector messenger has passed the command";
-
-        // Assuming your DetectorConstruction class has a method to handle both parameters
         detectorConstruction->setSourceMaterialAndName(material, sourceName);
     }
     if (command == setSourceMaterial){
@@ -123,6 +134,11 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String value)
     }
     if (command == setTiltAngle)
     {
-        detectorConstruction->tiltTarget(std::stoi(value));
+        // detectorConstruction->tiltTarget(std::stoi(value));
+
+        std::istringstream iss(value);
+        G4String x, z;
+        iss >> x >> z;
+        detectorConstruction->tiltTarget(std::stoi(x), std::stoi(z));
     }
 }
