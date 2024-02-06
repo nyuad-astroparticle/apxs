@@ -14,7 +14,7 @@ You can view and update milestones, etc. [here](https://github.com/nyuad-astropa
 Here is how to do certain things:
 
 1. [Guide to Compile](#compiling)\
-	The Guide will help you compile on the your computer, on the `arneodolab HPC`, or `Jubail`.
+	The Guide will help you compile on your computer, on the `arneodolab HPC`, or `Jubail`.
 2. [Guide to Run](#running-the-simulation)
 	- [With Visualization](#interactive-mode)
 	- [Batch Mode](#batch-mode)
