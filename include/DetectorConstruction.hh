@@ -45,7 +45,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         void setTargetMaterial(const char*);        // Finds the material given its string name
         void setSourceMaterialAndName(const char*, G4String);
         void setSourceVolume(G4String);
-        void tiltTarget(G4int);
+        void tiltTarget(G4int, G4int);
+        void atmosphere(G4String);
 
        G4LogicalVolume* GetDaughterLogicalByName(G4LogicalVolume*, const G4String & );
        G4VPhysicalVolume* GetDaughterPhysicalByName(G4LogicalVolume*, const G4String & );

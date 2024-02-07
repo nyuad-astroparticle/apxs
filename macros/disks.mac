@@ -1,18 +1,16 @@
 /apxs/createMultipleSources 3
-/apxs/setSourceMaterialAndName G4_Am DiskPV_0
-/apxs/setSourceMaterialAndName G4_Cm DiskPV_1
-/apxs/setSourceMaterialAndName G4_Fe DiskPV_2
+/apxs/sourceMaterialAndName G4_Am DiskPV_0
+/apxs/sourceMaterialAndName G4_Cm DiskPV_1
+/apxs/sourceMaterialAndName G4_Fe DiskPV_2
 
-/apxs/setTiltAngle 30
+/apxs/tiltAngle 30 10
+/apxs/atmo CO2
 
-/control/execute ./macros/vis.mac
+/apxs/activeVolume DiskPV_0
+/run/beamOn 1000
 
+/apxs/activeVolume DiskPV_1
+/run/beamOn 1000
 
-/apxs/setSourceVolume DiskPV_0
-/run/beamOn 1
-
-/apxs/setSourceVolume DiskPV_1
-/run/beamOn 1
-
-/apxs/setSourceVolume DiskPV_2
-/run/beamOn 1
+/apxs/activeVolume DiskPV_2
+/run/beamOn 1000

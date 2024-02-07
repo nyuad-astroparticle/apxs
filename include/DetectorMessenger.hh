@@ -38,12 +38,13 @@ class DetectorMessenger : public G4UImessenger
         DetectorConstruction*   detectorConstruction;           // Detector construction object we are managing
 
         G4UIdirectory*          directory;                      // Name of the command directory i.e. /apxs/<command>
-        G4UIcmdWithAString*     setSourceMaterial;              // Command that changes the material of the source
-        G4UIcmdWithAString*     setTargetMaterial;              // Command that changes the material of the source
+        // G4UIcmdWithAString*     sourceMaterial;              // Command that changes the material of the source
+        G4UIcmdWithAString*     targetMaterial;              // Command that changes the material of the source
         G4UIcmdWithAString*     createMultipleSources;          // Add many disk source around at the same time
-        G4UIcommand*            setSourceMaterialAndName;
-        G4UIcmdWithAString*     setSourceVolume;
-        G4UIcmdWithAString*     setTiltAngle;
+        G4UIcommand*            sourceMaterialAndName;
+        G4UIcmdWithAString*     activeVolume;
+        G4UIcommand*            tiltAngle;
+        G4UIcmdWithAString*     atmo;
 };
 
 #endif
