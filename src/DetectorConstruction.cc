@@ -37,6 +37,7 @@ as a detector
 
 // Some STL Headers that are useful
 #include <vector>
+#include <map>
 
 // Other custom relevant headers
 #include "DetectorMessenger.hh"
@@ -451,13 +452,32 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
 {
 
     // Define the disk shape
-    double innerRadius = 0.0;
-    double outerRadius = sourceDiameter;
-    double thickness = sourceThickness;
-    G4Tubs* diskSolid = new G4Tubs("Disk", innerRadius, outerRadius, thickness/2, 0.0, 360.0*deg);
-
+    G4double    innerRadius = 0.0;
+    G4double    outerRadius = sourceDiameter/2;
+    G4double    thickness = sourceThickness;
+    G4Tubs*     diskSolid = new G4Tubs("Disk", innerRadius, outerRadius, thickness/2, 0.0, 360.0*deg);
     // Iron
     sourceMaterial = nist->FindOrBuildMaterial("G4_Fe");
+
+    // SOURCE SUBSTRATE -----------------------------------------------------
+    G4Material*         subMaterial     = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+    G4double            subDiameter     = sourceDiameter;
+    G4double            subThickness    = sourceThickness;
+    G4Tubs*             subSolid        = new G4Tubs("sourceSolid", 0.0 , subDiameter/2, subThickness/2, 0, 2*M_PI*rad);
+    G4VisAttributes*    subColor        = new G4VisAttributes(true,G4Color(0.80, 0.5, 0.0, 0.4));
+    G4LogicalVolume*    subLogical      = new G4LogicalVolume(subSolid, subMaterial, "sourceLogical");
+    subLogical->SetVisAttributes(subColor);
+    
+    // Beryllium window 
+    G4Material*         BeMaterial     = nist->FindOrBuildMaterial("G4_Be");
+    G4double            BeDiameter     = sourceDiameter;
+    G4double            BeThickness    = sourceThickness;
+    G4Tubs*             BeSolid        = new G4Tubs("sourceSolid", 0.0 , BeDiameter/2, BeThickness/2, 0, 2*M_PI*rad);
+    G4VisAttributes*    BeColor        = new G4VisAttributes(true,G4Color(0.0, 0.5, 0.5, 0.4));
+    G4LogicalVolume*    BeLogical      = new G4LogicalVolume(BeSolid, BeMaterial, "sourceLogical");
+    BeLogical->SetVisAttributes(BeColor);
+    
+
 
     // Create a logical volume
 
@@ -486,7 +506,17 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
         G4Transform3D transform(rotm, position);
 
         // Place the copy
-        new G4PVPlacement(transform, diskLV, "DiskPV_" + std::to_string(i), worldLogical, false, i, true);
+        new G4PVPlacement(transform, diskLV, "DiskPV_" + std::to_string(i), worldLogical, false, 0, true);
+
+        // Substrate
+            G4ThreeVector subPosition = G4ThreeVector(0.0, sourceThickness/2 + subThickness/2, 0.0) + position;
+            G4Transform3D transformSub(rotm, subPosition);        
+            new G4PVPlacement(transformSub,subLogical,"subPhysical_" + std::to_string(i),worldLogical,false,i,true);
+
+        // Beryllium
+            G4ThreeVector BePosition = position - G4ThreeVector(0,BeThickness/2 + sourceThickness/2,0);
+            G4Transform3D transformBe(rotm, BePosition);
+            new G4PVPlacement(transformBe, BeLogical, "BePhysics_" + std::to_string(i),worldLogical,false,i,true);
     }
 }
 
@@ -538,4 +568,17 @@ void DetectorConstruction::tiltTarget(G4int x, G4int z)
     targetPhysical->SetRotation(rot);
     G4cout << "Tilted the target about X axis by " + std::to_string(x) + " degrees\n";
     G4cout << "Tilted the target about Z axis by " + std::to_string(z) + " degrees\n";
+}
+
+void DetectorConstruction::atmosphere(G4String materialName)
+{
+    std::map <G4String, G4String> dictionary; 
+
+    dictionary["CO2"]="G4_CARBON_DIOXIDE";
+    dictionary["AIR"]="G4_AIR";
+
+    G4Material* material = nist->FindOrBuildMaterial(dictionary[materialName]);
+    worldLogical->SetMaterial(material);
+
+    G4cout << "Atmosphere has been changed to " << dictionary[materialName] << "\n";
 }
