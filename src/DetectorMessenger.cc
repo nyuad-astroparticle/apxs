@@ -89,11 +89,20 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
         tiltAngle        ->AvailableForStates(G4State_PreInit, G4State_Idle);
 
     // Choose atmosphere 
-        atmo = new G4UIcmdWithAString("/apxs/atmo",this);
-        atmo->SetGuidance("Choose your atmosphere: AIR, CO2, ...");
-        atmo->SetParameterName("Material", false);
-        atmo->AvailableForStates(G4State_PreInit, G4State_Idle);
+// Choose atmosphere with two components
+        atmo = new G4UIcommand("/apxs/atmo", this);
+        atmo->SetGuidance("Choose your atmosphere by specifying two components.");
+        atmo->SetGuidance("This command requires two parameters: atmosphereName and pressure. For Mars pressure value is irrelevant");
 
+        G4UIparameter* comp1 = new G4UIparameter("atmosphereName", 's', false);
+        comp1->SetGuidance("Atmosphere to select: AIR, CO2, Vacuum, and Mars.");
+        atmo->SetParameter(comp1);
+
+        G4UIparameter* comp2 = new G4UIparameter("pressure", 's', false);
+        comp2->SetGuidance("Pressure in millibars");
+        atmo->SetParameter(comp2);
+
+        atmo->AvailableForStates(G4State_PreInit, G4State_Idle);
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -142,10 +151,13 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String value)
         std::istringstream iss(value);
         G4String x, z;
         iss >> x >> z;
-        detectorConstruction->tiltTarget(std::stoi(x), std::stoi(z));
+        detectorConstruction->tiltTarget(std::stod(x), std::stod(z));
     }
     if (command == atmo)
     {
-        detectorConstruction->atmosphere(value);
+        std::istringstream iss(value);
+        G4String atmosphereName, pressure;
+        iss >> atmosphereName >> pressure;
+        detectorConstruction->atmosphere(atmosphereName, std::stod(pressure));
     }
 }

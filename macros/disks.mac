@@ -4,13 +4,15 @@
 /apxs/sourceMaterialAndName G4_Fe DiskPV_2
 
 /apxs/tiltAngle 30 10
-/apxs/atmo CO2
 
+/apxs/atmo Air 0.001
 /apxs/activeVolume DiskPV_0
-/run/beamOn 1000
+/run/beamOn 100
 
+/apxs/atmo Vacuum 0
 /apxs/activeVolume DiskPV_1
-/run/beamOn 1000
+/run/beamOn 100
 
+/apxs/atmo Mars 0
 /apxs/activeVolume DiskPV_2
-/run/beamOn 1000
+/run/beamOn 100

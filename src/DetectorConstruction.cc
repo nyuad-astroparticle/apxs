@@ -420,7 +420,7 @@ void DetectorConstruction::setSourceMaterialAndName(const char* materialName, G4
     // If the logical volume already exists
     if (volume) {
         volume->SetMaterial(material);                 // Set the new Material
-        G4cout << volumeName << " is now made out of " << materialName << G4endl;   // Let the user know
+        G4cout << volume->GetName() << " is now made out of " << material->GetName() << G4endl;   // Let the user know
     }
 
 }
@@ -560,7 +560,7 @@ void DetectorConstruction::setSourceVolume(G4String volumeName)
     G4cout << volumeName + " is now the source Volume\n";
 }
 
-void DetectorConstruction::tiltTarget(G4int x, G4int z)
+void DetectorConstruction::tiltTarget(G4double x, G4double z)
 {
     G4RotationMatrix* rot = new G4RotationMatrix;
     rot->rotateX(x*deg);
@@ -570,15 +570,86 @@ void DetectorConstruction::tiltTarget(G4int x, G4int z)
     G4cout << "Tilted the target about Z axis by " + std::to_string(z) + " degrees\n";
 }
 
-void DetectorConstruction::atmosphere(G4String materialName)
+void DetectorConstruction::atmosphere(G4String atmosphereName, G4double pressure_mBar)
 {
-    std::map <G4String, G4String> dictionary; 
+    G4double P = pressure_mBar * 100 * pascal;
+    G4double R = 8.314 * joule/mole/kelvin; // Universal gas constant
+    G4double T = 293.0 * kelvin;
 
-    dictionary["CO2"]="G4_CARBON_DIOXIDE";
-    dictionary["AIR"]="G4_AIR";
+    G4Material* CO2 = nist->FindOrBuildMaterial("G4_CARBON_DIOXIDE");
+    G4Material* Ar  = nist->FindOrBuildMaterial("G4_Ar");
+    G4Material* AIR = nist->FindOrBuildMaterial("G4_AIR");
 
-    G4Material* material = nist->FindOrBuildMaterial(dictionary[materialName]);
-    worldLogical->SetMaterial(material);
+    G4Element* N = nist->FindOrBuildElement("N");
+    G4Element* O = nist->FindOrBuildElement("O");
 
-    G4cout << "Atmosphere has been changed to " << dictionary[materialName] << "\n";
+    G4double fractionmass;
+
+    std::map <G4String, G4Material*> dictionary; 
+
+    // AIR
+
+    if (atmosphereName == "Air")
+    {
+
+        G4double M = 28.97 * g/mole;
+
+        // Calculate the density using the ideal gas law
+        G4double density = (P * M) / (R * T);
+
+        G4Material* air = new G4Material("Air", density, 1, kStateGas, T, P);
+        air->AddMaterial(AIR, fractionmass=1.0);
+        dictionary["Air"]       = air;
+    }
+
+    // CO2
+    if (atmosphereName == "CO2")
+    {
+        G4double M_CO2 = 44.01 * g/mole;
+
+        // Calculate the density of CO2 using the ideal gas law
+        G4double density_CO2 = (P * M_CO2) / (R * T);
+
+        // Define CO2 as a material
+        G4Material* customCO2 = new G4Material("CarbonDioxide", density_CO2, 1, kStateGas, T, P);
+
+        // Add elements to CO2 material
+        customCO2->AddMaterial(CO2, fractionmass=1.0);
+        dictionary["CO2"]       = customCO2;
+    }
+
+    // Vacuum
+    if (atmosphereName == "Vacuum")
+    {
+        G4Material* vacuum = nist->FindOrBuildMaterial("G4_Galactic");
+        dictionary["Vacuum"]    = vacuum;
+    }
+    // Mars
+
+    if (atmosphereName == "Mars")
+    {
+
+        G4double MarsP = 652.0 * pascal; 
+        G4double MarsT = 210.0 * kelvin;
+        G4double MarsDensity = 0.020 * kg/m3;
+
+        // Constants for the composition of Mars' atmosphere
+        G4double fractionCO2 = 0.9532 + 0.0025;
+        G4double fractionN2 = 0.027;
+        G4double fractionAr = 0.016;
+        G4double fractionO2 = 0.0013;
+
+        // Define Mars atmosphere as a material
+        G4Material* marsAtmosphere = new G4Material("MarsAtmosphere", MarsDensity, 4, kStateGas, MarsT, MarsP);
+        marsAtmosphere->AddMaterial (CO2,   fractionmass = fractionCO2);
+        marsAtmosphere->AddMaterial (Ar,    fractionmass = fractionAr);
+        marsAtmosphere->AddElement  (N,     fractionmass = fractionN2);
+        marsAtmosphere->AddElement  (O,     fractionmass = fractionO2);
+        dictionary["Mars"]      = marsAtmosphere;
+    }
+
+    G4Material* material    = dictionary[atmosphereName];
+    worldLogical            ->SetMaterial(material);
+
+    G4cout << "Atmosphere has been changed to " << dictionary[atmosphereName]->GetName() << " with pressure " << material->GetPressure()/100/pascal << "millibar" <<"\n";
 }
