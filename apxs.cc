@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
     for (int i = 1; i < argc; i++) {
         if (std::string(argv[i]) == "-m" && i + 1 < argc) {
             // Found the macro file flag, prepare newArgv for MPI
-            newArgv[newArgc++] = argv[i];     // Include "-m"
+            // newArgv[newArgc++] = argv[i];     // Include "-m"
             newArgv[newArgc++] = argv[i + 1]; // Include the macro file path
             break; // Assuming only one macro file is specified
         }
