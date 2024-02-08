@@ -1,0 +1,21 @@
+# A test of pigeonite basalt in vaccum with Cd to Fe ratio of 9 to 100
+
+/apxs/createMultipleSources 4
+/apxs/sourceMaterialAndName G4_Cd DiskPV_0
+/apxs/sourceMaterialAndName G4_Cd DiskPV_2
+
+/apxs/targetMaterial PigeoniteBasalt
+
+/apxs/atmo Mars 0
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 36000000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 400000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 36000000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 400000000
