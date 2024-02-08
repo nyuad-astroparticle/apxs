@@ -47,7 +47,22 @@ int main(int argc, char** argv) {
         if (flagValue == "-m") macro = argv[i+1];
 
     }
+    
+    // Variables to hold the new argc and argv for MPI
+    int newArgc = 1; // Start with 1 to include the program name
+    char* newArgv[3]; // Assuming a maximum of two additional arguments: flag and its value
 
+    newArgv[0] = argv[0]; // The program name remains unchanged
+
+    // Search for the macro file flag and its value
+    for (int i = 1; i < argc; i++) {
+        if (std::string(argv[i]) == "-m" && i + 1 < argc) {
+            // Found the macro file flag, prepare newArgv for MPI
+            newArgv[newArgc++] = argv[i];     // Include "-m"
+            newArgv[newArgc++] = argv[i + 1]; // Include the macro file path
+            break; // Assuming only one macro file is specified
+        }
+    }
     
     // Set up the simulation
     G4VisManager*   visManager  = nullptr;                                  // Controls what you see
@@ -55,7 +70,7 @@ int main(int argc, char** argv) {
 
     // i.e. Configure the Run
     #ifdef MPI_ENABLE
-    G4MPImanager*   mpiManager  = new G4MPImanager(argc, argv);             // Creates Manager for contacting the OpenMPI library
+    G4MPImanager*   mpiManager  = new G4MPImanager(newArgc, newArgv);             // Creates Manager for contacting the OpenMPI library
     G4MPIsession*   ui          = mpiManager->GetMPIsession();              // Manages the UI in Multiprocessing mode
     G4RunManager*   runManager  = new G4RunManager();
 
