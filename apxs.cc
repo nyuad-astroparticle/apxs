@@ -37,7 +37,7 @@ loaded here
 int main(int argc, char** argv) {
 
     // Flags
-    G4String world = "./geometry/sdd.gdml";
+    G4String world = "./geometry/sdd-C1.gdml";
     G4String macro = "";
 
     for (G4int i = 1; i < argc; i = i+2)

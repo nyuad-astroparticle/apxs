@@ -1,0 +1,23 @@
+# We want to test the sim capabilities using Mart Atmosphere
+# Test C1 window first
+
+/apxs/createMultipleSources 4
+/apxs/sourceMaterialAndName G4_Cd DiskPV_0
+/apxs/sourceMaterialAndName G4_Cd DiskPV_2
+
+/apxs/targetMaterial FerroanNoriticAnorthosite
+
+/apxs/atmo Mars 0
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 180000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 2000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 180000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 2000000
+
