@@ -102,7 +102,7 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
     // COBALT --------------------------------------------------------------
     else if (!material.compare("G4_Co"))
     {
-        G4ParticleDefinition* cobalt60 = G4IonTable::GetIonTable()->GetIon(27, 60, 0);
+        G4ParticleDefinition* cobalt60 = G4IonTable::GetIonTable()->GetIon(27, 57, 0);
         source->SetParticleDefinition(cobalt60);
     }
 
