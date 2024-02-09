@@ -1,12 +1,12 @@
-# This macro is to test Cobalt 60 sources after finding polatom. 
+# This macro is to test Fe55 and Co60 in 200:37
 # The material is set to PigeoniteBasalt
 # 1st test conducted on Feb 9, 2024
 
 
 /apxs/createMultipleSources 4
-/apxs/sourceMaterialAndName G4_Co DiskPV_0
+/apxs/sourceMaterialAndName G4_Fe DiskPV_0
 /apxs/sourceMaterialAndName G4_Co DiskPV_1
-/apxs/sourceMaterialAndName G4_Co DiskPV_2
+/apxs/sourceMaterialAndName G4_Fe DiskPV_2
 /apxs/sourceMaterialAndName G4_Co DiskPV_3
 
 /apxs/targetMaterial PigeoniteBasalt
@@ -14,13 +14,13 @@
 /apxs/atmo Vacuum 0
 
 /apxs/activeVolume DiskPV_0
-/run/beamOn 25000000
+/run/beamOn 20000000
 
 /apxs/activeVolume DiskPV_1
-/run/beamOn 25000000
+/run/beamOn 3700000
 
 /apxs/activeVolume DiskPV_2
-/run/beamOn 25000000
+/run/beamOn 20000000
 
 /apxs/activeVolume DiskPV_3
-/run/beamOn 25000000
+/run/beamOn 3700000
