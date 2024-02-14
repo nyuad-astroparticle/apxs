@@ -15,6 +15,9 @@
 
         <!-- Translation for sensor -->
         <position name="DetectorPosition" unit="mm" x="0" y="0" z="-1.3" />
+
+        <position name="XrayTubePosition" unit="cm" x="0.0" y="0" z="0.4" />
+        <rotation name="XrayTubeRotation" unit="deg" x="0" y="45" z="0" />
     </define>
 
     <materials>
@@ -144,6 +147,11 @@
             </physvol>
             <physvol>
                 <volumeref ref="sddCaseLogical" />
+            </physvol>
+            <physvol>
+                <file name="./geometry/XrayTube.gdml" />
+                <positionref ref="XrayTubePosition"/>
+                <rotationref ref="XrayTubeRotation"/>
             </physvol>
         </volume>
     </structure>

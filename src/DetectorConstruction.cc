@@ -90,7 +90,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     CreateMaterials();
 
     // WORLD VOLUME --------------------------------------------------------
-    G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_AIR");
+    G4Material*         worldMaterial   = nist->FindOrBuildMaterial("G4_Galactic");
     G4Box*              worldSolid      = new G4Box("worldSolid", worldSize/2, worldHeight/2, worldSize/2);
     G4VisAttributes*    worldColor      = new G4VisAttributes(false,G4Color(0.0, 1, 0.0, 0.4));
     worldLogical    = new G4LogicalVolume(worldSolid,worldMaterial,"worldLogical");

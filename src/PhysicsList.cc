@@ -52,4 +52,5 @@ void PhysicsList::ConstructProcess()
 	emParameters->SetFluo(true);
 	emParameters->SetPixe(true);
 	emParameters->SetAuger(true);
+	emParameters->SetBremsstrahlungTh(true);
 }

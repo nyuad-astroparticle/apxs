@@ -8,24 +8,24 @@
     </materials>
 
     <solids>
-        <box name="solidXrayTube"   x="0.5" y="0.5" z="0.1"   lunit="cm"/>
-        <!-- <box name="solidTubeTarget" x="0.5" y="0.5" z="0.1" lunit="mm"/> -->
+        <box name="solidXrayTube"   x="0.5" y="0.5" z="0.05"   lunit="cm"/>
+        <box name="solidTubeTarget" x="0.5" y="0.5" z="0.05" lunit="mm"/>
     </solids>
 
     <structure>
         
-        <!-- <volume name="logicTubeTarget">
+        <volume name="logicTubeTarget">
             <materialref ref="G4_W"/>
             <solidref ref="solidTubeTarget"/>
-        </volume> -->
+        </volume>
 
         <volume name="logicXrayTube">
             <materialref ref="G4_W"/>
             <solidref ref="solidXrayTube"/>
 
-            <!-- <physvol name="physTubeTarget">
+            <physvol name="physTubeTarget">
                 <volumeref ref="logicTubeTarget"/>     
-            </physvol> -->
+            </physvol>
         
         </volume>
 
