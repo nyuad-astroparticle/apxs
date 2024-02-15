@@ -2,11 +2,13 @@
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
 
     <define>
-        <variable name="XrayTube"           value="1"/>
-        <quantity name="width"              value="5"       unit="mm"/>
-        <quantity name="windowThickness"    value="125"     unit="um"/>
-        <quantity name="anodeThickness"     value="1"       unit="um"/>
-        <position name="anodePosition"      x="windowThickness/2 + anodeThickness/2"/>
+        <variable name="XrayTube"               value="1"/>
+        <quantity name="width"                  value="5"       unit="mm"/>
+        <quantity name="windowThickness"        value="125"     unit="um"/>
+        <quantity name="anodeThickness"         value="1"       unit="um"/>
+        <quantity name="XrayDetectorThickness"  value="1"       unit="mm"/>
+        <position name="anodePosition"          x="windowThickness/2 + anodeThickness/2"/>
+        <position name="XrayDetectorPosition"   x="-windowThickness/2-XrayDetectorThickness/2"/>
         
     </define>
 
@@ -14,9 +16,10 @@
     </materials>
 
     <solids>
-        <box name="solidXrayTube"   x="windowThickness + anodeThickness"    y="width"      z="width"/>
-        <box name="solidWindow" x="windowThickness"                     y="width"      z="width"/>
-        <box name="solidAnode"      x="anodeThickness"                      y="width"      z="width"/>
+        <box name="solidXrayTube"       x="windowThickness + anodeThickness + XrayDetectorThickness"    y="width"      z="width"/>
+        <box name="solidWindow"         x="windowThickness"                                             y="width"      z="width"/>
+        <box name="solidAnode"          x="anodeThickness"                                              y="width"      z="width"/>
+        <box name="solidXrayDetector"   x="XrayDetectorThickness"                                       y="width"      z="width"/>
     </solids>
 
     <structure>
@@ -31,6 +34,11 @@
             <solidref ref="solidAnode"/>
         </volume>
 
+        <volume name="logicXrayDetector">
+            <materialref ref="G4_Galactic"/>
+            <solidref ref="solidXrayDetector"/>
+        </volume>
+
         <volume name="logicXrayTube">
             <materialref ref="G4_Galactic"/>
             <solidref ref="solidXrayTube"/>
@@ -42,6 +50,11 @@
             <physvol name="physAnode">
                 <volumeref ref="logicAnode"/>
                 <positionref ref="anodePosition"/>
+            </physvol>
+
+            <physvol name="physXrayDetector">
+                <volumeref ref="logicXrayDetector"/>
+                <positionref ref="XrayDetectorPosition"/>
             </physvol>
         
         </volume>
