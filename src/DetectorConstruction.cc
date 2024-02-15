@@ -233,6 +233,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         G4VPhysicalVolume * physXrayTube = new G4PVPlacement(0, G4ThreeVector(0,0.9 * cm,0), logicXrayTube, "physXrayTube" , worldLogical ,false, 0, true);
         logicXrayTube->SetVisAttributes(G4Color(1,1,1,0));
         parser->GetVolume("logicAnode")->SetVisAttributes(G4Color(0,1,0,1));
+        parser->GetVolume("logicXrayDetector")->SetVisAttributes(G4Color(1,0,0,1));
     }
     #endif
 
@@ -258,7 +259,7 @@ void DetectorConstruction::ConstructSDandField()
 
     if (logicXrayTube)
     {
-        SetSensitiveDetector(GetDaughterLogicalByName(logicXrayTube, "physWindow"), detector);
+        SetSensitiveDetector(GetDaughterLogicalByName(logicXrayTube, "physXrayDetector"), detector);
     }
 
 }
