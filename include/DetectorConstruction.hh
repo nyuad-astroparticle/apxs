@@ -74,7 +74,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         DetectorMessenger*  detectorMessenger;      // The messenger Class used to change the materials and other parameters of the simulation
         G4NistManager*      nist;
         G4LogicalVolume*    worldLogical;
-        G4String            sourceVolume;           
+        G4String            sourceVolume;
+        G4LogicalVolume*    logicXrayTube = nullptr;        
 
         friend class PrimaryGeneratorAction;        // We allow PrimaryGeneratorAction to have access the variables of this class
 };

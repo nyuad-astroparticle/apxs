@@ -4,9 +4,9 @@
     <define>
         <variable name="XrayTube"           value="1"/>
         <quantity name="width"              value="5"       unit="mm"/>
-        <quantity name="targetThickness"    value="125"     unit="um"/>
+        <quantity name="windowThickness"    value="125"     unit="um"/>
         <quantity name="anodeThickness"     value="1"       unit="um"/>
-        <position name="anodePosition"      x="targetThickness/2 + anodeThickness/2"/>
+        <position name="anodePosition"      x="windowThickness/2 + anodeThickness/2"/>
         
     </define>
 
@@ -14,16 +14,16 @@
     </materials>
 
     <solids>
-        <box name="solidXrayTube"   x="targetThickness + anodeThickness"    y="width"      z="width"/>
-        <box name="solidTubeTarget" x="targetThickness"                     y="width"      z="width"/>
+        <box name="solidXrayTube"   x="windowThickness + anodeThickness"    y="width"      z="width"/>
+        <box name="solidWindow" x="windowThickness"                     y="width"      z="width"/>
         <box name="solidAnode"      x="anodeThickness"                      y="width"      z="width"/>
     </solids>
 
     <structure>
         
-        <volume name="logicTubeTarget">
+        <volume name="logicWindow">
             <materialref ref="G4_Be"/>
-            <solidref ref="solidTubeTarget"/>
+            <solidref ref="solidWindow"/>
         </volume>
         
         <volume name="logicAnode">
@@ -35,8 +35,8 @@
             <materialref ref="G4_Galactic"/>
             <solidref ref="solidXrayTube"/>
 
-            <physvol name="physTubeTarget">
-                <volumeref ref="logicTubeTarget"/>     
+            <physvol name="physWindow">
+                <volumeref ref="logicWindow"/>     
             </physvol>
 
             <physvol name="physAnode">
