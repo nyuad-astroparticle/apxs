@@ -41,30 +41,34 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 // Function that sets up the primary particles
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-    // Get the material from Detector construction
+    
+    if (detectorConstruction->detectLogical)
+    {
+        // Get the material from Detector construction
 
-    // G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
-    // G4ThreeVector pos = physVol->GetTranslation();
+        G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
+        G4ThreeVector pos = physVol->GetTranslation();
 
-    // G4String material = physVol->GetLogicalVolume()->GetMaterial()->GetName();
-    // setParticleFromMaterial(material);
+        G4String material = physVol->GetLogicalVolume()->GetMaterial()->GetName();
+        setParticleFromMaterial(material);
 
-    // // // Select the number of particles to generate per event
-    // source->SetNumberOfParticles(1);
+        // // Select the number of particles to generate per event
+        source->SetNumberOfParticles(1);
 
-    // // // Set the energy of the initial particle at 0
-    // source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
+        // // Set the energy of the initial particle at 0
+        source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
 
-    // // // Confine the particle source to the geometry of the source block
-    // source->GetCurrentSource()->GetPosDist()->SetPosDisType("Surface");
-	// source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Cylinder");
-	// source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
-	// source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
-    // source->GetCurrentSource()->GetPosDist()->SetRadius(detectorConstruction->sourceDiameter/2);
-    // source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
-    // // source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePosition);
-    // source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
-    // source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
+        // // Confine the particle source to the geometry of the source block
+        source->GetCurrentSource()->GetPosDist()->SetPosDisType("Surface");
+        source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Cylinder");
+        source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
+        source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
+        source->GetCurrentSource()->GetPosDist()->SetRadius(detectorConstruction->sourceDiameter/2);
+        source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
+        // source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePosition);
+        source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
+        source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
+    }
 
     // Generate the particle
 	source->GeneratePrimaryVertex(event);
