@@ -194,34 +194,46 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     
     parser->Read(filename,false);
 
-    // Extract the logical volume of the sensitive part of the detector
-    detectLogical = parser->GetVolume("detectLogical");
+    if (parser->IsValid("detectLogical"))
+    {
 
-    // Extract the rest of the detector and place it accordingly
-    G4ThreeVector       detectPostition = G4ThreeVector(-sourcePosition[0],sourcePosition[1],sourcePosition[2]);
-    G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.6));
-    G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.6));
-    G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.6));
-    G4VisAttributes*    containerColor  = new G4VisAttributes(false,G4Color(0.72, 0.54, 0.04, 0.6));
-    G4RotationMatrix*   detectRotation  = new G4RotationMatrix(G4ThreeVector(-1., 0., 0.),90*degree); //new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., -1.)).unit(),90*degree);
-    G4LogicalVolume*    sddLogical      = parser->GetVolume("VITUS");
-    G4VPhysicalVolume*  sddPhysical     = new G4PVPlacement(
-        detectRotation,                 // Rotation Matrix
-        detectPostition,                // Position of center
-        sddLogical,                     // Logical Volume to place
-        "detectPhysical",               // Name of new Physical Volume
-        worldLogical,                   // Mother Volume Logical
-        false,                          // Boolean operation
-        0,                              // Copy Number
-        true                            // Check for Overlaps
-    );
+        // Extract the logical volume of the sensitive part of the detector
+        detectLogical = parser->GetVolume("detectLogical");
 
-    // Add some colors
-    if (parser->GetVolume("sddWindowLogical")) parser->GetVolume("sddWindowLogical")->SetVisAttributes(windowColor);
-    parser->GetVolume("sddCaseLogical")->SetVisAttributes(caseColor);
-    parser->GetVolume("detectLogical")->SetVisAttributes(detectColor);
-    sddLogical->SetVisAttributes(containerColor);
+        // Extract the rest of the detector and place it accordingly
+        G4ThreeVector       detectPostition = G4ThreeVector(-sourcePosition[0],sourcePosition[1],sourcePosition[2]);
+        G4VisAttributes*    detectColor     = new G4VisAttributes(true,G4Color(0.00, 0.00, 0.80, 0.6));
+        G4VisAttributes*    windowColor     = new G4VisAttributes(true,G4Color(0.68, 0.93, 0.93, 0.6));
+        G4VisAttributes*    caseColor       = new G4VisAttributes(true,G4Color(0.72, 0.54, 0.04, 0.6));
+        G4VisAttributes*    containerColor  = new G4VisAttributes(false,G4Color(0.72, 0.54, 0.04, 0.6));
+        G4RotationMatrix*   detectRotation  = new G4RotationMatrix(G4ThreeVector(-1., 0., 0.),90*degree); //new G4RotationMatrix(detectPostition.cross(G4ThreeVector(0., 0., -1.)).unit(),90*degree);
+        G4LogicalVolume*    sddLogical      = parser->GetVolume("VITUS");
+        G4VPhysicalVolume*  sddPhysical     = new G4PVPlacement(
+            detectRotation,                 // Rotation Matrix
+            detectPostition,                // Position of center
+            sddLogical,                     // Logical Volume to place
+            "detectPhysical",               // Name of new Physical Volume
+            worldLogical,                   // Mother Volume Logical
+            false,                          // Boolean operation
+            0,                              // Copy Number
+            true                            // Check for Overlaps
+        );
 
+        // Add some colors
+        if (parser->GetVolume("sddWindowLogical")) parser->GetVolume("sddWindowLogical")->SetVisAttributes(windowColor);
+        parser->GetVolume("sddCaseLogical")->SetVisAttributes(caseColor);
+        parser->GetVolume("detectLogical")->SetVisAttributes(detectColor);
+        sddLogical->SetVisAttributes(containerColor);
+    
+    }
+
+    if (parser->IsValid("XrayTube"))
+    {
+        G4LogicalVolume * logicXrayTube = parser->GetVolume("logicXrayTube");
+        G4VPhysicalVolume * physXrayTube = new G4PVPlacement(0, G4ThreeVector(0,0.9 * cm,0), logicXrayTube, "physXrayTube" , worldLogical ,false, 0, true);
+        logicXrayTube->SetVisAttributes(G4Color(1,1,1,0));
+        parser->GetVolume("logicAnode")->SetVisAttributes(G4Color(0,1,0,1));
+    }
     #endif
 
     return worldPhysical;
@@ -239,7 +251,11 @@ void DetectorConstruction::ConstructSDandField()
     G4SDManager::GetSDMpointer()->AddNewDetector(detector);
 
     // Attach the sensitive Detector to the relevent volumes
-    SetSensitiveDetector(detectLogical, detector);
+    if (detectLogical)
+    {
+        SetSensitiveDetector(detectLogical, detector);
+    }
+
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------

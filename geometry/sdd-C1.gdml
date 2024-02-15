@@ -3,6 +3,10 @@
     <!-- A simplified GDML Model for the casing of the detector -->
     <define>
         <!-- Some Definitions for the rest of the Geometry Feel Free to ignore and look up later -->
+
+        <!-- To check the volume presense -->
+
+        <variable name="detectLogical" variable="1"/>
         
         <!-- Translation for InnerCylinder -->
         <position name="InnerCylinderPosition" unit="mm" x="0" y="0" z="-4.5" />
