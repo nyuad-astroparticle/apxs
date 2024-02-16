@@ -15,9 +15,9 @@
 /gps/ang/type beam1d
 /gps/direction -1 0 0
 
-/gps/ene/type Gauss
+#/gps/ene/type Gauss
 #/gps/ene/ezero 7 keV 
 /gps/energy 7 keV
-/gps/ene/sigma 0.5 keV
+#/gps/ene/sigma 0.5 keV
 
-/run/beamOn 1
+/run/beamOn 1000000000
