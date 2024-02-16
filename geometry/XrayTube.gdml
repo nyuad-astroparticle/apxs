@@ -3,20 +3,23 @@
 
     <define>
         <variable name="XrayTube"               value="1"/>
+        <quantity name="separation"             value="0"       unit="um"/>
         <quantity name="width"                  value="5"       unit="mm"/>
-        <quantity name="windowThickness"        value="125"     unit="um"/>
+        <quantity name="windowThickness"        value="250"     unit="um"/>
         <quantity name="anodeThickness"         value="1"       unit="um"/>
         <quantity name="XrayDetectorThickness"  value="1"       unit="mm"/>
-        <position name="anodePosition"          x="windowThickness/2 + anodeThickness/2"/>
-        <position name="XrayDetectorPosition"   x="-windowThickness/2-XrayDetectorThickness/2"/>
+        <variable name="worldThickness"         value="2*(windowThickness + anodeThickness + XrayDetectorThickness + 2 *mm)"/>
         
+        <position name="anodePosition"          x="windowThickness/2 + anodeThickness/2 + separation"/>
+        <position name="XrayDetectorPosition"   x="-windowThickness/2-XrayDetectorThickness/2 - separation"/>
+
     </define>
 
     <materials>
     </materials>
 
     <solids>
-        <box name="solidXrayTube"       x="windowThickness + anodeThickness + XrayDetectorThickness"    y="width"      z="width"/>
+        <box name="solidXrayTube"       x="worldThickness"    y="width"      z="width"/>
         <box name="solidWindow"         x="windowThickness"                                             y="width"      z="width"/>
         <box name="solidAnode"          x="anodeThickness"                                              y="width"      z="width"/>
         <box name="solidXrayDetector"   x="XrayDetectorThickness"                                       y="width"      z="width"/>

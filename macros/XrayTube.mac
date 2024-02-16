@@ -1,6 +1,15 @@
 /control/verbose 0
 /tracking/verbose 0
 
+/run/setCut 1 nm
+/run/setCutForAGivenParticle gamma 1 nm
+/run/setCutForAGivenParticle e- 1 nm
+/process/em/deexcitationIgnoreCut true
+/process/em/fluo true
+/process/em/pixe true
+/process/em/auger true
+/process/em/augerCascade true
+
 /apxs/targetMaterial G4_Galactic
 
 /gps/source/clear
@@ -17,9 +26,8 @@
 /gps/ang/type beam1d
 /gps/direction -1 0 0
 
-#/gps/ene/type Gauss
-#/gps/ene/ezero 7 keV 
-/gps/energy 7 keV
-#/gps/ene/sigma 0.5 keV
 
-/run/beamOn 1000000000
+/gps/energy 60 keV
+
+/run/printProgress 10000
+/run/beamOn 1000000
