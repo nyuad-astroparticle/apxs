@@ -28,6 +28,12 @@ add_compile_definitions(DETECTOR_GDML)
 # add_compile_definitions(DETECTOR_GDML_FILENAME="${PROJECT_BINARY_DIR}/geometry/sdd.gdml")
 endif()
 
+
+option(X_RAY "X-ray tube vs disks. If ON, no disks" OFF)
+if(X_RAY)
+add_compile_definitions(X_RAY)
+endif()
+
 # Load Geant4 and include its headers
 find_package(Geant4 REQUIRED ui_all vis_all)
 include(${Geant4_USE_FILE})

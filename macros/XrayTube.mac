@@ -1,25 +1,37 @@
 /control/verbose 0
 /tracking/verbose 0
 
-/apxs/targetMaterial G4_Galactic
+/run/setCut 1 nm
+/run/setCutForAGivenParticle gamma 1 nm
+/run/setCutForAGivenParticle e- 1 nm
+/process/em/deexcitationIgnoreCut true
 
 /gps/source/clear
 /gps/source/add 1
-/gps/particle e-
+/gps/particle gamma
 
 /gps/pos/type Plane
 /gps/pos/shape Circle
-/gps/pos/centre 3 0.9 0 cm
+/gps/pos/centre 2 0.9 0 cm
 /gps/pos/radius 0.5 mm
 /gps/pos/rot1 0 1 0
 /gps/pos/rot2 0 0 1
 
-/gps/ang/type beam1d
-/gps/direction -1 0 0
+/gps/ang/type cos
+/gps/ang/rot1 0 0 -1
+/gps/ang/rot2 -1 1 0
+/gps/ang/maxtheta 45 deg
 
-#/gps/ene/type Gauss
-#/gps/ene/ezero 7 keV 
-/gps/energy 7 keV
-#/gps/ene/sigma 0.5 keV
+/gps/ene/type Arb
+/gps/ene/diffspec true
+/gps/hist/type arb
+/gps/hist/file ./macros/X-ray_15_keV.txt
 
-/run/beamOn 1000000000
+/gps/hist/inter Lin
+
+
+#/apxs/targetMaterial PigeoniteBasalt
+
+
+#/run/printProgress 100000
+/run/beamOn 1
