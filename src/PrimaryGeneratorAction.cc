@@ -42,7 +42,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
     
-    if (detectorConstruction->detectLogical)
+#ifndef X_RAY
     {
         // Get the material from Detector construction
 
@@ -70,6 +70,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
         source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
     }
 
+#endif
     // Generate the particle
 	source->GeneratePrimaryVertex(event);
 }
