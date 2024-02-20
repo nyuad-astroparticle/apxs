@@ -58,7 +58,7 @@ DetectorConstruction::DetectorConstruction(G4String aFilename) : filename(aFilen
     targetLogical   = nullptr;
     targetPhysical  = nullptr;
     nist = G4NistManager::Instance();
-    setSourcePosition(G4ThreeVector(-worldSize/30,worldHeight/8,0));
+    setSourcePosition(G4ThreeVector(0,25*mm,0));
     // setSourceMaterial("G4_Cm");
     setTargetMaterial("G4_Au");
 
