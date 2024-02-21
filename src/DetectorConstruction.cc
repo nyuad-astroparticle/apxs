@@ -434,18 +434,31 @@ void DetectorConstruction::setSourceMaterial(const char* name)
 
 void DetectorConstruction::setSourceMaterialAndName(const char* materialName, G4String volumeName)
 {
-    // Assign the material
-    
-    G4Material* material = nist->FindOrBuildMaterial(materialName);
-    G4LogicalVolume * volume = DetectorConstruction::GetDaughterLogicalByName(worldLogical, volumeName);
-    
+    // G4LogicalVolume * volume = DetectorConstruction::GetDaughterLogicalByName(worldLogical, volumeName);
+    G4VPhysicalVolume * physVol = DetectorConstruction::GetDaughterPhysicalByName(worldLogical, volumeName);
+    G4LogicalVolume * volume = physVol->GetLogicalVolume();
     // If the logical volume already exists
     if (volume) {
-        volume->SetMaterial(material);                 // Set the new Material
-        G4cout << volume->GetName() << " is now made out of " << material->GetName() << G4endl;   // Let the user know
+        volume->SetName(volume->GetName()+materialName);
+        G4cout << physVol->GetName() << " is now " << volume->GetName() << G4endl;   // Let the user know
     }
 
 }
+
+// void DetectorConstruction::setSourceMaterialAndName(const char* materialName, G4String volumeName)
+// {
+//     // Assign the material
+    
+//     G4Material* material = nist->FindOrBuildMaterial(materialName);
+//     G4LogicalVolume * volume = DetectorConstruction::GetDaughterLogicalByName(worldLogical, volumeName);
+    
+//     // If the logical volume already exists
+//     if (volume) {
+//         volume->SetMaterial(material);                 // Set the new Material
+//         G4cout << volume->GetName() << " is now made out of " << material->GetName() << G4endl;   // Let the user know
+//     }
+
+// }
 
 void DetectorConstruction::setSourceRotation(G4ThreeVector normal)
 {

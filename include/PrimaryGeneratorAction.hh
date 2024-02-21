@@ -39,6 +39,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     private:
         void setParticleFromMaterial(G4String);
+        void setParticleFromName(const G4String &materialName);
 
         DetectorConstruction*       detectorConstruction;   // The detector construction class that we will steal the source parameters from
         G4GeneralParticleSource*    source;                 // The Particle source class that will generate the decay products.

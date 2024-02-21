@@ -49,8 +49,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
         G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
         G4ThreeVector pos = physVol->GetTranslation();
 
-        G4String material = physVol->GetLogicalVolume()->GetMaterial()->GetName();
-        setParticleFromMaterial(material);
+        // G4String material = physVol->GetLogicalVolume()->GetMaterial()->GetName();
+        // setParticleFromMaterial(material);
 
         // // Select the number of particles to generate per event
         source->SetNumberOfParticles(1);
@@ -124,7 +124,28 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
     }
 }
 
+void PrimaryGeneratorAction::setParticleFromName(const G4String &materialName)
+{
+    G4String name = "G4_";
+    G4String numberPart;
+    for (char ch : materialName) 
+    {
+        if (std::isalpha(ch)) 
+        {
+            name += ch;
+        } 
+        else if (std::isdigit(ch)) 
+        {
+            numberPart += ch;
+        }
+    }
+    int atomicMass = std::stoi(numberPart);
 
-// things to do
-// add a command for setSourceVolume
-// use setParticleFromMaterial on my defined volumes
+    G4Material * material = detectorConstruction->nist->FindOrBuildMaterial(name);
+
+    G4double Z = material->GetZ();
+    G4double A = atomicMass;
+
+    G4ParticleDefinition* isotope = G4IonTable::GetIonTable()->GetIon(Z, A, 0);
+    source->SetParticleDefinition(isotope);
+}
