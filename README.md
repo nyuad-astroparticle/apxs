@@ -67,6 +67,7 @@ The Simulation can be compiled in multiple ways that enable some of its features
 
 1. **MPI Support |** MPI is a standard that allows an application to run parallel in parallel which increases performance a crap ton! **You will probably only need to enable this option when running on the `arneodolab HPC`  or `Jubail`**.
 2. **GDML Support |** GDML is a format for Geant4 to load geometry. **This option is enabled by default**. This will load an accurate model of the detector in your simulation. Disable this only if you get errors *(in wich case you would need to reinstall geant4 with the GDML option)*.
+3. **X-ray Support |** X_RAY. This will allow you to run the simulation with an X-ray tube using macro files provided in `macros` folder.
 
 You can enable these options using `cmake` as shown below.
 
