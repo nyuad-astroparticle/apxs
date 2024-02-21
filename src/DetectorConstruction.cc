@@ -514,7 +514,7 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
         double angle = i * angleStep;
         double x = radius * cos(angle);
         double z = radius * sin(angle);
-        double y = 0.0;
+        double y = sourcePosition[1];
 
         // Create a rotation matrix
         G4RotationMatrix rotm = G4RotationMatrix();
@@ -523,8 +523,8 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
 
         // Combine rotation and translation
         G4ThreeVector position(x, y, z);
-        G4ThreeVector shift(6.7*mm,12.5*mm,0);
-        position += shift;
+        // G4ThreeVector shift(6.7*mm,12.5*mm,0);
+        // position += shift;
         G4Transform3D transform(rotm, position);
 
         // Place the copy
