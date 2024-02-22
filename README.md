@@ -159,17 +159,11 @@ $ ./apxs
 
 This is literally it. Then a bunch of output will come and a window will pop up. There is a command input on the bottom. You can use it to enter simulation commands.
 
-To make it do something you can **select the material for the source** (by default is curium) by typing the following command
+To make it do something you can **select the material for the source** by typing the following command
 ```
-/apxs/setSourceMaterial G4_Cm
+/apxs/sourceMaterialAndName Cd109 DiskPV_0
 ```
-
-The supported options are:
-1. `G4_Cm`: Curium-244
-2. `G4_Fe`: Iron-55
-3. `G4_Cd`: Cadmium-109
-4. `G4_Co`: Cobalt-60
-5. `G4_Am`: Americium-241
+To learn more about our macro command please read this [guide](https://github.com/nyuad-astroparticle/apxs/wiki/Marco-files-guide) 
 
 Then you can create a number of nuclei in the substrate that then the simulation will automatically decay and track by running this command *(change 10 with the number of nuclei you want)*
 ```
