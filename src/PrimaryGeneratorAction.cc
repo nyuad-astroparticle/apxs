@@ -49,7 +49,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
         G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
         G4ThreeVector pos = physVol->GetTranslation();
 
-        G4String material = physVol->GetLogicalVolume()->GetMaterial()->GetName();
+        G4Material * material = physVol->GetLogicalVolume()->GetMaterial();
         setParticleFromMaterial(material);
 
         // // Select the number of particles to generate per event
@@ -79,52 +79,63 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 
 
 // Given a material string find the corresponding particle definitions
-void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
+// void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
+// {
+//     // Start checking for the available materials
+
+//     // CURIUM --------------------------------------------------------------
+//     if (!material.compare("G4_Cm"))
+//     {
+//         G4ParticleDefinition* curium244 = G4IonTable::GetIonTable()->GetIon(96, 244, 0);
+//         source->SetParticleDefinition(curium244);
+//     }
+
+//     // IRON ----------------------------------------------------------------
+//     else if (!material.compare("G4_Fe"))
+//     {
+//         G4ParticleDefinition* iron55 = G4IonTable::GetIonTable()->GetIon(26, 55, 0);
+//         source->SetParticleDefinition(iron55);
+//     }
+
+//     // CADMIUM -------------------------------------------------------------
+//     else if (!material.compare("G4_Cd"))
+//     {
+//         G4ParticleDefinition* cadmium109 = G4IonTable::GetIonTable()->GetIon(48, 109, 0);
+//         source->SetParticleDefinition(cadmium109);
+//     }
+
+//     // COBALT --------------------------------------------------------------
+//     else if (!material.compare("G4_Co"))
+//     {
+//         G4ParticleDefinition* cobalt60 = G4IonTable::GetIonTable()->GetIon(27, 57, 0);
+//         source->SetParticleDefinition(cobalt60);
+//     }
+
+//     // AMERICIUM -----------------------------------------------------------
+//     else if (!material.compare("G4_Am"))
+//     {
+//         G4ParticleDefinition* americium241 = G4IonTable::GetIonTable()->GetIon(95, 241, 0);
+//         source->SetParticleDefinition(americium241);
+//     }
+
+//     // DEFAULT -------------------------------------------------------------
+//     else {
+//         G4cerr << "The material selected for the source is not in the candidates. Please select another one" << G4endl;
+//     }
+// }
+
+
+void PrimaryGeneratorAction::setParticleFromMaterial(G4Material * material)
 {
-    // Start checking for the available materials
-
-    // CURIUM --------------------------------------------------------------
-    if (!material.compare("G4_Cm"))
-    {
-        G4ParticleDefinition* curium244 = G4IonTable::GetIonTable()->GetIon(96, 244, 0);
-        source->SetParticleDefinition(curium244);
-    }
-
-    // IRON ----------------------------------------------------------------
-    else if (!material.compare("G4_Fe"))
-    {
-        G4ParticleDefinition* iron55 = G4IonTable::GetIonTable()->GetIon(26, 55, 0);
-        source->SetParticleDefinition(iron55);
-    }
-
-    // CADMIUM -------------------------------------------------------------
-    else if (!material.compare("G4_Cd"))
-    {
-        G4ParticleDefinition* cadmium109 = G4IonTable::GetIonTable()->GetIon(48, 109, 0);
-        source->SetParticleDefinition(cadmium109);
-    }
-
-    // COBALT --------------------------------------------------------------
-    else if (!material.compare("G4_Co"))
-    {
-        G4ParticleDefinition* cobalt60 = G4IonTable::GetIonTable()->GetIon(27, 57, 0);
-        source->SetParticleDefinition(cobalt60);
-    }
-
-    // AMERICIUM -----------------------------------------------------------
-    else if (!material.compare("G4_Am"))
-    {
-        G4ParticleDefinition* americium241 = G4IonTable::GetIonTable()->GetIon(95, 241, 0);
-        source->SetParticleDefinition(americium241);
-    }
-
-    // DEFAULT -------------------------------------------------------------
-    else {
-        G4cerr << "The material selected for the source is not in the candidates. Please select another one" << G4endl;
-    }
+    G4double Z = material->GetZ();
+    G4double A = material->GetA();
+    G4ParticleDefinition* particle = G4IonTable::GetIonTable()->GetIon(Z, A, 0);
+    source->SetParticleDefinition(particle);
 }
 
 
-// things to do
-// add a command for setSourceVolume
-// use setParticleFromMaterial on my defined volumes
+// void PrimaryGeneratorAction::setParticleFromName(const G4String &materialName)
+// {
+//     G4ParticleDefinition* isotope = G4IonTable::GetIonTable()->GetIon(Z, A, 0);
+//     source->SetParticleDefinition(isotope);
+// }
