@@ -1,0 +1,108 @@
+# This macro is to compare 4 sources in different atmospheres
+# The material is set to PigeoniteBasalt
+# 1st test conducted on Feb 22, 2024
+
+
+/apxs/createMultipleSources 4
+/apxs/sourceMaterialAndName Co60    DiskPV_0
+/apxs/sourceMaterialAndName Fe55    DiskPV_1
+/apxs/sourceMaterialAndName Co57    DiskPV_2
+/apxs/sourceMaterialAndName Cd109   DiskPV_3
+
+/apxs/targetMaterial PigeoniteBasalt
+
+# --------------------------
+# Vacuum
+/apxs/atmo Vacuum 0
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 1000000000
+
+# --------------------------
+# Mars
+/apxs/atmo Mars 0
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 1000000000
+
+# --------------------------
+# CO2 at Martian pressure
+/apxs/atmo CO2 6.5
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 1000000000
+
+# --------------------------
+# 1mbar
+/apxs/atmo Air 1
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 1000000000
+
+# --------------------------
+# 1e-2 mbar
+/apxs/atmo Air 0.01
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 1000000000
+
+# --------------------------
+# 1e-4 mbar
+/apxs/atmo Air 0.0001
+
+/apxs/activeVolume DiskPV_0
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_1
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_2
+/run/beamOn 1000000000
+
+/apxs/activeVolume DiskPV_3
+/run/beamOn 1000000000
