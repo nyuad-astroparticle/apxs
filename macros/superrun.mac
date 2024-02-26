@@ -1,7 +1,7 @@
 # This macro is to compare 4 sources in different atmospheres
 # The material is set to PigeoniteBasalt
 # 1st test conducted on Feb 22, 2024
-# 2nd Fe 26, 2024
+# 2nd Feb 26, 2024
 
 
 /run/setCut 1 nm
@@ -10,7 +10,7 @@
 /process/em/deexcitationIgnoreCut true
 
 /apxs/createMultipleSources 1
-/apxs/sourceMaterialAndName Cu244 DiskPV_0
+/apxs/sourceMaterialAndName Cm244 DiskPV_0
 /apxs/activeVolume DiskPV_0
 
 /apxs/targetMaterial PigeoniteBasalt
