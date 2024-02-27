@@ -47,6 +47,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         void setSourceVolume(G4String);
         void tiltTarget(G4double, G4double);
         void atmosphere(G4String, G4double);
+        void dustLayer(const G4String & dustMaterial, const G4double & thickness_mm);
 
        G4LogicalVolume* GetDaughterLogicalByName(G4LogicalVolume*, const G4String & );
        G4VPhysicalVolume* GetDaughterPhysicalByName(G4LogicalVolume*, const G4String & );

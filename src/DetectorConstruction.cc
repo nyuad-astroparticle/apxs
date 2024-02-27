@@ -734,3 +734,24 @@ void DetectorConstruction::atmosphere(G4String atmosphereName, G4double pressure
 
     G4cout << "Atmosphere has been changed to " << dictionary[atmosphereName]->GetName() << " with pressure " << material->GetPressure()/100/pascal << "millibar" <<"\n";
 }
+
+void DetectorConstruction::dustLayer(const G4String & dustMaterialName, const G4double & thickness_nm)
+{
+    G4double sddWindowLowPoint = sourcePosition[1] - 0.9001;
+    
+
+    // Dust Layer -----------------------------------------------------
+        G4Material*         dustMaterial    = nist->FindOrBuildMaterial(dustMaterialName);
+        G4double            dustDiameter    = 6.3 * mm;
+        G4double            dustThickness   = thickness_nm * nm;
+        G4Tubs*             dustSolid       = new G4Tubs("dustSolid", 0.0 , dustDiameter/2, dustThickness/2, 0, 2*M_PI*rad);
+        G4VisAttributes*    dustColor       = new G4VisAttributes(true,G4Color(0.5, 0.2, 0.2, 1));
+        G4LogicalVolume*    dustLogical     = new G4LogicalVolume(dustSolid, dustMaterial, "dustLogical");
+        dustLogical->SetVisAttributes(dustColor);
+
+        G4RotationMatrix rotm = G4RotationMatrix();
+        rotm.rotateX(90.0*deg);
+        G4ThreeVector dustPosition = G4ThreeVector(0.0,sddWindowLowPoint - dustThickness/2, 0.0);
+        G4Transform3D transformDust(rotm, dustPosition);        
+        new G4PVPlacement(transformDust,dustLogical,"dustPhysical_",worldLogical,false,0,false);
+}
