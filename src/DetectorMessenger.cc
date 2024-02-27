@@ -89,20 +89,34 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
         tiltAngle        ->AvailableForStates(G4State_PreInit, G4State_Idle);
 
     // Choose atmosphere 
-// Choose atmosphere with two components
         atmo = new G4UIcommand("/apxs/atmo", this);
         atmo->SetGuidance("Choose your atmosphere by specifying two components.");
         atmo->SetGuidance("This command requires two parameters: atmosphereName and pressure. For Mars pressure value is irrelevant");
 
-        G4UIparameter* comp1 = new G4UIparameter("atmosphereName", 's', false);
-        comp1->SetGuidance("Atmosphere to select: AIR, CO2, Vacuum, and Mars.");
-        atmo->SetParameter(comp1);
+        G4UIparameter* atmo1 = new G4UIparameter("atmosphereName", 's', false);
+        atmo1->SetGuidance("Atmosphere to select: AIR, CO2, Vacuum, and Mars.");
+        atmo->SetParameter(atmo1);
 
-        G4UIparameter* comp2 = new G4UIparameter("pressure", 's', false);
-        comp2->SetGuidance("Pressure in millibars");
-        atmo->SetParameter(comp2);
+        G4UIparameter* atmo2 = new G4UIparameter("pressure", 's', false);
+        atmo2->SetGuidance("Pressure in millibars");
+        atmo->SetParameter(atmo2);
 
         atmo->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+    // Add dust
+        dust = new G4UIcommand("/apxs/dust", this);
+        dust->SetGuidance("Choose dust material and its thickness in nm");
+        dust->SetGuidance("This command requires two parameters: dustMaterial and dustThickness in nm. For Mars pressure value is irrelevant");
+
+        G4UIparameter* dust1 = new G4UIparameter("dustMaterial", 's', false);
+        dust1->SetGuidance("dustsphere to select: AIR, CO2, Vacuum, and Mars.");
+        dust->SetParameter(dust1);
+
+        G4UIparameter* dust2 = new G4UIparameter("dustThickness", 's', false);
+        dust2->SetGuidance("Pressure in millibars");
+        dust->SetParameter(dust2);
+
+        dust->AvailableForStates(G4State_PreInit, G4State_Idle);
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -111,12 +125,12 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* detectorConstruction)
 DetectorMessenger::~DetectorMessenger()
 {
     // delete sourceMaterial;
-    delete targetMaterial;
-    delete createMultipleSources;
-    delete directory;
-    delete sourceMaterialAndName;
-    delete activeVolume;
-    delete atmo;
+    // delete targetMaterial;
+    // delete createMultipleSources;
+    // delete directory;
+    // delete sourceMaterialAndName;
+    // delete activeVolume;
+    // delete atmo;
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
@@ -159,5 +173,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String value)
         G4String atmosphereName, pressure;
         iss >> atmosphereName >> pressure;
         detectorConstruction->atmosphere(atmosphereName, std::stod(pressure));
+    }
+    if (command == dust)
+    {
+        std::istringstream iss(value);
+        G4String dustMaterial, thickness;
+        iss >> dustMaterial >> thickness;
+        detectorConstruction->dustLayer(dustMaterial, std::stod(thickness));
     }
 }

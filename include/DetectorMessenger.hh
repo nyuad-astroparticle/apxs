@@ -45,6 +45,7 @@ class DetectorMessenger : public G4UImessenger
         G4UIcmdWithAString*     activeVolume;
         G4UIcommand*            tiltAngle;
         G4UIcommand*            atmo;
+        G4UIcommand*            dust;
 };
 
 #endif
