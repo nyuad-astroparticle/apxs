@@ -9,6 +9,9 @@ from numpy.random import normal, lognormal, rand
 import numpy as np
 import matplotlib.pyplot as plt
 
+from scipy.ndimage import gaussian_filter1d
+
+
 # SOME CONSTANTS
 BASALT = {
     'name' : 'Basalt',
@@ -81,7 +84,9 @@ def loadFile(filename):
 
     file.close()
 
-    return pd.read_csv(filename,skiprows=len(header)+4,names=header)
+    df = pd.read_csv(filename,skiprows=len(header)+4,names=header)
+    df['filename'] = filename
+    return df
 
 # Function to extract the energy deposited per track
 def getEnergy(data,columnName='DepositedEnergy',groupBy='TrackID'):
@@ -143,26 +148,41 @@ def adjustByEfficiency(histogram, bins, efficiency):
 # Plot a histogram
 def plotParticleHistogram(particleEnergies,
                           PARTICLE      = 'gamma',
-                          MATERIAL      = BASALT,
+                          MATERIAL      = BASALT,  # Assuming BASALT is a constant or dict defined elsewhere
                           source        = 'Cm244',
                           MAX_PEAKS     = 15,
                           NBINS         = 1000,
-                          LIMS          = (0,10),
+                          LIMS          = (0,15),
                           SHOW_MATERIAL = True,
                           SAVE          = True,
                           yscale        = 'log',
                           columnName    = 'Energy',
-                          efficiency    = None):
+                          efficiency    = None,
+                          fig           = None,  # Added optional figure parameter
+                          ax            = None,
+                          label         = ''):
     
-    fig = plt.figure(figsize=(10,5))
-    ax  = fig.add_subplot(111)
+    # Check if fig and ax are provided, if not, create them
+    if fig is None or ax is None:
+        fig = plt.figure(figsize=(18,5))
+        ax  = fig.add_subplot(111)
 
     BINS        = np.linspace(*LIMS,NBINS+1)
-    histogram   = np.histogram(particleEnergies[particleEnergies[columnName]!=0][columnName],bins=BINS)[0]
+    histogram, bin_edges   = np.histogram(particleEnergies[particleEnergies[columnName]!=0][columnName],bins=BINS)
+    
     if efficiency is not None: histogram = adjustByEfficiency(histogram,BINS,efficiency)
 
-    color       = np.round(np.random.rand(1,3),1)
-    ax.step(BINS[:-1],histogram,label=PARTICLE,color=color[0])
+    # Compute histogram values
+    counts = histogram
+    bin_centers = 0.5 * (bin_edges[:-1] + bin_edges[1:])
+
+    # Smooth the histogram values
+    # smoothed_counts = gaussian_filter1d(counts, sigma=1)
+    smoothed_counts = counts
+
+    # color       = []
+    # ax.step(BINS[:-1],histogram,label=label, alpha=0.5)
+    ax.plot(bin_centers, smoothed_counts, alpha=0.5, label=label)
 
     # Get the peaks
     if MAX_PEAKS>0:
@@ -178,19 +198,20 @@ def plotParticleHistogram(particleEnergies,
             ax.annotate("%.2f"%peak,(peak,height),ha='center', va='bottom')
 
     # Plot the Material peaks
-    if SHOW_MATERIAL:
+    if SHOW_MATERIAL and not hasattr(ax, 'has_peak_lines'):
         for peak in MATERIAL['peaks']:
             ax.axvline(MATERIAL['peaks'][peak],ls='--',lw=0.5,c = 'grey')
             ax.annotate(f"{peak}",(MATERIAL['peaks'][peak],2*ax.get_ylim()[1]),ha='left', va='top',fontsize=10)
+        ax.has_peak_lines = True  # Set the flag indicating that peak lines have been plotted
 
     ax.set_xlim(BINS[1],BINS[-1])
     ax.set_xlabel(f'Energy of {PARTICLE} particles through the detector [keV]')
     ax.set_ylabel('Density')
-    ax.legend(frameon=False)
+    ax.legend(frameon=False, loc='upper left', bbox_to_anchor=(1,1))
     ax.set_yscale(yscale)
-    ax.set_ylim(None,ax.get_ylim()[1]*2)
+    ax.set_ylim(None,ax.get_ylim()[1]*1.2)
     ax.set_title(f'{MATERIAL["name"]} spectrum by {source} source')
 
     if SAVE: fig.savefig(source+'.png')
 
-    return fig,ax
+    return fig,ax, histogram, BINS
