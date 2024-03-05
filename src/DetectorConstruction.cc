@@ -48,7 +48,7 @@ DetectorConstruction::DetectorConstruction(G4String aFilename) : filename(aFilen
 {
     // Initialize the Member Variables
     worldSize       = 20.0 * cm;
-    worldHeight     = 10.00 * cm;
+    worldHeight     = 30.00 * cm;
     sourceDiameter  = 6.00 * mm;
     sourceThickness = 0.24 * mm;
     sourceRotation  = nullptr;
