@@ -374,6 +374,17 @@ void DetectorConstruction::CreateMaterials()
     elements.clear();
     massFraction.clear();
 
+    // Howlite --------------------------------------------------------------
+    elements.push_back("O" );  massFraction.push_back(0.5723899);  // 14 O
+    elements.push_back("Ca");  massFraction.push_back(0.2048364);  // 2  Ca
+    elements.push_back("B" );  massFraction.push_back(0.1381232);  // 5  B
+    elements.push_back("Si");  massFraction.push_back(0.0717717);  // 1  Si
+    elements.push_back("H" );  massFraction.push_back(0.0128788);  // 5  H
+
+    nist->ConstructNewMaterial("Howlite", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
+
     // Apollo 17 Orange --------------------------------------------------------------
     elements.push_back("O" );       massFraction.push_back(0.4007786);
     elements.push_back("Si");       massFraction.push_back(0.1802762);   
