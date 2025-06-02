@@ -154,5 +154,7 @@ void RunAction::BookAnalysis(const G4String& filename, G4bool ntupleMerging)
     analysisManager->CreateNtupleDColumn("LocalTime");
     analysisManager->CreateNtupleSColumn("Volume");
     analysisManager->CreateNtupleSColumn("ParentVolume");
+    analysisManager->CreateNtupleIColumn("ParentID");
+    analysisManager->CreateNtupleSColumn("ProcessName");
     analysisManager->FinishNtuple();
 }

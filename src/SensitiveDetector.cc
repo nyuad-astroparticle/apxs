@@ -66,6 +66,12 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
         migrantID               = info->GetMigrantID();
     }
 
+    G4String processName = "Primary";
+    if (step->GetTrack()->GetCreatorProcess())
+    {
+        processName = step->GetTrack()->GetCreatorProcess()->GetProcessName();
+    }
+
     // Create the hit
     DetectorHit* hit        = new DetectorHit();
     hit->setTrackID         (step->GetTrack()->GetTrackID());
@@ -77,6 +83,8 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
     hit->setTime            (step->GetPostStepPoint()->GetGlobalTime());
     hit->setVolume          (step->GetPreStepPoint()->GetPhysicalVolume()->GetName());
     hit->setParentVolume    (parentVolume);
+    hit->setParentID        (step->GetTrack()->GetParentID());
+    hit->setProcessName     (processName);
 
     // Add the hit to the hits collection
     hitsCollection->insert(hit);

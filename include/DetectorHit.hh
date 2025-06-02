@@ -53,6 +53,8 @@ class DetectorHit : public G4VHit
         void setTime            (G4double time)             { this->time = time; }
         void setVolume          (G4String volume)           { this->volume = volume; }
         void setParentVolume    (G4String parentVolume)     { this->parentVolume = parentVolume; }
+        void setParentID        (G4int parentID)            {this->parentID = parentID; };
+        void setProcessName     (G4String processName)      {this->processName = processName;}
 
         // Getters
         G4int                   getTrackID()                { return trackID; }
@@ -64,6 +66,8 @@ class DetectorHit : public G4VHit
         G4double                getTime()                   { return time; }
         G4String                getVolume()                 { return volume; }
         G4String                getParentVolume()           { return parentVolume; }
+        G4int                   getParentID()               {return parentID;};
+        G4String                getProcessName()            {return processName;};
 
     
     private:
@@ -81,6 +85,9 @@ class DetectorHit : public G4VHit
 
         // Set how much you should be printing out.
         G4int           verboseLevel    = 0;
+
+        G4int           parentID        = -1;
+        G4String        processName     = "";
 
 };
 
