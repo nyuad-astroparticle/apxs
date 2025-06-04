@@ -20,6 +20,8 @@ their properties
 
 // Other Useful headers
 #include "DetectorHit.hh"
+#include "G4VProcess.hh"
+
 
 class SensitiveDetector : public G4VSensitiveDetector 
 {

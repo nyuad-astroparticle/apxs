@@ -1,0 +1,18 @@
+#Test on mac, Jun 4th, 2025
+
+/run/setCut 1 nm
+/run/setCutForAGivenParticle gamma 1 nm
+/run/setCutForAGivenParticle e- 1 nm
+/process/em/deexcitationIgnoreCut true
+
+/apxs/createMultipleSources 1
+/apxs/sourceMaterialAndName Cm244 DiskPV_0
+/apxs/activeVolume DiskPV_0
+
+/apxs/targetMaterial Howlite
+
+# --------------------------
+# Vacuum
+/apxs/atmo Vacuum 0
+
+/run/beamOn 10000
