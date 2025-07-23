@@ -235,10 +235,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         parser->GetVolume("logicAnode")->SetVisAttributes(G4Color(0,1,0,1));
         parser->GetVolume("logicXrayDetector")->SetVisAttributes(G4Color(1,0,0,1));
     }
+    
+    return parser->GetWorldVolume();
     #endif
-
     return worldPhysical;
-
+    
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------

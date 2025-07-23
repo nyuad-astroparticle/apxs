@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+
+    <define>
+        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-177.6866" z="-158.8537"/>
+        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-224.8463" z="-158.8665"/>
+        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-177.6866" z="-98.85368"/>
+        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-224.8463" z="-98.86649"/>
+        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-177.6866" z="-158.8665"/>
+        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-177.6866" z="-98.86649"/>
+    </define>
+
+    <solids>
+        <tessellated aunit="deg" lunit="mm" name="sample_ascii-SOL">
+             <triangular vertex1="sample_ascii_v0" vertex2="sample_ascii_v1" vertex3="sample_ascii_v2"/>
+             <triangular vertex1="sample_ascii_v2" vertex2="sample_ascii_v1" vertex3="sample_ascii_v3"/>
+             <triangular vertex1="sample_ascii_v1" vertex2="sample_ascii_v4" vertex3="sample_ascii_v3"/>
+             <triangular vertex1="sample_ascii_v3" vertex2="sample_ascii_v4" vertex3="sample_ascii_v5"/>
+             <triangular vertex1="sample_ascii_v4" vertex2="sample_ascii_v0" vertex3="sample_ascii_v5"/>
+             <triangular vertex1="sample_ascii_v5" vertex2="sample_ascii_v0" vertex3="sample_ascii_v2"/>
+             <triangular vertex1="sample_ascii_v2" vertex2="sample_ascii_v3" vertex3="sample_ascii_v5"/>
+             <triangular vertex1="sample_ascii_v1" vertex2="sample_ascii_v0" vertex3="sample_ascii_v4"/>
+        </tessellated>
+    </solids>
+
+    <structure>
+        <volume name="sample_ascii">
+            <materialref ref="Vacuum"/>
+            <solidref ref="sample_ascii-SOL"/>
+        </volume>
+    </structure>
+
+    <setup name="Default" version="1.0">
+        <world ref="sample_ascii"/>
+    </setup>
+</gdml>
