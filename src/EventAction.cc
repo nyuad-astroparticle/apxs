@@ -57,6 +57,8 @@ void EventAction::EndOfEventAction(const G4Event* event)
             analysisManager->FillNtupleDColumn(9, hit->getTime()/year);                 // Divide to return the answer in ns
             analysisManager->FillNtupleSColumn(10,hit->getVolume());
             analysisManager->FillNtupleSColumn(11,hit->getParentVolume());
+            analysisManager->FillNtupleIColumn(12,hit->getParentID());
+            analysisManager->FillNtupleSColumn(13,hit->getProcessName());
             
             // Finish By adding a row
             analysisManager->AddNtupleRow();
