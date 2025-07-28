@@ -23,6 +23,7 @@ ctors and materials
 #include "G4RotationMatrix.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
+#include "G4GDMLParser.hh"
 
 // Other relevant inline definitions
 class DetectorMessenger;
@@ -76,7 +77,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4NistManager*      nist;
         G4LogicalVolume*    worldLogical;
         G4String            sourceVolume;
-        G4LogicalVolume*    logicXrayTube = nullptr;        
+        G4LogicalVolume*    logicXrayTube = nullptr;  
+        G4GDMLParser*       parser;
 
         friend class PrimaryGeneratorAction;        // We allow PrimaryGeneratorAction to have access the variables of this class
 };

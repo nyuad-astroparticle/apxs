@@ -187,7 +187,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     // Alternatively you can load a GDML File!
     #ifdef DETECTOR_GDML
     // Start the parser
-    G4GDMLParser* parser = new G4GDMLParser();
+    parser = new G4GDMLParser();
     parser->Read(filename,false);
     
     G4VisAttributes* invisible  = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0));
@@ -310,6 +310,7 @@ void DetectorConstruction::ConstructSDandField()
 
     // Let Geant4 know about it
     G4SDManager::GetSDMpointer()->AddNewDetector(detector);
+    
 
     // Attach the sensitive Detector to the relevent volumes
     if (detectLogical)
@@ -321,6 +322,25 @@ void DetectorConstruction::ConstructSDandField()
     {
         SetSensitiveDetector(GetDaughterLogicalByName(logicXrayTube, "physXrayDetector"), detector);
     }
+
+#ifdef DETECTOR_GDML
+    const G4GDMLAuxMapType* auxmap = parser->GetAuxMap();
+    for(G4GDMLAuxMapType::const_iterator iter=auxmap->begin(); iter!=auxmap->end(); iter++) 
+    {
+        for (G4GDMLAuxListType::const_iterator vit=(*iter).second.begin();
+            vit!=(*iter).second.end();vit++)
+        {
+            if ((*vit).type=="SensDet")
+            {
+                G4cout << "Attaching sensitive detector " << (*vit).value
+                    << " to volume " << ((*iter).first)->GetName()
+                    <<  G4endl << G4endl;
+
+                SetSensitiveDetector((*iter).first, detector);
+            }
+        }
+    }
+#endif
 
 }
 
