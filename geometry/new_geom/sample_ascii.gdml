@@ -10,6 +10,24 @@
         <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-177.6866" z="-98.86649"/>
     </define>
 
+    <materials>
+    <!-- Define a rock-like mixture by NUMBER OF ATOMS (atomic %) -->
+        <material name="rock1material" state="solid">
+            <D value="2.65" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/>
+
+            <!-- Atomic % from your table (elements with 0% omitted) -->
+            <fraction n="0.420806" ref="G4_C"/>
+            <fraction n="0.307048" ref="G4_O"/>
+            <fraction n="0.046215" ref="G4_Al"/>
+            <fraction n="0.128145" ref="G4_Si"/>
+            <fraction n="0.027171" ref="G4_K"/>
+            <fraction n="0.070615" ref="G4_Ca"/>
+        </material>
+    </materials>
+
+
     <solids>
         <tessellated aunit="deg" lunit="mm" name="sample_ascii-SOL">
              <triangular vertex1="sample_ascii_v0" vertex2="sample_ascii_v1" vertex3="sample_ascii_v2"/>
@@ -25,7 +43,7 @@
 
     <structure>
         <volume name="sample_ascii">
-            <materialref ref="G4_Galactic"/>
+            <materialref ref="rock1material"/>
             <solidref ref="sample_ascii-SOL"/>
             <auxiliary auxtype="Color" auxvalue="0.607 0.521 0.235"/>
             <auxiliary auxtype="opacity" auxvalue="1"/>
