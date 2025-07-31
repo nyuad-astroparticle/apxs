@@ -41,13 +41,18 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 // Function that sets up the primary particles
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
+// G4cout << "entered generate primaries" << G4endl;    
     
 #ifndef X_RAY
     {
         // Get the material from Detector construction
 
         G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
-        G4ThreeVector pos = physVol->GetTranslation();
+        // G4ThreeVector pos = physVol->GetTranslation();
+        // G4ThreeVector pos = G4ThreeVector(-113.3167,94.715,-107.8394);
+        G4ThreeVector pos = G4ThreeVector(-113.31675*mm,  -94.74149*mm,  (107.77660 + 2.5 + 0.1)*mm);
+        // G4cout << detectorConstruction->sourceVolume << G4endl;
+        // G4cout << pos << G4endl;
 
         G4Material * material = physVol->GetLogicalVolume()->GetMaterial();
         setParticleFromMaterial(material);
@@ -59,20 +64,22 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
         source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
 
         // // Confine the particle source to the geometry of the source block
-        source->GetCurrentSource()->GetPosDist()->SetPosDisType("Surface");
-        source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Cylinder");
+        source->GetCurrentSource()->GetPosDist()->SetPosDisType("Point");
+        // source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Cylinder");
         source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
-        source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
-        source->GetCurrentSource()->GetPosDist()->SetRadius(detectorConstruction->sourceDiameter/2);
-        source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
-        // source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePosition);
-        source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
-        source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
+        // source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
+        // source->GetCurrentSource()->GetPosDist()->SetRadius(detectorConstruction->sourceDiameter/2);
+        // source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
+        // // source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePosition);
+        // source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
+        // source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
     }
 
 #endif
     // Generate the particle
 	source->GeneratePrimaryVertex(event);
+    // G4cout << "generate primary vertex active" << G4endl;    
+
 }
 
 //----------------------- 8< -------------[ cut here ]------------------------
