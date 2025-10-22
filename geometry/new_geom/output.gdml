@@ -3,6 +3,7 @@
 
     <define>
         <rotation name="total_rotation" x="90" y="0" z="0" unit="degree"/> 
+        <position name="source_window_position" x="-113.317" y="-94.7415" z="110.277 + 0.1" unit="mm"/>
     </define>
 
     <materials>
@@ -37,6 +38,11 @@
             <physvol>
                 <file name="./geometry/new_geom/source_ascii.gdml"/>
                 <rotationref ref="total_rotation"/>
+             </physvol>
+            <physvol>
+                <file name="./geometry/new_geom/source_window.gdml"/>
+                <!-- <rotationref ref="total_rotation"/> -->
+                <positionref ref="source_window_position"/>
              </physvol>
 
 
