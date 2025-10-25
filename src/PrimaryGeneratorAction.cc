@@ -13,6 +13,7 @@ Primary Generator Action
 #include "G4GeneralParticleSource.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4IonTable.hh"
+#include "G4Gamma.hh"
 #include "G4Event.hh"
 #include "DetectorConstruction.hh"
 #include "G4SystemOfUnits.hh"
@@ -41,97 +42,39 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 // Function that sets up the primary particles
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-// G4cout << "entered generate primaries" << G4endl;    
     
-// #ifndef X_RAY
-//     {
-//         // Get the material from Detector construction
+#ifndef X_RAY
+//     
 
-//         G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
-//         // G4ThreeVector pos = physVol->GetTranslation();
-//         // G4ThreeVector pos = G4ThreeVector(-113.3167,94.715,-107.8394);
-//         // G4ThreeVector pos = G4ThreeVector(-113.31675*mm,  -94.74149*mm,  (107.77660 + 2.5 + 0.1)*mm);
-//         // G4ThreeVector pos = G4ThreeVector(-113.317*mm,  -94.7415*mm,  (110.277 + 10)*mm);
-//         G4ThreeVector pos = G4ThreeVector(0*mm,  0*mm,  0*mm);
-//         // G4cout << detectorConstruction->sourceVolume << G4endl;
-//         // G4cout << pos << G4endl;
+        G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
+        G4cout << detectorConstruction->sourceVolume << G4endl;
+        G4VSolid *solid = physVol->GetLogicalVolume()->GetSolid();
+        
+        const G4double thicknessZ = ComputeExtentInMother(physVol).second.z() - ComputeExtentInMother(physVol).first.z();
+        G4ThreeVector pos = ComputeCentroidInMother(physVol) + G4ThreeVector(0,0,thicknessZ/2 + 0.1*mm);
+        G4cout << "The source position was found to be " << pos << G4endl;
 
-//         G4Material * material = physVol->GetLogicalVolume()->GetMaterial();
-//         setParticleFromMaterial(material);
-
-//         // // Select the number of particles to generate per event
-//         source->SetNumberOfParticles(1);
-
-//         // // Set the energy of the initial particle at 0
-//         source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
-
-//         // // Confine the particle source to the geometry of the source block
-//         source->GetCurrentSource()->GetPosDist()->SetPosDisType("Point");
-//         // source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Cylinder");
-//         source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
-//         // source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
-//         // source->GetCurrentSource()->GetPosDist()->SetRadius(detectorConstruction->sourceDiameter/2);
+        
+        G4Material * material = physVol->GetLogicalVolume()->GetMaterial();
+        setParticleFromMaterial(material);
+        source->SetNumberOfParticles(1);
+        source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
+        source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
+        source->GetCurrentSource()->GetPosDist()->SetPosDisType("Plane");
+        source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Circle");
+        source->GetCurrentSource()->GetPosDist()->SetRadius(2.5*mm);
+        source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
 //         // source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
-//         // // source->GetCurrentSource()->GetPosDist()->SetCentreCoords(detectorConstruction->sourcePosition);
 //         // source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
 //         // source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
 //     }
 
-// #endif
+#endif
     // Generate the particle
 	source->GeneratePrimaryVertex(event);
     // G4cout << "generate primary vertex active" << G4endl;    
 
 }
-
-//----------------------- 8< -------------[ cut here ]------------------------
-
-
-// Given a material string find the corresponding particle definitions
-// void PrimaryGeneratorAction::setParticleFromMaterial(G4String material)
-// {
-//     // Start checking for the available materials
-
-//     // CURIUM --------------------------------------------------------------
-//     if (!material.compare("G4_Cm"))
-//     {
-//         G4ParticleDefinition* curium244 = G4IonTable::GetIonTable()->GetIon(96, 244, 0);
-//         source->SetParticleDefinition(curium244);
-//     }
-
-//     // IRON ----------------------------------------------------------------
-//     else if (!material.compare("G4_Fe"))
-//     {
-//         G4ParticleDefinition* iron55 = G4IonTable::GetIonTable()->GetIon(26, 55, 0);
-//         source->SetParticleDefinition(iron55);
-//     }
-
-//     // CADMIUM -------------------------------------------------------------
-//     else if (!material.compare("G4_Cd"))
-//     {
-//         G4ParticleDefinition* cadmium109 = G4IonTable::GetIonTable()->GetIon(48, 109, 0);
-//         source->SetParticleDefinition(cadmium109);
-//     }
-
-//     // COBALT --------------------------------------------------------------
-//     else if (!material.compare("G4_Co"))
-//     {
-//         G4ParticleDefinition* cobalt60 = G4IonTable::GetIonTable()->GetIon(27, 57, 0);
-//         source->SetParticleDefinition(cobalt60);
-//     }
-
-//     // AMERICIUM -----------------------------------------------------------
-//     else if (!material.compare("G4_Am"))
-//     {
-//         G4ParticleDefinition* americium241 = G4IonTable::GetIonTable()->GetIon(95, 241, 0);
-//         source->SetParticleDefinition(americium241);
-//     }
-
-//     // DEFAULT -------------------------------------------------------------
-//     else {
-//         G4cerr << "The material selected for the source is not in the candidates. Please select another one" << G4endl;
-//     }
-// }
 
 
 void PrimaryGeneratorAction::setParticleFromMaterial(G4Material * material)
@@ -148,3 +91,50 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4Material * material)
 //     G4ParticleDefinition* isotope = G4IonTable::GetIonTable()->GetIon(Z, A, 0);
 //     source->SetParticleDefinition(isotope);
 // }
+
+
+#include "G4VoxelLimits.hh"
+#include "G4VSolid.hh"
+#include "G4TessellatedSolid.hh"
+#include "G4AffineTransform.hh"
+#include "globals.hh" 
+
+
+std::pair<G4ThreeVector, G4ThreeVector> PrimaryGeneratorAction::ComputeExtentInMother(G4VPhysicalVolume* pv)
+{
+    // 1) Get the solid (your tessellated)
+    auto* tess = dynamic_cast<G4TessellatedSolid*>(pv->GetLogicalVolume()->GetSolid());
+    if (!tess) { return {}; }
+
+    // 2) Build the placement transform (solid → mother)
+    const G4RotationMatrix* Rptr = pv->GetObjectRotation();
+    G4RotationMatrix        R    = (Rptr ? *Rptr : G4RotationMatrix()); // identity if null
+    R.invert(); // convert stored mother→daughter rotation into the needed daughter→mother
+    const G4ThreeVector     T    = pv->GetObjectTranslation();
+    G4AffineTransform       tr(R, T);
+
+    // 3) Ask Geant4 for extents of the *transformed* solid
+    G4VoxelLimits lim; // no limits
+    G4double xmin, xmax, ymin, ymax, zmin, zmax;
+    tess->CalculateExtent(kXAxis, lim, tr, xmin, xmax);
+    tess->CalculateExtent(kYAxis, lim, tr, ymin, ymax);
+    tess->CalculateExtent(kZAxis, lim, tr, zmin, zmax);
+
+    // 4) Return min/max corners in the mother frame
+    return {
+        G4ThreeVector(xmin, ymin, zmin),
+        G4ThreeVector(xmax, ymax, zmax)
+    };
+}
+
+G4ThreeVector PrimaryGeneratorAction::ComputeCentroidInMother(G4VPhysicalVolume* pv)
+{
+    auto extent = ComputeExtentInMother(pv);
+    const auto& min = extent.first;
+    const auto& max = extent.second;
+    return G4ThreeVector(
+        (min.x() + max.x())/2.,
+        (min.y() + max.y())/2.,
+        (min.z() + max.z())/2.
+    );
+}

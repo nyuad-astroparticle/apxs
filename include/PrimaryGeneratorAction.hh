@@ -24,6 +24,8 @@ decays of the source material.
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "DetectorConstruction.hh"
 
+#include <utility>
+
 // Other declarations to avoid importing headers for no reason
 class G4Event;
 class G4String;
@@ -41,6 +43,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     private:
         void setParticleFromMaterial(G4Material * materialName);
         void setParticleFromName(const G4String &materialName);
+        G4ThreeVector ComputeCentroidInMother(G4VPhysicalVolume* pv);
+        std::pair<G4ThreeVector, G4ThreeVector> ComputeExtentInMother(G4VPhysicalVolume* pv);
 
         DetectorConstruction*       detectorConstruction;   // The detector construction class that we will steal the source parameters from
         G4GeneralParticleSource*    source;                 // The Particle source class that will generate the decay products.

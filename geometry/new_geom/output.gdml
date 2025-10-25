@@ -3,7 +3,8 @@
 
     <define>
         <rotation name="total_rotation" x="90" y="0" z="0" unit="degree"/> 
-        <position name="source_window_position" x="-113.317" y="-94.7415" z="110.277 + 0.1" unit="mm"/>
+        <!-- the gps is 0.1 away from 10.277 so here we put 0.2 + thickness -->
+        <position name="source_window_position" x="-113.317" y="-94.7415" z="110.277 + 0.7" unit="mm"/>
     </define>
 
     <materials>
@@ -39,10 +40,10 @@
                 <file name="./geometry/new_geom/source_ascii.gdml"/>
                 <rotationref ref="total_rotation"/>
              </physvol>
-            <!-- <physvol>
+            <physvol>
                 <file name="./geometry/new_geom/source_window.gdml"/>
                 <positionref ref="source_window_position"/>
-             </physvol> -->
+             </physvol>
 
 
         </volume>
