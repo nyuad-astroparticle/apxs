@@ -47,12 +47,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 //     
 
         G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
-        G4cout << detectorConstruction->sourceVolume << G4endl;
+        // G4cout << detectorConstruction->sourceVolume << G4endl;
         G4VSolid *solid = physVol->GetLogicalVolume()->GetSolid();
         
         const G4double thicknessZ = ComputeExtentInMother(physVol).second.z() - ComputeExtentInMother(physVol).first.z();
         G4ThreeVector pos = ComputeCentroidInMother(physVol) + G4ThreeVector(0,0,thicknessZ/2 + 0.1*mm);
-        G4cout << "The source position was found to be " << pos << G4endl;
+        // G4cout << "The source position was found to be " << pos << G4endl;
 
         
         G4Material * material = physVol->GetLogicalVolume()->GetMaterial();

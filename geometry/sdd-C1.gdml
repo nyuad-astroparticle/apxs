@@ -113,24 +113,33 @@
         <volume name="sddWindowLogical">
             <materialref ref="siliconNitride" />
             <solidref ref="sddWindowSolid" />
+            <auxiliary auxtype="Color" auxvalue="0.2 0.5 0.1"/>
+            <auxiliary auxtype="opacity" auxvalue="0.8"/>
         </volume>
 
         <!-- Logical Volume of the C1 Aluminum Coating -->
         <volume name="sddWindowC1AluminumLogical">
             <materialref ref="G4_Al" />
             <solidref ref="sddWindowAluminumSolid" />
+            <auxiliary auxtype="Color" auxvalue="0.2 0.1 0.6"/>
+            <auxiliary auxtype="opacity" auxvalue="0.6"/>
         </volume>
 
         <!-- Logical Volume of the Silicon Sensor -->
         <volume name="detectLogical">
-            <materialref ref="G4_Galactic" />
+            <materialref ref="G4_Si" />
             <solidref ref="sddDetectorSolid" />
+            <auxiliary auxtype="Color" auxvalue="0.1 0.4 0.4"/>
+            <auxiliary auxtype="opacity" auxvalue="1"/>
+            <auxiliary auxtype="SensDet"/>
         </volume>
 
         <!-- Create the logical Volume of the casing -->
         <volume name="sddCaseLogical">
             <materialref ref="G4_Al" />
             <solidref ref="sddCaseSolid" />
+            <auxiliary auxtype="Color" auxvalue="0.9 0.9 0.9"/>
+            <auxiliary auxtype="opacity" auxvalue="0.2"/>
         </volume>
 
         <!-- MINI World Volume -->
@@ -157,6 +166,8 @@
                 <positionref ref="XrayTubePosition"/>
                 <rotationref ref="XrayTubeRotation"/>
             </physvol> -->
+            <auxiliary auxtype="Color" auxvalue="0 0 0"/>
+            <auxiliary auxtype="opacity" auxvalue="0"/>
         </volume>
     </structure>
 
