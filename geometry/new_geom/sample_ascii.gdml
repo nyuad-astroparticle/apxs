@@ -25,6 +25,18 @@
             <fraction n="0.027171" ref="G4_K"/>
             <fraction n="0.070615" ref="G4_Ca"/>
         </material>
+
+        <!-- Howlite material copied from DetectorConstruction.cc mass fractions -->
+        <material name="Howlite" state="solid">
+            <D value="2.58" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/>
+            <fraction n="0.5723899" ref="G4_O"/>
+            <fraction n="0.2048364" ref="G4_Ca"/>
+            <fraction n="0.1381232" ref="G4_B"/>
+            <fraction n="0.0717717" ref="G4_Si"/>
+            <fraction n="0.0128788" ref="G4_H"/>
+        </material>
     </materials>
 
 
@@ -43,7 +55,7 @@
 
     <structure>
         <volume name="sample_ascii">
-            <materialref ref="rock1material"/>
+            <materialref ref="Howlite"/>
             <solidref ref="sample_ascii-SOL"/>
             <auxiliary auxtype="Color" auxvalue="0.607 0.521 0.235"/>
             <auxiliary auxtype="opacity" auxvalue="1"/>

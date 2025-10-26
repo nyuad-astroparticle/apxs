@@ -456,6 +456,7 @@ void DetectorConstruction::CreateMaterials()
     massFraction.clear();
 
     // Howlite --------------------------------------------------------------
+    density = 2.58 * g/cm3;  // Specific gravity ~2.53-2.59
     elements.push_back("O" );  massFraction.push_back(0.5723899);  // 14 O
     elements.push_back("Ca");  massFraction.push_back(0.2048364);  // 2  Ca
     elements.push_back("B" );  massFraction.push_back(0.1381232);  // 5  B
@@ -465,6 +466,7 @@ void DetectorConstruction::CreateMaterials()
     nist->ConstructNewMaterial("Howlite", elements, massFraction, density);
     elements.clear();
     massFraction.clear();
+    density = 3.0 * g/cm3;  // reset default for subsequent rocks
 
     // Apollo 17 Orange --------------------------------------------------------------
     elements.push_back("O" );       massFraction.push_back(0.4007786);
