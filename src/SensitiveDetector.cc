@@ -77,7 +77,7 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
     hit->setTrackID         (step->GetTrack()->GetTrackID());
     hit->setMigrantID       (migrantID);
     hit->setParticle        (step->GetTrack()->GetParticleDefinition()->GetParticleName());
-    hit->setInitialEnergy   (step->GetTrack()->GetKineticEnergy());
+    hit->setInitialEnergy   (step->GetTrack()->GetVertexKineticEnergy());
     hit->setDepositedEnergy (step->GetTotalEnergyDeposit());
     hit->setPosition        (step->GetPostStepPoint()->GetPosition());
     hit->setTime            (step->GetPostStepPoint()->GetGlobalTime());
