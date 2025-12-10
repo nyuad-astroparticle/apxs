@@ -46,24 +46,24 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 #ifndef X_RAY
 //     
 
-        // G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
-        // // G4cout << detectorConstruction->sourceVolume << G4endl;
-        // G4VSolid *solid = physVol->GetLogicalVolume()->GetSolid();
+        G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
+        // G4cout << detectorConstruction->sourceVolume << G4endl;
+        G4VSolid *solid = physVol->GetLogicalVolume()->GetSolid();
         
-        // const G4double thicknessZ = ComputeExtentInMother(physVol).second.z() - ComputeExtentInMother(physVol).first.z();
-        // G4ThreeVector pos = ComputeCentroidInMother(physVol) + G4ThreeVector(0,0,thicknessZ/2 + 0.1*mm);
-        // // G4cout << "The source position was found to be " << pos << G4endl;
+        const G4double thicknessZ = ComputeExtentInMother(physVol).second.z() - ComputeExtentInMother(physVol).first.z();
+        G4ThreeVector pos = ComputeCentroidInMother(physVol) + G4ThreeVector(0,0,thicknessZ/2 + 0.1*mm);
+        // G4cout << "The source position was found to be " << pos << G4endl;
 
         
-        // G4Material * material = physVol->GetLogicalVolume()->GetMaterial();
-        // setParticleFromMaterial(material);
-        // source->SetNumberOfParticles(1);
-        // source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
-        // source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
-        // source->GetCurrentSource()->GetPosDist()->SetPosDisType("Plane");
-        // source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Circle");
-        // source->GetCurrentSource()->GetPosDist()->SetRadius(2.5*mm);
-        // source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
+        G4Material * material = physVol->GetLogicalVolume()->GetMaterial();
+        setParticleFromMaterial(material);
+        source->SetNumberOfParticles(1);
+        source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
+        source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
+        source->GetCurrentSource()->GetPosDist()->SetPosDisType("Plane");
+        source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Circle");
+        source->GetCurrentSource()->GetPosDist()->SetRadius(2.5*mm);
+        source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
 //         // source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
 //         // source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
 //         // source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
