@@ -70,10 +70,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 //     }
 
 #endif
-    // Generate the particle
 	source->GeneratePrimaryVertex(event);
-    // G4cout << "generate primary vertex active" << G4endl;    
-
 }
 
 
@@ -84,13 +81,6 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4Material * material)
     G4ParticleDefinition* particle = G4IonTable::GetIonTable()->GetIon(Z, A, 0);
     source->SetParticleDefinition(particle);
 }
-
-
-// void PrimaryGeneratorAction::setParticleFromName(const G4String &materialName)
-// {
-//     G4ParticleDefinition* isotope = G4IonTable::GetIonTable()->GetIon(Z, A, 0);
-//     source->SetParticleDefinition(isotope);
-// }
 
 
 #include "G4VoxelLimits.hh"
