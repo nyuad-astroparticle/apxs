@@ -2,32 +2,32 @@
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
 
     <define>
-        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-177.6866" z="-158.8537"/>
-        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-224.8463" z="-158.8665"/>
-        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-177.6866" z="-98.85368"/>
-        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-224.8463" z="-98.86649"/>
-        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-177.6866" z="-158.8665"/>
-        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-177.6866" z="-98.86649"/>
+        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-157.6866" z="-138.8537"/>
+        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-204.8463" z="-138.8665"/>
+        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-157.6866" z="-78.85368"/>
+        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-204.8463" z="-78.86649"/>
+        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-157.6866" z="-138.8665"/>
+        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-157.6866" z="-78.86649"/>
     </define>
 
     <materials>
     <!-- Define a rock-like mixture by NUMBER OF ATOMS (atomic %) -->
-        <material name="rock1material" state="solid">
+        <!-- <material name="rock1material" state="solid">
             <D value="2.65" unit="g/cm3"/>
             <T value="293.15" unit="K"/>
-            <P value="1" unit="bar"/>
+            <P value="1" unit="bar"/> -->
 
             <!-- Atomic % from your table (elements with 0% omitted) -->
-            <fraction n="0.420806" ref="G4_C"/>
+            <!-- <fraction n="0.420806" ref="G4_C"/>
             <fraction n="0.307048" ref="G4_O"/>
             <fraction n="0.046215" ref="G4_Al"/>
             <fraction n="0.128145" ref="G4_Si"/>
             <fraction n="0.027171" ref="G4_K"/>
-            <fraction n="0.070615" ref="G4_Ca"/>
-        </material>
+            <fraction n="0.070615" ref="G4_Ca"/> -->
+        <!-- </material> -->
 
         <!-- Howlite material copied from DetectorConstruction.cc mass fractions -->
-        <material name="Howlite" state="solid">
+        <!-- <material name="Howlite" state="solid">
             <D value="2.58" unit="g/cm3"/>
             <T value="293.15" unit="K"/>
             <P value="1" unit="bar"/>
@@ -36,7 +36,32 @@
             <fraction n="0.1381232" ref="G4_B"/>
             <fraction n="0.0717717" ref="G4_Si"/>
             <fraction n="0.0128788" ref="G4_H"/>
+        </material> -->
+
+        <!-- <material name = "FerroanNoriticAnorthosite" state="solid">
+            <D value="3.0" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/>
+            <fraction n="0.4497951" ref="G4_O"/>
+            <fraction n="0.2070582" ref="G4_Si"/>
+            <fraction n="0.1572021" ref="G4_Al"/>
+            <fraction n="0.0310920" ref="G4_Fe"/>
+            <fraction n="0.0004647" ref="G4_Mn"/>
+            <fraction n="0.0229140" ref="G4_Mg"/>
+            <fraction n="0.1236431" ref="G4_Ca"/>
+            <fraction n="0.0015580" ref="G4_Na"/>
+            <fraction n="0.0001328" ref="G4_K"/>
+            <fraction n="0.0004600" ref="G4_Cr"/>
+            <fraction n="0.0001500" ref="G4_Sr"/>
+        </material> -->
+
+        <material name = "Calcium" state="solid">
+            <D value="3.0" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/>
+            <fraction n="1.0" ref="G4_Ca"/>
         </material>
+
     </materials>
 
 
@@ -55,7 +80,7 @@
 
     <structure>
         <volume name="sample_ascii">
-            <materialref ref="Howlite"/>
+            <materialref ref="Calcium"/>
             <solidref ref="sample_ascii-SOL"/>
             <auxiliary auxtype="Color" auxvalue="0.607 0.521 0.235"/>
             <auxiliary auxtype="opacity" auxvalue="1"/>

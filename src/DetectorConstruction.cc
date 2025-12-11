@@ -380,12 +380,19 @@ void DetectorConstruction::CreateMaterials()
     elements.push_back("Mg");       massFraction.push_back(0.0229140); 
     elements.push_back("Ca");       massFraction.push_back(0.1236431); 
     elements.push_back("Na");       massFraction.push_back(0.0015580); 
-    elements.push_back("K");       massFraction.push_back(0.0001328); 
+    elements.push_back("K");        massFraction.push_back(0.0001328); 
     elements.push_back("Cr");       massFraction.push_back(0.0004600); 
     elements.push_back("Sr");       massFraction.push_back(0.0001500); 
 
     // add it to the material
     nist->ConstructNewMaterial("FerroanNoriticAnorthosite", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
+
+    // Calcium --------------------------------------------------------------
+    elements.push_back("Ca");       massFraction.push_back(1.000); 
+
+    nist->ConstructNewMaterial("Calcium", elements, massFraction, density);
     elements.clear();
     massFraction.clear();
 

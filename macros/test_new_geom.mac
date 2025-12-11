@@ -2,4 +2,15 @@
 /apxs/activeVolume source_ascii_PV
 /process/had/rdm/thresholdForVeryLongDecayTime 10e+20 year
 /run/printProgress 5000
-/run/beamOn 2147483648
+
+#/random/setSeeds 6666 1
+/run/beamOn 2000000000
+
+#/random/setSeeds 1234 2
+/run/beamOn 2000000000
+
+#/random/setSeeds 2345 3
+/run/beamOn 2000000000
+
+#/random/setSeeds 3456 4
+/run/beamOn 2000000000
