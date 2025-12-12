@@ -7,6 +7,7 @@
         <!-- To check the volume presense -->
 
         <variable name="detectLogical" variable="1"/>
+        <quantity name="sddAlCaseThickness" value="0.6"/>
         
         <!-- Translation for InnerCylinder -->
         <position name="InnerCylinderPosition" unit="mm" x="0" y="0" z="-4.5" />
@@ -61,10 +62,10 @@
 
     <solids>
         <!-- The cone at the top of the detector -->
-        <cone name="TopCone" z="2.1" rmax1="7" rmin1="6.7" rmax2="5.53" rmin2="5.23" deltaphi="360" lunit="mm" aunit="deg"/>
+        <cone name="TopCone" z="2.1" rmax1="7" rmin1="7 - sddAlCaseThickness" rmax2="5.53" rmin2="5.53 - sddAlCaseThickness" deltaphi="360" lunit="mm" aunit="deg"/>
     
         <!-- The cyllinder below it -->
-        <tube name="InnerCylinder" rmax="7" rmin="6.7" z="6.9" deltaphi="360" lunit="mm" aunit="deg"/>
+        <tube name="InnerCylinder" rmax="7" rmin="7.0 - sddAlCaseThickness" z="6.9" deltaphi="360" lunit="mm" aunit="deg"/>
 
         <!-- The little lip that sits below the TopCone and Holds the Window0 -->
         <tube name="Lip" rmax="5.583" rmin="3.5" z="0.3" deltaphi="360" lunit="mm" aunit="deg"/>

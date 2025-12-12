@@ -1,7 +1,23 @@
+# Needed so trajectories exist to be drawn/filtered
+/tracking/storeTrajectory 1
+
 /vis/open OGL
 /vis/drawVolume
+/vis/geometry/set/forceSolid
+
 /vis/viewer/set/autoRefresh true
 /vis/modeling/trajectories/create/drawByParticleID
 /vis/scene/endOfEventAction accumulate -1
-/vis/scene/add/trajectories smooth
-/vis/geometry/set/forceSolid
+
+# Use rich (recommended with trajectory filtering in general)
+/vis/scene/add/trajectories rich
+
+# ---- Filters (they chain automatically) ----
+
+# Only gammas
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add gamma
+
+# Only trajectories that encounter the detector physical volume name
+/vis/filtering/trajectories/create/encounteredVolumeFilter
+/vis/filtering/trajectories/encounteredVolumeFilter-0/add detectLogical_PV

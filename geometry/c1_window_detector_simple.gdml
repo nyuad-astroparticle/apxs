@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+    <!-- Minimal geometry: C1 detector + aluminum window in an empty world -->
+    <define>
+        <position name="WindowPosition" unit="mm" x="0" y="0" z="0.9"/>
+        <position name="DetectorPosition" unit="mm" x="0" y="0" z="-1.3"/>
+    </define>
+
+    <materials>
+        <!-- Using NIST materials by name: G4_Galactic, G4_Al, G4_Si -->
+    </materials>
+
+    <solids>
+        <!-- Reuse C1 dimensions -->
+        <tube name="sddWindowAluminumSolid" rmax="4" z="0.2" deltaphi="360" lunit="mm" aunit="degree"/>
+        <tube name="sddDetectorSolid" rmax="4.0" z="0.50" deltaphi="360" lunit="mm" aunit="degree"/>
+
+        <!-- Simple world box -->
+        <box name="worldBox" x="50" y="50" z="50" lunit="mm"/>
+    </solids>
+
+    <structure>
+        <volume name="sddWindowC1AluminumLogical">
+            <materialref ref="G4_Al"/>
+            <solidref ref="sddWindowAluminumSolid"/>
+            <auxiliary auxtype="Color" auxvalue="0.2 0.1 0.6"/>
+            <auxiliary auxtype="opacity" auxvalue="0.6"/>
+        </volume>
+
+        <volume name="detectLogical">
+            <materialref ref="G4_Si"/>
+            <solidref ref="sddDetectorSolid"/>
+            <auxiliary auxtype="Color" auxvalue="0.1 0.4 0.4"/>
+            <auxiliary auxtype="opacity" auxvalue="1"/>
+            <auxiliary auxtype="SensDet"/>
+        </volume>
+
+        <volume name="world">
+            <materialref ref="G4_Galactic"/>
+            <solidref ref="worldBox"/>
+            <physvol>
+                <volumeref ref="sddWindowC1AluminumLogical"/>
+                <positionref ref="WindowPosition"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="detectLogical"/>
+                <positionref ref="DetectorPosition"/>
+            </physvol>
+            <auxiliary auxtype="Color" auxvalue="0 0 0"/>
+            <auxiliary auxtype="opacity" auxvalue="0"/>
+        </volume>
+    </structure>
+
+    <setup name="Default" version="1.0">
+        <world ref="world"/>
+    </setup>
+</gdml>
