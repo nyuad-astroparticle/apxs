@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+
+    <define>
+        <rotation name="total_rotation" x="90" y="0" z="0" unit="degree"/> 
+        <!-- the gps is 0.1 away from 10.277 so here we put 0.2 + thickness -->
+        <position name="source_window_position" x="-113.317" y="-94.7415" z="110.277 + 0.7" unit="mm"/>
+        <position name="sdd_position" x="-121.627" y="-111.018" z="124.002 + 4" unit="mm"/>
+        <rotation name="sdd_rotation" x="0" y="0" z="180" unit="degree"/>
+        <!-- z controls distance from spectrometer -->
+        <position name="plate_position" unit="mm" x="-120" y="-100" z="180"/>
+        <!-- 'x' angle controls angle of inclination w.r.t. the ground -->
+        <!-- increasing 'x' from 0 results in rotation of the top half TOWARDS the spectrometer -->
+        <rotation name="plate_rotation" unit="deg" x="30" y="0" z="0"/>
+    </define>
+
+    <materials>
+
+    </materials>
+
+    <solids>
+        <box lunit="mm" name="world_solid" x="10000.0" y="10000.0" z="10000.0" />
+    </solids>
+
+    <structure>
+        <volume name="world_volume">
+            <materialref ref="G4_Galactic"/>
+            <solidref ref="world_solid"/>
+
+            <physvol>
+                <file name="./geometry/new_geom/steel_ascii.gdml"/>
+                <rotationref ref="total_rotation"/>
+             </physvol>
+            <physvol>
+                <file name="./geometry/new_geom/aluminum_ascii.gdml"/>
+                <rotationref ref="total_rotation"/>
+             </physvol>
+            <!-- <physvol>
+                <file name="./geometry/new_geom/sdd_ascii.gdml"/>
+                <rotationref ref="total_rotation"/>
+             </physvol> -->
+            <!-- <physvol>
+                <file name="./geometry/new_geom/sample_ascii.gdml"/>
+                <rotationref ref="total_rotation"/>
+             </physvol> -->
+            <physvol>
+                <file name="./geometry/new_geom/calibration_plate.gdml"/>
+                <positionref ref="plate_position"/>
+                <rotationref ref="total_rotation"/>
+                <rotationref ref="plate_rotation"/>
+            </physvol>
+            <physvol>
+                <file name="./geometry/new_geom/source_ascii.gdml"/>
+                <rotationref ref="total_rotation"/>
+             </physvol>
+            <physvol>
+                <file name="./geometry/new_geom/source_window.gdml"/>
+                <positionref ref="source_window_position"/>
+             </physvol>
+             <physvol>
+                <file name="./geometry/sdd-C1.gdml"/>
+                <positionref ref="sdd_position"/>
+                <rotationref ref="sdd_rotation"/>
+             </physvol>
+
+
+        </volume>
+    </structure>
+
+    <setup name="Default" version="1.0">
+        <world ref="world_volume"/>
+    </setup>
+</gdml>
