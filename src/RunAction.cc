@@ -29,12 +29,14 @@ RunAction::RunAction()
 {
     // If you are in parallel mode set up how to merge the files
     #ifdef MPI_ENABLE
+	// (This might have been an oopsie by me SORRY! -Panos)
+	/////////////////////////////////////////////////////////
     // Sets the merging of Ntuples for MPI
-    if (G4MPImanager::GetManager()->GetTotalSize() >= 2) {
-        G4int numberOfReducedNtupleFiles    = 0;
-        G4bool rowWise                      = true;
-        ntupleMerger    = new G4MPIntupleMerger(numberOfReducedNtupleFiles, rowWise);
-    }
+    // if (G4MPImanager::GetManager()->GetTotalSize() >= 2) {
+    //     G4int numberOfReducedNtupleFiles    = 0;
+    //     G4bool rowWise                      = true;
+    //     ntupleMerger    = new G4MPIntupleMerger(numberOfReducedNtupleFiles, rowWise);
+    // }
 
     // Enable table merging
     G4bool mergeNtuple  = false;
@@ -58,7 +60,7 @@ RunAction::~RunAction()
 {
     // If you are running in parallel mode delete the table merger
     #ifdef MPI_ENABLE
-    delete ntupleMerger;
+    // delete ntupleMerger;
     #endif
 }
 
