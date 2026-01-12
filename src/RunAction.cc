@@ -60,7 +60,7 @@ RunAction::~RunAction()
 {
     // If you are running in parallel mode delete the table merger
     #ifdef MPI_ENABLE
-    delete ntupleMerger;
+    // delete ntupleMerger;
     #endif
 }
 
