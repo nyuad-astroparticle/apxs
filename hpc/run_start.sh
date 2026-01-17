@@ -4,7 +4,7 @@
 # Set Memory
 #SBATCH --mem 64GB
 # Set WALLTIME
-#SBATCH --time 72:00:00
+#SBATCH --time 10:00:00
 # Set output and error files
 #SBATCH -o start-job.%J.out
 #SBATCH -e start-job.%J.err
@@ -23,13 +23,13 @@ source load_modules.sh
 # module load gcc cmake mpich expat
 
 # Run the application
-cd /scratch/ss14729/geant4/apxs/build/
+cd /scratch/ss14729/apxs/build6/
 start_time=`date +%s`
 mpiexec -n 4096 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac
 # mpiexec -n 10 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac
 end_time=`date +%s`
 echo execution time was `expr $end_time - $start_time` s.
-echo "SIM IS DONE!"
+echo "SIMULATION COMPLETED!"
 
 # echo "MERGING!"
 # ../hpc/merge.sh ./output > ./output/merge.csv

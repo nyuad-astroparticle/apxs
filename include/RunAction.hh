@@ -40,9 +40,9 @@ class RunAction : public G4UserRunAction
         static void BookAnalysis(const G4String& filename, G4bool ntupleMerging = false);
 
         // If you are using parallel run, create a manager for merging the output files
-        #ifdef MPI_ENABLE
-        G4MPIntupleMerger* ntupleMerger;
-        #endif
+        // #ifdef MPI_ENABLE
+        // G4MPIntupleMerger* ntupleMerger;
+        // #endif
 
 };
 

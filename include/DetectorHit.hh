@@ -55,6 +55,9 @@ class DetectorHit : public G4VHit
         void setParentVolume    (G4String parentVolume)     { this->parentVolume = parentVolume; }
         void setParentID        (G4int parentID)            {this->parentID = parentID; };
         void setProcessName     (G4String processName)      {this->processName = processName;}
+        void setInitialPosition (G4ThreeVector position)    { this->initialPosition = position; }
+        void setInitialMomentum (G4ThreeVector mom)         { this->initialMomentum = mom; }
+        void setMomentum        (G4ThreeVector mom)         { this->momentum = mom; }
 
         // Getters
         G4int                   getTrackID()                { return trackID; }
@@ -68,6 +71,9 @@ class DetectorHit : public G4VHit
         G4String                getParentVolume()           { return parentVolume; }
         G4int                   getParentID()               {return parentID;};
         G4String                getProcessName()            {return processName;};
+        G4ThreeVector           getInitialPosition()        { return initialPosition; }
+        G4ThreeVector           getInitialMomentum()        { return initialMomentum; }
+        G4ThreeVector           getMomentum()               { return momentum; }
 
     
     private:
@@ -88,6 +94,12 @@ class DetectorHit : public G4VHit
 
         G4int           parentID        = -1;
         G4String        processName     = "";
+
+        // Initial position (vertex) and momentum.
+        G4ThreeVector   initialPosition = G4ThreeVector(0.,0.,0.);
+        // Momenta (Geant4 internal units: MeV).
+        G4ThreeVector   initialMomentum = G4ThreeVector(0.,0.,0.);
+        G4ThreeVector   momentum        = G4ThreeVector(0.,0.,0.);
 
 };
 

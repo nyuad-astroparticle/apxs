@@ -30,11 +30,12 @@ RunAction::RunAction()
     // If you are in parallel mode set up how to merge the files
     #ifdef MPI_ENABLE
     // Sets the merging of Ntuples for MPI
-    if (G4MPImanager::GetManager()->GetTotalSize() >= 2) {
-        G4int numberOfReducedNtupleFiles    = 0;
-        G4bool rowWise                      = true;
-        ntupleMerger    = new G4MPIntupleMerger(numberOfReducedNtupleFiles, rowWise);
-    }
+    // if (G4MPImanager::GetManager()->GetTotalSize() >= 2) {
+    //    G4int numberOfReducedNtupleFiles    = 0;
+    //    G4bool rowWise                      = true;
+    //    ntupleMerger    = new G4MPIntupleMerger(numberOfReducedNtupleFiles, rowWise);
+    // }
+    // ntupleMerger = nullptr;
 
     // Enable table merging
     G4bool mergeNtuple  = false;
@@ -58,7 +59,7 @@ RunAction::~RunAction()
 {
     // If you are running in parallel mode delete the table merger
     #ifdef MPI_ENABLE
-    delete ntupleMerger;
+    // delete ntupleMerger; 
     #endif
 }
 
@@ -111,10 +112,10 @@ void RunAction::EndOfRunAction(const G4Run* run)
     const G4int rank    = G4MPImanager::GetManager()->GetRank();
 
     // Write the file if you are the main thread. 
-    if (!G4MPImanager::GetManager()->IsExtraWorker()){
+    // if (!G4MPImanager::GetManager()->IsExtraWorker()){
     	analysisManager->Write();
     	analysisManager->CloseFile(false);
-    }
+    // }
     
     #else
     // Write the leftovers and save the file without removing the data from analysis manager
@@ -147,6 +148,12 @@ void RunAction::BookAnalysis(const G4String& filename, G4bool ntupleMerging)
     analysisManager->CreateNtupleIColumn("MigrantID");
     analysisManager->CreateNtupleSColumn("Particle");
     analysisManager->CreateNtupleDColumn("InitialEnergy");
+    analysisManager->CreateNtupleDColumn("InitialX");
+    analysisManager->CreateNtupleDColumn("InitialY");
+    analysisManager->CreateNtupleDColumn("InitialZ");
+    analysisManager->CreateNtupleDColumn("InitialMomentumX");
+    analysisManager->CreateNtupleDColumn("InitialMomentumY");
+    analysisManager->CreateNtupleDColumn("InitialMomentumZ");
     analysisManager->CreateNtupleDColumn("DepositedEnergy");
     analysisManager->CreateNtupleDColumn("XPosition");
     analysisManager->CreateNtupleDColumn("YPosition");
@@ -156,5 +163,8 @@ void RunAction::BookAnalysis(const G4String& filename, G4bool ntupleMerging)
     analysisManager->CreateNtupleSColumn("ParentVolume");
     analysisManager->CreateNtupleIColumn("ParentID");
     analysisManager->CreateNtupleSColumn("ProcessName");
+    // analysisManager->CreateNtupleDColumn("MomentumX");
+    // analysisManager->CreateNtupleDColumn("MomentumY");
+    // analysisManager->CreateNtupleDColumn("MomentumZ");
     analysisManager->FinishNtuple();
 }

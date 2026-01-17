@@ -17,6 +17,9 @@ particle passes through
 #include "G4SDManager.hh"
 #include "G4String.hh"
 #include "TrackInformation.hh"
+#include "G4PhysicalConstants.hh"
+#include "G4SystemOfUnits.hh"
+#include <cmath>
 
 // Constructor Calls the parent constructor with the same name and...
 SensitiveDetector::SensitiveDetector(const G4String& name, const G4String& hitsCollectionName)
@@ -78,6 +81,7 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
     hit->setMigrantID       (migrantID);
     hit->setParticle        (step->GetTrack()->GetParticleDefinition()->GetParticleName());
     hit->setInitialEnergy   (step->GetTrack()->GetVertexKineticEnergy());
+    hit->setInitialPosition (step->GetTrack()->GetVertexPosition());
     hit->setDepositedEnergy (step->GetTotalEnergyDeposit());
     hit->setPosition        (step->GetPostStepPoint()->GetPosition());
     hit->setTime            (step->GetPostStepPoint()->GetGlobalTime());
@@ -85,6 +89,28 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history)
     hit->setParentVolume    (parentVolume);
     hit->setParentID        (step->GetTrack()->GetParentID());
     hit->setProcessName     (processName);
+
+    // Momenta: initial from vertex KE + mass, final from post-step point
+    const auto* definition    = step->GetTrack()->GetParticleDefinition();
+    const G4double mass       = definition->GetPDGMass();
+    const G4double ke0        = step->GetTrack()->GetVertexKineticEnergy(); // MeV
+    const G4ThreeVector dir0  = step->GetTrack()->GetVertexMomentumDirection(); // unit vector
+    // if (ke0 >= 0.0) {
+        // if (mass > 0.0) {
+        //     const G4double e0 = ke0 + mass; // total energy
+        //     const G4double p2 = e0*e0 - mass*mass;
+        //     const G4double p0 = (p2 > 0.0) ? std::sqrt(p2) : 0.0; // MeV (Geant4 momentum units)
+        //     hit->setInitialMomentum(dir0 * p0);
+        // } else {
+            // massless: p = E/c, but in G4 units momentum is also in MeV, so p = E
+    hit->setInitialMomentum(dir0);
+        // }
+    // } else {
+        // hit->setInitialMomentum(G4ThreeVector(0.,0.,0.));
+    // }
+
+    // Final momentum at detector: use pre-step momentum (entering step) so it is non-zero even if the track is killed at this step.
+    // hit->setMomentum(step->GetPreStepPoint()->GetMomentum()); // MeV
 
     // Add the hit to the hits collection
     hitsCollection->insert(hit);

@@ -50,15 +50,24 @@ void EventAction::EndOfEventAction(const G4Event* event)
             analysisManager->FillNtupleIColumn(2, hit->getMigrantID());
             analysisManager->FillNtupleSColumn(3, hit->getParticle());
             analysisManager->FillNtupleDColumn(4, hit->getInitialEnergy()/keV);         // Divide to return the answer in keV
-            analysisManager->FillNtupleDColumn(5, hit->getDepositedEnergy()/keV);       // Divide to return the answer in keV
-            analysisManager->FillNtupleDColumn(6, hit->getPosition()[0]);
-            analysisManager->FillNtupleDColumn(7, hit->getPosition()[1]);
-            analysisManager->FillNtupleDColumn(8, hit->getPosition()[2]);
-            analysisManager->FillNtupleDColumn(9, hit->getTime()/year);                 // Divide to return the answer in ns
-            analysisManager->FillNtupleSColumn(10,hit->getVolume());
-            analysisManager->FillNtupleSColumn(11,hit->getParentVolume());
-            analysisManager->FillNtupleIColumn(12,hit->getParentID());
-            analysisManager->FillNtupleSColumn(13,hit->getProcessName());
+            analysisManager->FillNtupleDColumn(5, hit->getInitialPosition()[0]);
+            analysisManager->FillNtupleDColumn(6, hit->getInitialPosition()[1]);
+            analysisManager->FillNtupleDColumn(7, hit->getInitialPosition()[2]);
+            analysisManager->FillNtupleDColumn(8, hit->getInitialMomentum()[0]);     // MeV/c components
+            analysisManager->FillNtupleDColumn(9, hit->getInitialMomentum()[1]);
+            analysisManager->FillNtupleDColumn(10, hit->getInitialMomentum()[2]);
+            analysisManager->FillNtupleDColumn(11, hit->getDepositedEnergy()/keV);       // Divide to return the answer in keV
+            analysisManager->FillNtupleDColumn(12, hit->getPosition()[0]);
+            analysisManager->FillNtupleDColumn(13, hit->getPosition()[1]);
+            analysisManager->FillNtupleDColumn(14, hit->getPosition()[2]);
+            analysisManager->FillNtupleDColumn(15, hit->getTime()/year);                // Divide to return the answer in ns
+            analysisManager->FillNtupleSColumn(16,hit->getVolume());
+            analysisManager->FillNtupleSColumn(17,hit->getParentVolume());
+            analysisManager->FillNtupleIColumn(18,hit->getParentID());
+            analysisManager->FillNtupleSColumn(19,hit->getProcessName());
+            // analysisManager->FillNtupleDColumn(20, hit->getMomentum()[0]/MeV);           // MeV/c components at detector
+            // analysisManager->FillNtupleDColumn(21, hit->getMomentum()[1]/MeV);
+            // analysisManager->FillNtupleDColumn(22, hit->getMomentum()[2]/MeV);
             
             // Finish By adding a row
             analysisManager->AddNtupleRow();

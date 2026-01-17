@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
 
+    <!-- <define>
+        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-177.6866" z="-138.8537"/>
+        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-224.8463" z="-138.8665"/>
+        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-177.6866" z="-78.85368"/>
+        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-224.8463" z="-78.86649"/>
+        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-177.6866" z="-138.8665"/>
+        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-177.6866" z="-78.86649"/>
+    </define> -->
+
     <define>
-        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-157.6866" z="-138.8537"/>
-        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-204.8463" z="-138.8665"/>
-        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-157.6866" z="-78.85368"/>
-        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-204.8463" z="-78.86649"/>
-        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-157.6866" z="-138.8665"/>
-        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-157.6866" z="-78.86649"/>
+        <!-- Adjustable offset for the sample Y coordinates -->
+        <variable name="dist" value="7.50"/>
+
+        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-129.1290 - dist" z="-138.8537"/>
+        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-176.2887 - dist" z="-138.8665"/>
+        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-129.1290 - dist" z="-78.85368"/>
+        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-176.2887 - dist" z="-78.86649"/>
+        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-129.1290 - dist" z="-138.8665"/>
+        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-129.1290 - dist" z="-78.86649"/>
     </define>
 
     <materials>
@@ -38,7 +50,7 @@
             <fraction n="0.0128788" ref="G4_H"/>
         </material> -->
 
-        <!-- <material name = "FerroanNoriticAnorthosite" state="solid">
+        <material name = "FerroanNoriticAnorthosite" state="solid">
             <D value="3.0" unit="g/cm3"/>
             <T value="293.15" unit="K"/>
             <P value="1" unit="bar"/>
@@ -53,14 +65,14 @@
             <fraction n="0.0001328" ref="G4_K"/>
             <fraction n="0.0004600" ref="G4_Cr"/>
             <fraction n="0.0001500" ref="G4_Sr"/>
-        </material> -->
+        </material>
 
-        <material name = "Calcium" state="solid">
+        <!-- <material name = "Calcium" state="solid">
             <D value="3.0" unit="g/cm3"/>
             <T value="293.15" unit="K"/>
             <P value="1" unit="bar"/>
             <fraction n="1.0" ref="G4_Ca"/>
-        </material>
+        </material> -->
 
     </materials>
 
@@ -80,7 +92,7 @@
 
     <structure>
         <volume name="sample_ascii">
-            <materialref ref="Calcium"/>
+            <materialref ref="FerroanNoriticAnorthosite"/>
             <solidref ref="sample_ascii-SOL"/>
             <auxiliary auxtype="Color" auxvalue="0.607 0.521 0.235"/>
             <auxiliary auxtype="opacity" auxvalue="1"/>
