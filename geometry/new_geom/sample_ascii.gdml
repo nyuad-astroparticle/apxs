@@ -10,16 +10,58 @@
         <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-177.6866" z="-78.86649"/>
     </define> -->
 
-    <define>
+    <!-- <define> -->
         <!-- Adjustable offset for the sample Y coordinates -->
-        <variable name="dist" value="7.50"/>
+        <!-- <variable name="dist" value="7.50"/> -->
 
-        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-129.1290 - dist" z="-138.8537"/>
-        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-176.2887 - dist" z="-138.8665"/>
-        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-129.1290 - dist" z="-78.85368"/>
-        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-176.2887 - dist" z="-78.86649"/>
-        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-129.1290 - dist" z="-138.8665"/>
-        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-129.1290 - dist" z="-78.86649"/>
+        <!-- <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-129.1290 - dist" z="-138.8537"/> -->
+        <!-- <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-176.2887 - dist" z="-138.8665"/> -->
+        <!-- <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-129.1290 - dist" z="-78.85368"/> -->
+        <!-- <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-176.2887 - dist" z="-78.86649"/> -->
+        <!-- <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-129.1290 - dist" z="-138.8665"/> -->
+        <!-- <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-129.1290 - dist" z="-78.86649"/> -->
+    <!-- </define> -->
+
+     <define>
+         <!-- Adjustable offset for the sample Y coordinates (adjusting this moves the sample away from the detector plane)-->
+        <variable name="dist" value="20.00" />
+
+        <!-- Center of the sample in the x, y, z coordinates -->
+        <variable name="x_cen" value="-112.1852" />
+        <variable name="y_cen" value="-174.8489" />
+        <variable name="z_cen" value="-108.8537" />
+
+        <!-- Rotation angle in degrees for Z-rotation -->
+        <variable name="degrees" value="45.0" />
+        <variable name="sin_theta" value="sin(degrees*deg)" />
+        <variable name="cos_theta" value="cos(degrees*deg)" />
+
+         <!-- Rotate sample vertices around Z using (x_cen, y_cen) as pivot; z unchanged -->
+        <position name="sample_ascii_v0" unit="mm"
+            x="(-145.5185 - x_cen)*cos_theta - ((-129.1290 - dist) - y_cen)*sin_theta + x_cen"
+            y="(-145.5185 - x_cen)*sin_theta + ((-129.1290 - dist) - y_cen)*cos_theta + y_cen"
+            z="-138.8537"/>
+        <position name="sample_ascii_v1" unit="mm"
+            x="(-95.51854 - x_cen)*cos_theta - ((-176.2887 - dist) - y_cen)*sin_theta + x_cen"
+            y="(-95.51854 - x_cen)*sin_theta + ((-176.2887 - dist) - y_cen)*cos_theta + y_cen"
+            z="-138.8665"/>
+        <position name="sample_ascii_v2" unit="mm"
+            x="(-145.5032 - x_cen)*cos_theta - ((-129.1290 - dist) - y_cen)*sin_theta + x_cen"
+            y="(-145.5032 - x_cen)*sin_theta + ((-129.1290 - dist) - y_cen)*cos_theta + y_cen"
+            z="-78.85368"/>
+        <position name="sample_ascii_v3" unit="mm"
+            x="(-95.50317 - x_cen)*cos_theta - ((-176.2887 - dist) - y_cen)*sin_theta + x_cen"
+            y="(-95.50317 - x_cen)*sin_theta + ((-176.2887 - dist) - y_cen)*cos_theta + y_cen"
+            z="-78.86649"/>
+        <position name="sample_ascii_v4" unit="mm"
+            x="(-95.51854 - x_cen)*cos_theta - ((-129.1290 - dist) - y_cen)*sin_theta + x_cen"
+            y="(-95.51854 - x_cen)*sin_theta + ((-129.1290 - dist) - y_cen)*cos_theta + y_cen"
+            z="-138.8665"/>
+        <position name="sample_ascii_v5" unit="mm"
+            x="(-95.50317 - x_cen)*cos_theta - ((-129.1290 - dist) - y_cen)*sin_theta + x_cen"
+            y="(-95.50317 - x_cen)*sin_theta + ((-129.1290 - dist) - y_cen)*cos_theta + y_cen"
+            z="-78.86649"/>
+    
     </define>
 
     <materials>
