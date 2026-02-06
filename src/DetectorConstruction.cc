@@ -396,6 +396,25 @@ void DetectorConstruction::CreateMaterials()
     elements.clear();
     massFraction.clear();
 
+    // Anorthosite2 -----------------------------------------------
+    elements.push_back("O");        massFraction.push_back(0.4589194277);
+    elements.push_back("Si");       massFraction.push_back(0.2159557612);
+    elements.push_back("Ti");       massFraction.push_back(0.00004135507419);
+    elements.push_back("Al");       massFraction.push_back(0.1693621028);
+    elements.push_back("Fe");       massFraction.push_back(0.0002331881012);
+    elements.push_back("Mn");       massFraction.push_back(0.00006660371879);
+    elements.push_back("Mg");       massFraction.push_back(0.004685635421);
+    elements.push_back("Ca");       massFraction.push_back(0.1450853261);
+    elements.push_back("K");        massFraction.push_back(0.0008301513022);
+    elements.push_back("P");        massFraction.push_back(0.0004931626446);
+    elements.push_back("S");        massFraction.push_back(0.0002122859605);
+
+    // add it to the material
+    nist->ConstructNewMaterial("Anorthosite2", elements, massFraction, density);
+    elements.clear();
+    massFraction.clear();
+    density = 3.0 * g/cm3;
+
     // Pigeonite Basalt --------------------------------------------------------------
     elements.push_back("O" );       massFraction.push_back(0.4172228);
     elements.push_back("Si");       massFraction.push_back(0.2159855);   

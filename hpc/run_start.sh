@@ -1,10 +1,10 @@
 #!/bin/bash
 # Number of tasks
-#SBATCH --ntasks 2048
+#SBATCH --ntasks 4096
 # Set Memory
 #SBATCH --mem 64GB
 # Set WALLTIME
-#SBATCH --time 10:00:00
+#SBATCH --time 48:00:00
 # Set output and error files
 #SBATCH -o start-job.%J.out
 #SBATCH -e start-job.%J.err
@@ -23,9 +23,9 @@ source load_modules.sh
 # module load gcc cmake mpich expat
 
 # Run the application
-cd /scratch/ss14729/apxs/build2/
+cd /scratch/ss14729/apxs/build_40b/
 start_time=`date +%s`
-mpiexec -n 2048 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac
+mpiexec -n 4096 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac
 # mpiexec -n 10 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac
 end_time=`date +%s`
 echo execution time was `expr $end_time - $start_time` s.

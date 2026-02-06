@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+
+    <!-- <define>
+        <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-177.6866" z="-138.8537"/>
+        <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-224.8463" z="-138.8665"/>
+        <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-177.6866" z="-78.85368"/>
+        <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-224.8463" z="-78.86649"/>
+        <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-177.6866" z="-138.8665"/>
+        <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-177.6866" z="-78.86649"/>
+    </define> -->
+
+    <!-- <define> -->
+        <!-- Adjustable offset for the sample Y coordinates -->
+        <!-- <variable name="dist" value="7.50"/> -->
+
+        <!-- <position name="sample_ascii_v0" unit="mm" x="-145.5185" y="-129.1290 - dist" z="-138.8537"/> -->
+        <!-- <position name="sample_ascii_v1" unit="mm" x="-95.51854" y="-176.2887 - dist" z="-138.8665"/> -->
+        <!-- <position name="sample_ascii_v2" unit="mm" x="-145.5032" y="-129.1290 - dist" z="-78.85368"/> -->
+        <!-- <position name="sample_ascii_v3" unit="mm" x="-95.50317" y="-176.2887 - dist" z="-78.86649"/> -->
+        <!-- <position name="sample_ascii_v4" unit="mm" x="-95.51854" y="-129.1290 - dist" z="-138.8665"/> -->
+        <!-- <position name="sample_ascii_v5" unit="mm" x="-95.50317" y="-129.1290 - dist" z="-78.86649"/> -->
+    <!-- </define> -->
+
+     <define>
+         <!-- Adjustable offset for the sample Y coordinates (adjusting this moves the sample away from the detector plane)-->
+        <variable name="dist" value="20.00" />
+
+        <!-- Center of the sample in the x, y, z coordinates -->
+        <!-- <variable name="x_cen" value="-112.1852" />
+        <variable name="y_cen" value="-174.8489" />
+        <variable name="z_cen" value="-108.8537" /> -->
+
+        <!-- Center of rotation for the sample -->
+        <variable name="x_cen" value="-118.1852" />
+        <variable name="y_cen" value="-143.5689 - dist" />
+        <variable name="z_cen" value="-125.8537" />
+
+        <!-- Rotation angle in degrees for Z-rotation -->
+        <variable name="degrees" value="0.0" />
+        <variable name="sin_theta" value="sin(degrees*deg)" />
+        <variable name="cos_theta" value="cos(degrees*deg)" />
+
+        <!-- Half-dimensions for a cuboid approximation of the sample -->
+        <!-- Full size: 72 mm (x) × 29 mm (y/thickness) × 65 mm (z/height) -->
+        <variable name="hx" value="36.0" />
+        <variable name="hy" value="14.5" />
+        <variable name="hz" value="32.5" />
+
+        <!-- Eight base vertices (axis-aligned cuboid before rotation) -->
+        <variable name="xi0" value="x_cen - hx" />
+        <variable name="yi0" value="y_cen - hy" />
+        <variable name="zi0" value="z_cen - hz" />
+
+        <variable name="xi1" value="x_cen + hx" />
+        <variable name="yi1" value="y_cen - hy" />
+        <variable name="zi1" value="z_cen - hz" />
+
+        <variable name="xi2" value="x_cen - hx" />
+        <variable name="yi2" value="y_cen + hy" />
+        <variable name="zi2" value="z_cen - hz" />
+
+        <variable name="xi3" value="x_cen + hx" />
+        <variable name="yi3" value="y_cen + hy" />
+        <variable name="zi3" value="z_cen - hz" />
+
+        <variable name="xi4" value="x_cen - hx" />
+        <variable name="yi4" value="y_cen - hy" />
+        <variable name="zi4" value="z_cen + hz" />
+
+        <variable name="xi5" value="x_cen + hx" />
+        <variable name="yi5" value="y_cen - hy" />
+        <variable name="zi5" value="z_cen + hz" />
+
+        <variable name="xi6" value="x_cen - hx" />
+        <variable name="yi6" value="y_cen + hy" />
+        <variable name="zi6" value="z_cen + hz" />
+
+        <variable name="xi7" value="x_cen + hx" />
+        <variable name="yi7" value="y_cen + hy" />
+        <variable name="zi7" value="z_cen + hz" />
+
+         <!-- Rotate sample vertices around Z using (x_cen, y_cen) as pivot; z unchanged -->
+        <position name="sample_ascii_v0" unit="mm"
+            x="(xi0 - x_cen)*cos_theta - ((yi0) - y_cen)*sin_theta + x_cen"
+            y="(xi0 - x_cen)*sin_theta + ((yi0) - y_cen)*cos_theta + y_cen"
+            z="zi0"/>
+        <position name="sample_ascii_v1" unit="mm"
+            x="(xi1 - x_cen)*cos_theta - ((yi1) - y_cen)*sin_theta + x_cen"
+            y="(xi1 - x_cen)*sin_theta + ((yi1) - y_cen)*cos_theta + y_cen"
+            z="zi1"/>
+        <position name="sample_ascii_v2" unit="mm"
+            x="(xi2 - x_cen)*cos_theta - ((yi2) - y_cen)*sin_theta + x_cen"
+            y="(xi2 - x_cen)*sin_theta + ((yi2) - y_cen)*cos_theta + y_cen"
+            z="zi2"/>
+        <position name="sample_ascii_v3" unit="mm"
+            x="(xi3 - x_cen)*cos_theta - ((yi3) - y_cen)*sin_theta + x_cen"
+            y="(xi3 - x_cen)*sin_theta + ((yi3) - y_cen)*cos_theta + y_cen"
+            z="zi3"/>
+        <position name="sample_ascii_v4" unit="mm"
+            x="(xi4 - x_cen)*cos_theta - ((yi4) - y_cen)*sin_theta + x_cen"
+            y="(xi4 - x_cen)*sin_theta + ((yi4) - y_cen)*cos_theta + y_cen"
+            z="zi4"/>
+        <position name="sample_ascii_v5" unit="mm"
+            x="(xi5 - x_cen)*cos_theta - ((yi5) - y_cen)*sin_theta + x_cen"
+            y="(xi5 - x_cen)*sin_theta + ((yi5) - y_cen)*cos_theta + y_cen"
+            z="zi5"/>
+        <position name="sample_ascii_v6" unit="mm"
+            x="(xi6 - x_cen)*cos_theta - ((yi6) - y_cen)*sin_theta + x_cen"
+            y="(xi6 - x_cen)*sin_theta + ((yi6) - y_cen)*cos_theta + y_cen"
+            z="zi6"/>
+        <position name="sample_ascii_v7" unit="mm"
+            x="(xi7 - x_cen)*cos_theta - ((yi7) - y_cen)*sin_theta + x_cen"
+            y="(xi7 - x_cen)*sin_theta + ((yi7) - y_cen)*cos_theta + y_cen"
+            z="zi7"/>
+    
+    </define>
+
+    <materials>
+        <material name="Anorthosite2" state="solid">
+            <D value="3.0" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/>
+
+            <fraction n="0.4589194277" ref="G4_O"/>
+            <fraction n="0.2159557612" ref="G4_Si"/>
+            <fraction n="0.00004135507419" ref="G4_Ti"/>
+            <fraction n="0.1693621028" ref="G4_Al"/>
+            <fraction n="0.0002331881012" ref="G4_Fe"/>
+            <fraction n="0.00006660371879" ref="G4_Mn"/>
+            <fraction n="0.004685635421" ref="G4_Mg"/>
+            <fraction n="0.1450853261" ref="G4_Ca"/>
+            <fraction n="0.0008301513022" ref="G4_K"/>
+            <fraction n="0.0004931626446" ref="G4_P"/>
+            <fraction n="0.0002122859605" ref="G4_S"/>
+        </material>
+    </materials>
+
+
+    <solids>
+        <!-- Tessellated cuboid (12 triangles) -->
+        <tessellated aunit="deg" lunit="mm" name="sample_ascii-SOL">
+             <!-- bottom (-z) -->
+             <triangular vertex1="sample_ascii_v0" vertex2="sample_ascii_v1" vertex3="sample_ascii_v2"/>
+             <triangular vertex1="sample_ascii_v1" vertex2="sample_ascii_v3" vertex3="sample_ascii_v2"/>
+             <!-- top (+z) -->
+             <triangular vertex1="sample_ascii_v4" vertex2="sample_ascii_v6" vertex3="sample_ascii_v5"/>
+             <triangular vertex1="sample_ascii_v5" vertex2="sample_ascii_v6" vertex3="sample_ascii_v7"/>
+             <!-- y- face -->
+             <triangular vertex1="sample_ascii_v0" vertex2="sample_ascii_v4" vertex3="sample_ascii_v1"/>
+             <triangular vertex1="sample_ascii_v1" vertex2="sample_ascii_v4" vertex3="sample_ascii_v5"/>
+             <!-- y+ face -->
+             <triangular vertex1="sample_ascii_v2" vertex2="sample_ascii_v3" vertex3="sample_ascii_v6"/>
+             <triangular vertex1="sample_ascii_v3" vertex2="sample_ascii_v7" vertex3="sample_ascii_v6"/>
+             <!-- x- face -->
+             <triangular vertex1="sample_ascii_v0" vertex2="sample_ascii_v2" vertex3="sample_ascii_v4"/>
+             <triangular vertex1="sample_ascii_v4" vertex2="sample_ascii_v2" vertex3="sample_ascii_v6"/>
+             <!-- x+ face -->
+             <triangular vertex1="sample_ascii_v1" vertex2="sample_ascii_v5" vertex3="sample_ascii_v3"/>
+             <triangular vertex1="sample_ascii_v3" vertex2="sample_ascii_v5" vertex3="sample_ascii_v7"/>
+        </tessellated>
+    </solids>
+
+    <structure>
+        <volume name="sample_ascii">
+            <materialref ref="Anorthosite2"/>
+            <solidref ref="sample_ascii-SOL"/>
+            <auxiliary auxtype="Color" auxvalue="0.607 0.521 0.235"/>
+            <auxiliary auxtype="opacity" auxvalue="1"/>
+        </volume>
+    </structure>
+
+    <setup name="Default" version="1.0">
+        <world ref="sample_ascii"/>
+    </setup>
+</gdml>
