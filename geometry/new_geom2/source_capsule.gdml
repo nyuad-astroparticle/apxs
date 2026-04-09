@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+
+  <materials>
+    <material name="Monel" formula="Monel" Z="28">
+      <D value="8.8" unit="g/cm3"/>
+      <fraction n="0.63" ref="G4_Ni"/>
+      <fraction n="0.30" ref="G4_Cu"/>
+      <fraction n="0.02" ref="G4_Fe"/>
+      <fraction n="0.02" ref="G4_Mn"/>
+      <fraction n="0.01" ref="G4_Si"/>
+      <fraction n="0.02" ref="G4_Al"/>
+    </material>
+  </materials>
+
+  <solids>
+    <tube name="capsule_outer" rmin="0" rmax="4.0" z="5.0"
+          startphi="0" deltaphi="360" aunit="deg" lunit="mm"/>
+    <tube name="window_recess" rmin="0" rmax="2.25" z="0.25"
+          startphi="0" deltaphi="360" aunit="deg" lunit="mm"/>
+    <tube name="source_cavity" rmin="0" rmax="1.75" z="2.01"
+          startphi="0" deltaphi="360" aunit="deg" lunit="mm"/>
+
+    <subtraction name="capsule_step1">
+      <first ref="capsule_outer"/>
+      <second ref="window_recess"/>
+      <position name="window_recess_pos" x="0" y="0" z="2.375" unit="mm"/>
+    </subtraction>
+
+    <subtraction name="capsule_final_solid">
+      <first ref="capsule_step1"/>
+      <second ref="source_cavity"/>
+      <position name="source_cavity_pos" x="0" y="0" z="1.245" unit="mm"/>
+    </subtraction>
+
+    <tube name="copper_solid" rmin="0" rmax="2.25" z="2.0"
+          startphi="0" deltaphi="360" aunit="deg" lunit="mm"/>
+    <tube name="source_window_solid" rmin="0" rmax="2.25" z="0.25"
+          startphi="0" deltaphi="360" aunit="deg" lunit="mm"/>
+  </solids>
+
+  <structure>
+    <volume name="copper_volume">
+      <materialref ref="G4_Cu"/>
+      <solidref ref="copper_solid"/>
+      <auxiliary auxtype="Color" auxvalue="1 0.5 0"/>
+      <auxiliary auxtype="opacity" auxvalue="1"/>
+    </volume>
+
+    <volume name="source_window">
+      <materialref ref="G4_Be"/>
+      <solidref ref="source_window_solid"/>
+      <auxiliary auxtype="Color" auxvalue="1 0 0"/>
+      <auxiliary auxtype="opacity" auxvalue="1"/>
+    </volume>
+
+    <volume name="source_capsule">
+      <materialref ref="Monel"/>
+      <solidref ref="capsule_final_solid"/>
+      <auxiliary auxtype="Color" auxvalue="0.7 0.7 0.7"/>
+      <auxiliary auxtype="opacity" auxvalue="0.35"/>
+
+      <physvol name="copper_PV">
+        <volumeref ref="copper_volume"/>
+        <position name="copper_pos" x="0" y="0" z="1.24" unit="mm"/>
+      </physvol>
+
+      <physvol name="source_window_PV">
+        <volumeref ref="source_window"/>
+        <position name="source_window_pos" x="0" y="0" z="2.375" unit="mm"/>
+      </physvol>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="source_capsule"/>
+  </setup>
+</gdml>

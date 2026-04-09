@@ -24,6 +24,7 @@ ctors and materials
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 #include "G4GDMLParser.hh"
+#include <map>
 
 // Other relevant inline definitions
 class DetectorMessenger;
@@ -58,6 +59,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     private:
         void CreateMaterials();                     // Defines the Simulation Materials that are not on NIST
+        void applySourceMaterialToVolume(const G4String& element, const G4String& volumeName);
 
         G4String filename = "";
         G4double            worldSize;
@@ -77,6 +79,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4NistManager*      nist;
         G4LogicalVolume*    worldLogical;
         G4String            sourceVolume;
+        std::map<G4String, G4String> pendingSourceMaterials;
         G4LogicalVolume*    logicXrayTube = nullptr;  
         G4GDMLParser*       parser;
 

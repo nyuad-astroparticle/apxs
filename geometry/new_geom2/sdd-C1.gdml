@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+    <!-- Simplified FAST SDD 70 mm^2 model, kept close to the original file style -->
+    <define>
+        <quantity name="sddAlCaseThickness" value="0.55"/>
+
+        <!-- Positions chosen so the detector-to-window face gap is 1.4 mm -->
+        <position name="InnerCylinderPosition" unit="mm" x="0" y="0" z="-2.40"/>
+        <position name="LipPosition" unit="mm" x="0" y="0" z="0.55"/>
+
+        <!-- Window stack: Si3N4 + Al coating touching each other -->
+        <position name="WindowPosition" unit="mm" x="0" y="0" z="0.550075"/>
+        <position name="AlWindowPosition" unit="mm" x="0" y="0" z="0.550275"/>
+
+        <!-- 500 um detector thickness, placed so top face is 1.4 mm below window bottom face -->
+        <position name="DetectorPosition" unit="mm" x="0" y="0" z="-1.100000"/>
+    </define>
+
+    <materials>
+        <element name="Nitrogen" formula="N" Z="7">
+            <atom value="14.01"/>
+        </element>
+
+        <element name="Silicon" formula="Si" Z="14">
+            <atom value="28.0855"/>
+        </element>
+
+        <material name="siliconNitride" state="solid" formula="Si3N4">
+            <D value="3.17" unit="g/cm3"/>
+            <composite n="3" ref="Silicon"/>
+            <composite n="4" ref="Nitrogen"/>
+        </material>
+    </materials>
+
+    <solids>
+        <!-- Frustum-like front, similar to the original concept -->
+        <cone name="TopCone" z="1.80" rmax1="7.00" rmin1="7.00 - sddAlCaseThickness" rmax2="5.55" rmin2="5.55 - sddAlCaseThickness" deltaphi="360" lunit="mm" aunit="deg"/>
+
+        <!-- Main cylindrical body -->
+        <tube name="InnerCylinder" rmax="7.00" rmin="7.00 - sddAlCaseThickness" z="3.00" deltaphi="360" lunit="mm" aunit="deg"/>
+
+        <!-- Front retaining lip / front opening ring -->
+        <tube name="Lip" rmax="5.60" rmin="3.40" z="0.25" deltaphi="360" lunit="mm" aunit="deg"/>
+
+        <!-- C1 window: 6.3 mm diameter, 150 nm Si3N4 -->
+        <tube name="sddWindowSolid" rmax="3.15" z="0.00015" deltaphi="360" lunit="mm" aunit="deg"/>
+
+        <!-- C1 Al coating: 250 nm -->
+        <tube name="sddWindowAluminumSolid" rmax="3.15" z="0.00025" deltaphi="360" lunit="mm" aunit="deg"/>
+
+        <!-- 70 mm^2 active area detector: R = sqrt(70/pi) ~ 4.72 mm -->
+        <tube name="sddDetectorSolid" rmax="4.72" z="0.50" deltaphi="360" lunit="mm" aunit="deg"/>
+
+        <!-- Mini world -->
+        <tube name="sddWorld" rmax="8.0" z="10.0" deltaphi="360" lunit="mm" aunit="deg"/>
+
+        <union name="TopConeWithInnerCylinder">
+            <first ref="TopCone"/>
+            <second ref="InnerCylinder"/>
+            <positionref ref="InnerCylinderPosition"/>
+        </union>
+
+        <union name="sddCaseSolid">
+            <first ref="TopConeWithInnerCylinder"/>
+            <second ref="Lip"/>
+            <positionref ref="LipPosition"/>
+        </union>
+    </solids>
+
+    <structure>
+        <volume name="sddWindowLogical">
+            <materialref ref="siliconNitride"/>
+            <solidref ref="sddWindowSolid"/>
+            <auxiliary auxtype="Color" auxvalue="0.10 0.85 0.95"/>
+            <auxiliary auxtype="opacity" auxvalue="0.70"/>
+        </volume>
+
+        <volume name="sddWindowC1AluminumLogical">
+            <materialref ref="G4_Al"/>
+            <solidref ref="sddWindowAluminumSolid"/>
+            <auxiliary auxtype="Color" auxvalue="0.95 0.80 0.20"/>
+            <auxiliary auxtype="opacity" auxvalue="0.75"/>
+        </volume>
+
+        <volume name="detectLogical">
+            <materialref ref="G4_Si"/>
+            <solidref ref="sddDetectorSolid"/>
+            <auxiliary auxtype="Color" auxvalue="0.05 0.55 0.10"/>
+            <auxiliary auxtype="opacity" auxvalue="1.0"/>
+            <auxiliary auxtype="SensDet"/>
+        </volume>
+
+        <volume name="sddCaseLogical">
+            <materialref ref="G4_Al"/>
+            <solidref ref="sddCaseSolid"/>
+            <auxiliary auxtype="Color" auxvalue="0.35 0.35 0.40"/>
+            <auxiliary auxtype="opacity" auxvalue="0.80"/>
+        </volume>
+
+        <volume name="VITUS">
+            <materialref ref="G4_Galactic"/>
+            <solidref ref="sddWorld"/>
+            <physvol>
+                <volumeref ref="sddWindowC1AluminumLogical"/>
+                <positionref ref="AlWindowPosition"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="sddWindowLogical"/>
+                <positionref ref="WindowPosition"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="detectLogical"/>
+                <positionref ref="DetectorPosition"/>
+            </physvol>
+            <physvol>
+                <volumeref ref="sddCaseLogical"/>
+            </physvol>
+            <auxiliary auxtype="Color" auxvalue="0 0 0"/>
+            <auxiliary auxtype="opacity" auxvalue="0"/>
+        </volume>
+    </structure>
+
+    <setup name="Default" version="1.0">
+        <world ref="VITUS"/>
+    </setup>
+</gdml>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+
+  <materials>
+    <material Z="13." name="G4_Al">
+      <D value="2.6989" unit="g/cm3"/>
+      <atom value="26.9815385" unit="g/mole"/>
+    </material>
+  </materials>
+
+  <solids>
+    <!-- Main external holder body -->
+    <tube name="holder_outer_solid"
+          rmin="0"
+          rmax="26.75"
+          z="46.46"
+          startphi="0"
+          deltaphi="360"
+          aunit="deg"
+          lunit="mm"/>
+
+    <!-- Back hollowed region -->
+    <tube name="holder_back_hollow_solid"
+          rmin="0"
+          rmax="23.0"
+          z="38.46"
+          startphi="0"
+          deltaphi="360"
+          aunit="deg"
+          lunit="mm"/>
+
+    <!-- Central front cavity -->
+    <tube name="holder_central_cavity_solid"
+          rmin="0"
+          rmax="10.6"
+          z="4.64"
+          startphi="0"
+          deltaphi="360"
+          aunit="deg"
+          lunit="mm"/>
+
+    <!-- One small front cavity -->
+    <tube name="holder_small_cavity_solid"
+          rmin="0"
+          rmax="5.0"
+          z="5.50"
+          startphi="0"
+          deltaphi="360"
+          aunit="deg"
+          lunit="mm"/>
+
+    <!-- Step 1: subtract back hollow -->
+    <subtraction name="holder_step1_solid">
+      <first ref="holder_outer_solid"/>
+      <second ref="holder_back_hollow_solid"/>
+      <position name="holder_back_hollow_pos" x="0" y="0" z="-4.0" unit="mm"/>
+    </subtraction>
+
+    <!-- Step 2: subtract central cavity -->
+    <subtraction name="holder_step2_solid">
+      <first ref="holder_step1_solid"/>
+      <second ref="holder_central_cavity_solid"/>
+      <position name="holder_central_cavity_pos" x="0" y="0" z="20.91" unit="mm"/>
+    </subtraction>
+
+    <!-- Step 3-8: subtract six small cavities -->
+    <subtraction name="holder_step3_solid">
+      <first ref="holder_step2_solid"/>
+      <second ref="holder_small_cavity_solid"/>
+      <position name="holder_small_cavity_pos_1" x="15.0" y="0.0" z="20.48" unit="mm"/>
+    </subtraction>
+
+    <subtraction name="holder_step4_solid">
+      <first ref="holder_step3_solid"/>
+      <second ref="holder_small_cavity_solid"/>
+      <position name="holder_small_cavity_pos_2" x="7.5" y="12.99" z="20.48" unit="mm"/>
+    </subtraction>
+
+    <subtraction name="holder_step5_solid">
+      <first ref="holder_step4_solid"/>
+      <second ref="holder_small_cavity_solid"/>
+      <position name="holder_small_cavity_pos_3" x="-7.5" y="12.99" z="20.48" unit="mm"/>
+    </subtraction>
+
+    <subtraction name="holder_step6_solid">
+      <first ref="holder_step5_solid"/>
+      <second ref="holder_small_cavity_solid"/>
+      <position name="holder_small_cavity_pos_4" x="-15.0" y="0.0" z="20.48" unit="mm"/>
+    </subtraction>
+
+    <subtraction name="holder_step7_solid">
+      <first ref="holder_step6_solid"/>
+      <second ref="holder_small_cavity_solid"/>
+      <position name="holder_small_cavity_pos_5" x="-7.5" y="-12.99" z="20.48" unit="mm"/>
+    </subtraction>
+
+    <subtraction name="holder_final_solid">
+      <first ref="holder_step7_solid"/>
+      <second ref="holder_small_cavity_solid"/>
+      <position name="holder_small_cavity_pos_6" x="7.5" y="-12.99" z="20.48" unit="mm"/>
+    </subtraction>
+  </solids>
+
+  <structure>
+    <volume name="holder">
+      <materialref ref="G4_Al"/>
+      <solidref ref="holder_final_solid"/>
+      <auxiliary auxtype="Color" auxvalue="0.75 0.75 0.75"/>
+      <auxiliary auxtype="opacity" auxvalue="0.18"/>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="holder"/>
+  </setup>
+</gdml>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+
+  <define>
+    <position name="holder_position" x="0" y="0" z="0" unit="mm"/>
+    <rotation name="holder_rotation" x="0" y="0" z="0" unit="degree"/>
+
+    <position name="sdd_position" x="0" y="0" z="24.08" unit="mm"/>
+    <rotation name="sdd_rotation" x="0" y="0" z="0" unit="degree"/>
+
+    <position name="target_position" x="0" y="0" z="51.08" unit="mm"/>
+    <rotation name="target_rotation" x="0" y="0" z="0" unit="degree"/>
+
+    <position name="small_cavity_1_center" x="15.0" y="0.0" z="20.48" unit="mm"/>
+
+    <position name="source_capsule_position" x="15.0" y="0.0" z="20.73" unit="mm"/>
+
+    <position name="source_position" x="15.0" y="0.0" z="22.975" unit="mm"/>
+  </define>
+
+  <solids>
+    <box name="world_solid" x="400" y="400" z="400" lunit="mm"/>
+    <box name="target_solid" x="200" y="200" z="10" lunit="mm"/>
+  </solids>
+
+  <structure>
+    <volume name="target_logical">
+      <materialref ref="G4_SILICON_DIOXIDE"/>
+      <solidref ref="target_solid"/>
+      <auxiliary auxtype="Color" auxvalue="0.6 0.6 0.6"/>
+      <auxiliary auxtype="opacity" auxvalue="0.8"/>
+    </volume>
+
+    <volume name="world">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="world_solid"/>
+
+      <physvol name="holder_PV">
+        <file name="./geometry/new_geom2/holder.gdml"/>
+        <positionref ref="holder_position"/>
+        <rotationref ref="holder_rotation"/>
+      </physvol>
+
+      <physvol name="sdd_PV">
+        <file name="./geometry/new_geom2/sdd-C1.gdml"/>
+        <positionref ref="sdd_position"/>
+        <rotationref ref="sdd_rotation"/>
+      </physvol>
+
+      <physvol name="target_PV">
+        <volumeref ref="target_logical"/>
+        <positionref ref="target_position"/>
+        <rotationref ref="target_rotation"/>
+      </physvol>
+
+      <physvol name="source_capsule_PV">
+        <file name="./geometry/new_geom2/source_capsule.gdml"/>
+        <positionref ref="source_capsule_position"/>
+      </physvol>
+
+      <physvol name="source_ascii_PV">
+        <file name="./geometry/new_geom2/source_ascii.gdml"/>
+        <positionref ref="source_position"/>
+      </physvol>
+
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="world"/>
+  </setup>
+</gdml>

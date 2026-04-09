@@ -1,80 +1,84 @@
 /************************
-•     ┓             •    
+•     ┓             •
 ┓┏┳┓┏┓┃┏┓┏┳┓┏┓┏┓╋┏┓╋┓┏┓┏┓
 ┗┛┗┗┣┛┗┗ ┛┗┗┗ ┛┗┗┗┻┗┗┗┛┛┗
-    ┛                    
+    ┛
 Primary Generator Action
 ************************/
 
-// Include the relevant Header file
 #include "PrimaryGeneratorAction.hh"
 
-// Include Other useful Geant4 Headers
 #include "G4GeneralParticleSource.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4IonTable.hh"
+#include "G4NistManager.hh"
 #include "G4Gamma.hh"
 #include "G4Event.hh"
 #include "DetectorConstruction.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4String.hh"
+#include "G4VoxelLimits.hh"
+#include "G4VSolid.hh"
+#include "G4AffineTransform.hh"
+#include "globals.hh"
+#include <algorithm>
+#include <cmath>
+#include <cctype>
 
-
-// Constructor
 PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* construction)
 {
-    // Initialize Class variables
-    detectorConstruction    = construction;
-    source                  = new G4GeneralParticleSource();
+    detectorConstruction = construction;
+    source = new G4GeneralParticleSource();
 }
 
-//----------------------- 8< -------------[ cut here ]------------------------
-
-//Destructor
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
     delete source;
 }
 
-//----------------------- 8< -------------[ cut here ]------------------------
-
-
-// Function that sets up the primary particles
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-    
 #ifndef X_RAY
-//     
 
-        G4VPhysicalVolume* physVol = detectorConstruction->GetDaughterPhysicalByName(detectorConstruction->worldLogical, detectorConstruction->sourceVolume);
-        // G4cout << detectorConstruction->sourceVolume << G4endl;
-        G4VSolid *solid = physVol->GetLogicalVolume()->GetSolid();
-        
-        const G4double thicknessZ = ComputeExtentInMother(physVol).second.z() - ComputeExtentInMother(physVol).first.z();
-        G4ThreeVector pos = ComputeCentroidInMother(physVol) + G4ThreeVector(0,0,thicknessZ/2 + 0.1*mm);
-        // G4cout << "The source position was found to be " << pos << G4endl;
+    G4VPhysicalVolume* physVol =
+        detectorConstruction->GetDaughterPhysicalByName(
+            detectorConstruction->worldLogical,
+            detectorConstruction->sourceVolume);
 
-        
-        G4Material * material = physVol->GetLogicalVolume()->GetMaterial();
-        setParticleFromMaterial(material);
-        source->SetNumberOfParticles(1);
-        source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
-        source->GetCurrentSource()->GetPosDist()->SetCentreCoords(pos);
-        source->GetCurrentSource()->GetPosDist()->SetPosDisType("Plane");
-        source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Circle");
-        source->GetCurrentSource()->GetPosDist()->SetRadius(2.5*mm);
-        source->GetCurrentSource()->GetPosDist()->SetRadius0(0);
-//         // source->GetCurrentSource()->GetPosDist()->SetHalfZ(detectorConstruction->sourceThickness/2);
-//         // source->GetCurrentSource()->GetPosDist()->SetPosRot1(detectorConstruction->sourceRotation->colX());
-//         // source->GetCurrentSource()->GetPosDist()->SetPosRot2(detectorConstruction->sourceRotation->colY());
-//     }
+    if (!physVol) {
+        G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
+                    "SourceNotFound", FatalException,
+                    "Could not find source physical volume.");
+        return;
+    }
+
+    G4Material* material = physVol->GetLogicalVolume()->GetMaterial();
+    setParticleFromName(material->GetName());
+
+    source->SetNumberOfParticles(1);
+    source->GetCurrentSource()->GetEneDist()->SetMonoEnergy(0.0 * keV);
+
+    auto extent = ComputeExtentInMother(physVol);
+    const auto& min = extent.first;
+    const auto& max = extent.second;
+    const G4double radius = 0.5 * std::max(max.x() - min.x(), max.y() - min.y());
+    const G4double halfZ = 0.5 * (max.z() - min.z());
+    const G4ThreeVector centroid = ComputeCentroidInMother(physVol);
+
+    // Emit just inside the Be-window-side face of the active Fe55 layer.
+    source->GetCurrentSource()->GetPosDist()->SetPosDisType("Plane");
+    source->GetCurrentSource()->GetPosDist()->SetPosDisShape("Circle");
+    source->GetCurrentSource()->GetPosDist()->SetCentreCoords(
+        G4ThreeVector(centroid.x(), centroid.y(), centroid.z() + halfZ - 0.001 * mm));
+    source->GetCurrentSource()->GetPosDist()->SetRadius(radius);
+    source->GetCurrentSource()->GetPosDist()->SetRadius0(0.0 * mm);
 
 #endif
-	source->GeneratePrimaryVertex(event);
+
+    source->GeneratePrimaryVertex(event);
 }
 
-
-void PrimaryGeneratorAction::setParticleFromMaterial(G4Material * material)
+void PrimaryGeneratorAction::setParticleFromMaterial(G4Material* material)
 {
     G4double Z = material->GetZ();
     G4double A = material->GetA();
@@ -82,35 +86,75 @@ void PrimaryGeneratorAction::setParticleFromMaterial(G4Material * material)
     source->SetParticleDefinition(particle);
 }
 
-
-#include "G4VoxelLimits.hh"
-#include "G4VSolid.hh"
-#include "G4TessellatedSolid.hh"
-#include "G4AffineTransform.hh"
-#include "globals.hh" 
-
-
-std::pair<G4ThreeVector, G4ThreeVector> PrimaryGeneratorAction::ComputeExtentInMother(G4VPhysicalVolume* pv)
+void PrimaryGeneratorAction::setParticleFromName(const G4String &materialName)
 {
-    // 1) Get the solid (your tessellated)
-    auto* tess = dynamic_cast<G4TessellatedSolid*>(pv->GetLogicalVolume()->GetSolid());
-    if (!tess) { return {}; }
+    G4String symbol;
+    G4String massDigits;
+    for (char ch : materialName)
+    {
+        if (std::isalpha(static_cast<unsigned char>(ch)))
+        {
+            symbol += ch;
+        }
+        else if (std::isdigit(static_cast<unsigned char>(ch)))
+        {
+            massDigits += ch;
+        }
+    }
 
-    // 2) Build the placement transform (solid → mother)
+    if (symbol.empty() || massDigits.empty())
+    {
+        auto* volume = detectorConstruction->GetDaughterPhysicalByName(
+            detectorConstruction->worldLogical,
+            detectorConstruction->sourceVolume);
+        if (!volume)
+        {
+            G4Exception("PrimaryGeneratorAction::setParticleFromName",
+                        "SourceNotFound", FatalException,
+                        "Could not find source physical volume.");
+            return;
+        }
+        setParticleFromMaterial(volume->GetLogicalVolume()->GetMaterial());
+        return;
+    }
+
+    G4Material* baseMaterial = G4NistManager::Instance()->FindOrBuildMaterial("G4_" + symbol);
+    if (!baseMaterial)
+    {
+        G4Exception("PrimaryGeneratorAction::setParticleFromName",
+                    "UnknownElement", FatalException,
+                    ("Could not resolve element for source material " + materialName).c_str());
+        return;
+    }
+
+    G4int Z = static_cast<G4int>(std::lround(baseMaterial->GetZ()));
+    G4int A = std::stoi(massDigits);
+    G4ParticleDefinition* particle = G4IonTable::GetIonTable()->GetIon(Z, A, 0.0);
+    source->SetParticleDefinition(particle);
+}
+
+std::pair<G4ThreeVector, G4ThreeVector>
+PrimaryGeneratorAction::ComputeExtentInMother(G4VPhysicalVolume* pv)
+{
+    auto* solid = pv->GetLogicalVolume()->GetSolid();
+    if (!solid) {
+        return {};
+    }
+
     const G4RotationMatrix* Rptr = pv->GetObjectRotation();
-    G4RotationMatrix        R    = (Rptr ? *Rptr : G4RotationMatrix()); // identity if null
-    R.invert(); // convert stored mother→daughter rotation into the needed daughter→mother
-    const G4ThreeVector     T    = pv->GetObjectTranslation();
-    G4AffineTransform       tr(R, T);
+    G4RotationMatrix R = (Rptr ? *Rptr : G4RotationMatrix());
+    R.invert();
 
-    // 3) Ask Geant4 for extents of the *transformed* solid
-    G4VoxelLimits lim; // no limits
+    const G4ThreeVector T = pv->GetObjectTranslation();
+    G4AffineTransform tr(R, T);
+
+    G4VoxelLimits lim;
     G4double xmin, xmax, ymin, ymax, zmin, zmax;
-    tess->CalculateExtent(kXAxis, lim, tr, xmin, xmax);
-    tess->CalculateExtent(kYAxis, lim, tr, ymin, ymax);
-    tess->CalculateExtent(kZAxis, lim, tr, zmin, zmax);
 
-    // 4) Return min/max corners in the mother frame
+    solid->CalculateExtent(kXAxis, lim, tr, xmin, xmax);
+    solid->CalculateExtent(kYAxis, lim, tr, ymin, ymax);
+    solid->CalculateExtent(kZAxis, lim, tr, zmin, zmax);
+
     return {
         G4ThreeVector(xmin, ymin, zmin),
         G4ThreeVector(xmax, ymax, zmax)
@@ -122,9 +166,10 @@ G4ThreeVector PrimaryGeneratorAction::ComputeCentroidInMother(G4VPhysicalVolume*
     auto extent = ComputeExtentInMother(pv);
     const auto& min = extent.first;
     const auto& max = extent.second;
+
     return G4ThreeVector(
-        (min.x() + max.x())/2.,
-        (min.y() + max.y())/2.,
-        (min.z() + max.z())/2.
+        (min.x() + max.x()) / 2.0,
+        (min.y() + max.y()) / 2.0,
+        (min.z() + max.z()) / 2.0
     );
 }

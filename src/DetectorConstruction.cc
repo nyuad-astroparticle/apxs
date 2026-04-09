@@ -42,6 +42,7 @@ as a detector
 // Other custom relevant headers
 #include "DetectorMessenger.hh"
 #include "SensitiveDetector.hh"
+#include <cctype>
 
 // Constructor
 DetectorConstruction::DetectorConstruction(G4String aFilename) : filename(aFilename)
@@ -191,6 +192,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     parser->Read(filename,false);
     G4VPhysicalVolume* worldVolume = parser->GetWorldVolume();
     worldLogical = worldVolume->GetLogicalVolume();
+
+    for (const auto& entry : pendingSourceMaterials)
+    {
+        applySourceMaterialToVolume(entry.second, entry.first);
+    }
     
     G4VisAttributes* invisible  = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0));
     invisible->SetVisibility(false);
@@ -560,40 +566,53 @@ void DetectorConstruction::setSourceMaterial(const char* name)
 //     }
 
 // }
-void DetectorConstruction::setSourceMaterialAndName(const G4String & element, const G4String & volumeName)
+void DetectorConstruction::applySourceMaterialToVolume(const G4String & element, const G4String & volumeName)
 {
-    // Process element string
-
-        G4String name = "G4_";
-        G4String numberPart;
-        for (char ch : element) 
+    G4String name = "G4_";
+    G4String numberPart;
+    for (char ch : element)
+    {
+        if (std::isalpha(static_cast<unsigned char>(ch)))
         {
-            if (std::isalpha(ch)) 
-            {
-                name += ch;
-            } 
-            else if (std::isdigit(ch)) 
-            {
-                numberPart += ch;
-            }
+            name += ch;
         }
-        int atomicMass = std::stoi(numberPart);
+        else if (std::isdigit(static_cast<unsigned char>(ch)))
+        {
+            numberPart += ch;
+        }
+    }
+    if (numberPart.empty())
+    {
+        G4Exception("DetectorConstruction::applySourceMaterialToVolume",
+                    "InvalidSourceIsotope", JustWarning,
+                    ("Could not parse isotope mass number from source name '" + element + "'.").c_str());
+        return;
+    }
+    int atomicMass = std::stoi(numberPart);
 
-    // Create the final material
+    G4Material* dummyMaterial = nist->FindOrBuildMaterial(name);
+    if (!dummyMaterial)
+    {
+        G4Exception("DetectorConstruction::applySourceMaterialToVolume",
+                    "UnknownElement", JustWarning,
+                    ("Could not build base material '" + name + "' for source '" + element + "'.").c_str());
+        return;
+    }
 
-        G4Material* dummyMaterial = nist->FindOrBuildMaterial(name);
-        
+    G4Material* finalMaterial = G4Material::GetMaterial(element, false);
+    if (!finalMaterial)
+    {
         G4double Z = dummyMaterial->GetZ();
-        G4double A = atomicMass;
-        G4double N = A - Z;
+        G4double A = atomicMass * g / mole;
 
-        G4Isotope * isotope = new G4Isotope(element, Z, N, A);
+        G4Isotope * isotope = new G4Isotope(element, static_cast<G4int>(Z), atomicMass, A);
         G4Element * newElement = new G4Element(element, element, 1);
         newElement->AddIsotope(isotope, 1);
 
         G4double density = dummyMaterial->GetDensity();
-        G4Material *finalMaterial = new G4Material(element,density,1);
+        finalMaterial = new G4Material(element, density, 1);
         finalMaterial->AddElement(newElement, 1);
+    }
 
     // Assign the material to the volume 
 
@@ -601,10 +620,25 @@ void DetectorConstruction::setSourceMaterialAndName(const G4String & element, co
     
     // If the logical volume already exists
     if (volume) {
-        volume->SetMaterial(finalMaterial);                 // Set the new Material
-        G4cout << volume->GetName() << " is now made out of " << finalMaterial->GetName() << G4endl;   // Let the user know
+        volume->SetMaterial(finalMaterial);
+        G4cout << volume->GetName() << " is now made out of " << finalMaterial->GetName() << G4endl;
     }
 
+}
+
+void DetectorConstruction::setSourceMaterialAndName(const G4String & element, const G4String & volumeName)
+{
+    pendingSourceMaterials[volumeName] = element;
+
+    if (worldLogical)
+    {
+        applySourceMaterialToVolume(element, volumeName);
+    }
+    else
+    {
+        G4cout << "Queued source material " << element << " for volume " << volumeName
+               << " until the geometry is constructed." << G4endl;
+    }
 }
 
 void DetectorConstruction::setSourceRotation(G4ThreeVector normal)
@@ -704,22 +738,16 @@ void DetectorConstruction::createMultipleSources(G4int numberOfSources)
 
 // Function to find a daughter logical volume by name from a specific parent logical volume
 G4VPhysicalVolume* DetectorConstruction::GetDaughterPhysicalByName(G4LogicalVolume* parentLogical, const G4String& daughterName) {
-    // G4cout << "GetDaughterLogicalByName was called\n";
-    if (!parentLogical) return nullptr; // Safety check
-    // G4cout << "worldLogical was found\n";
-
+    if (!parentLogical) return nullptr;
 
     for (G4int i = 0; i < parentLogical->GetNoDaughters(); ++i) {
         G4VPhysicalVolume* daughterPhys = parentLogical->GetDaughter(i);
-        // G4cout << daughterPhys->GetName() << "\n";
         if (daughterPhys && daughterPhys->GetName() == daughterName) {
-            // G4cout << "the volume was found\n";
             return daughterPhys;
         }
     }
 
-    // G4cout << "the volume was not found\n";
-    return nullptr; // If not found
+    return nullptr;
 }
 
 G4LogicalVolume* DetectorConstruction::GetDaughterLogicalByName(G4LogicalVolume* parentLogical, const G4String & daughterName)
