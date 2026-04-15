@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
+
+  <define>
+    <!-- nothing needed -->
+  </define>
+
+  <materials>
+    <material name="Anorthosite2" state="solid">
+      <D value="3.0" unit="g/cm3"/>
+      <T value="293.15" unit="K"/>
+      <P value="1" unit="bar"/>
+
+      <fraction n="0.4589194277" ref="G4_O"/>
+      <fraction n="0.2159557612" ref="G4_Si"/>
+      <fraction n="0.00004135507419" ref="G4_Ti"/>
+      <fraction n="0.1693621028" ref="G4_Al"/>
+      <fraction n="0.0002331881012" ref="G4_Fe"/>
+      <fraction n="0.00006660371879" ref="G4_Mn"/>
+      <fraction n="0.004685635421" ref="G4_Mg"/>
+      <fraction n="0.1450853261" ref="G4_Ca"/>
+      <fraction n="0.0008301513022" ref="G4_K"/>
+      <fraction n="0.0004931626446" ref="G4_P"/>
+      <fraction n="0.0002122859605" ref="G4_S"/>
+    </material>
+  </materials>
+
+  <solids>
+    <!-- Start BIG so you can't "miss" the sample.
+         box x/y/z are FULL lengths (not half-lengths). -->
+    <box name="anorthosite_box_solid" lunit="mm" x="800" y="20" z="800"/>
+  </solids>
+
+  <structure>
+    <!-- Keep the SAME volume name "sample_ascii" so nothing else breaks -->
+    <volume name="sample_ascii">
+      <materialref ref="Anorthosite2"/>
+      <solidref ref="anorthosite_box_solid"/>
+      <auxiliary auxtype="Color" auxvalue="0.607 0.521 0.235"/>
+      <auxiliary auxtype="opacity" auxvalue="1"/>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="sample_ascii"/>
+  </setup>
+</gdml>

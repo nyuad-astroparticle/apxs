@@ -24,28 +24,37 @@
 
      <define>
          <!-- Adjustable offset for the sample Y coordinates (adjusting this moves the sample away from the detector plane)-->
-        <variable name="dist" value="20.00" />
+        <variable name="dist" value="20.0" />
+        <variable name="base" value="-158.868" />
+        <variable name="vert_offset" value="20.0" />
 
         <!-- Center of the sample in the x, y, z coordinates -->
         <!-- <variable name="x_cen" value="-112.1852" />
         <variable name="y_cen" value="-174.8489" />
         <variable name="z_cen" value="-108.8537" /> -->
 
+        <!-- Half-dimensions for a cuboid approximation of the sample -->
+        <!-- Full size: 72 mm (x) × 30 mm (y/thickness) × 65 mm (z/height) -->
+        <!-- New size: 65 mm (x) × 30 mm (y/thickness) × 72 mm (z/height) -->
+        <variable name="hx" value="32.5" />
+        <!-- <variable name="hx" value="250.0" /> -->
+        <variable name="hy" value="15.0" />
+        <variable name="hz" value="36.0" />
+        <!-- <variable name="hz" value="250.0" /> -->
+
+        <!-- Center of mass for the sample -->
+        <variable name="x_cen" value="-122.1852" />
+        <variable name="y_cen" value="-144.0689 - dist" />
+        <variable name="z_cen" value="base + hz + vert_offset" />
+
         <!-- Center of rotation for the sample -->
-        <variable name="x_cen" value="-118.1852" />
-        <variable name="y_cen" value="-143.5689 - dist" />
-        <variable name="z_cen" value="-125.8537" />
+        <variable name="x_pivot" value="-122.1852" />
+        <variable name="y_pivot" value="-144.0689 - dist + hy" />
 
         <!-- Rotation angle in degrees for Z-rotation -->
         <variable name="degrees" value="0.0" />
         <variable name="sin_theta" value="sin(degrees*deg)" />
         <variable name="cos_theta" value="cos(degrees*deg)" />
-
-        <!-- Half-dimensions for a cuboid approximation of the sample -->
-        <!-- Full size: 72 mm (x) × 29 mm (y/thickness) × 65 mm (z/height) -->
-        <variable name="hx" value="36.0" />
-        <variable name="hy" value="14.5" />
-        <variable name="hz" value="32.5" />
 
         <!-- Eight base vertices (axis-aligned cuboid before rotation) -->
         <variable name="xi0" value="x_cen - hx" />
@@ -82,41 +91,85 @@
 
          <!-- Rotate sample vertices around Z using (x_cen, y_cen) as pivot; z unchanged -->
         <position name="sample_ascii_v0" unit="mm"
-            x="(xi0 - x_cen)*cos_theta - ((yi0) - y_cen)*sin_theta + x_cen"
-            y="(xi0 - x_cen)*sin_theta + ((yi0) - y_cen)*cos_theta + y_cen"
+            x="(xi0 - x_pivot)*cos_theta - ((yi0) - y_pivot)*sin_theta + x_pivot"
+            y="(xi0 - x_pivot)*sin_theta + ((yi0) - y_pivot)*cos_theta + y_pivot"
             z="zi0"/>
         <position name="sample_ascii_v1" unit="mm"
-            x="(xi1 - x_cen)*cos_theta - ((yi1) - y_cen)*sin_theta + x_cen"
-            y="(xi1 - x_cen)*sin_theta + ((yi1) - y_cen)*cos_theta + y_cen"
+            x="(xi1 - x_pivot)*cos_theta - ((yi1) - y_pivot)*sin_theta + x_pivot"
+            y="(xi1 - x_pivot)*sin_theta + ((yi1) - y_pivot)*cos_theta + y_pivot"
             z="zi1"/>
         <position name="sample_ascii_v2" unit="mm"
-            x="(xi2 - x_cen)*cos_theta - ((yi2) - y_cen)*sin_theta + x_cen"
-            y="(xi2 - x_cen)*sin_theta + ((yi2) - y_cen)*cos_theta + y_cen"
+            x="(xi2 - x_pivot)*cos_theta - ((yi2) - y_pivot)*sin_theta + x_pivot"
+            y="(xi2 - x_pivot)*sin_theta + ((yi2) - y_pivot)*cos_theta + y_pivot"
             z="zi2"/>
         <position name="sample_ascii_v3" unit="mm"
-            x="(xi3 - x_cen)*cos_theta - ((yi3) - y_cen)*sin_theta + x_cen"
-            y="(xi3 - x_cen)*sin_theta + ((yi3) - y_cen)*cos_theta + y_cen"
+            x="(xi3 - x_pivot)*cos_theta - ((yi3) - y_pivot)*sin_theta + x_pivot"
+            y="(xi3 - x_pivot)*sin_theta + ((yi3) - y_pivot)*cos_theta + y_pivot"
             z="zi3"/>
         <position name="sample_ascii_v4" unit="mm"
-            x="(xi4 - x_cen)*cos_theta - ((yi4) - y_cen)*sin_theta + x_cen"
-            y="(xi4 - x_cen)*sin_theta + ((yi4) - y_cen)*cos_theta + y_cen"
+            x="(xi4 - x_pivot)*cos_theta - ((yi4) - y_pivot)*sin_theta + x_pivot"
+            y="(xi4 - x_pivot)*sin_theta + ((yi4) - y_pivot)*cos_theta + y_pivot"
             z="zi4"/>
         <position name="sample_ascii_v5" unit="mm"
-            x="(xi5 - x_cen)*cos_theta - ((yi5) - y_cen)*sin_theta + x_cen"
-            y="(xi5 - x_cen)*sin_theta + ((yi5) - y_cen)*cos_theta + y_cen"
+            x="(xi5 - x_pivot)*cos_theta - ((yi5) - y_pivot)*sin_theta + x_pivot"
+            y="(xi5 - x_pivot)*sin_theta + ((yi5) - y_pivot)*cos_theta + y_pivot"
             z="zi5"/>
         <position name="sample_ascii_v6" unit="mm"
-            x="(xi6 - x_cen)*cos_theta - ((yi6) - y_cen)*sin_theta + x_cen"
-            y="(xi6 - x_cen)*sin_theta + ((yi6) - y_cen)*cos_theta + y_cen"
+            x="(xi6 - x_pivot)*cos_theta - ((yi6) - y_pivot)*sin_theta + x_pivot"
+            y="(xi6 - x_pivot)*sin_theta + ((yi6) - y_pivot)*cos_theta + y_pivot"
             z="zi6"/>
         <position name="sample_ascii_v7" unit="mm"
-            x="(xi7 - x_cen)*cos_theta - ((yi7) - y_cen)*sin_theta + x_cen"
-            y="(xi7 - x_cen)*sin_theta + ((yi7) - y_cen)*cos_theta + y_cen"
+            x="(xi7 - x_pivot)*cos_theta - ((yi7) - y_pivot)*sin_theta + x_pivot"
+            y="(xi7 - x_pivot)*sin_theta + ((yi7) - y_pivot)*cos_theta + y_pivot"
             z="zi7"/>
     
     </define>
 
     <materials>
+    <!-- Define a rock-like mixture by NUMBER OF ATOMS (atomic %) -->
+        <!-- <material name="rock1material" state="solid">
+            <D value="2.65" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/> -->
+
+            <!-- Atomic % from your table (elements with 0% omitted) -->
+            <!-- <fraction n="0.420806" ref="G4_C"/>
+            <fraction n="0.307048" ref="G4_O"/>
+            <fraction n="0.046215" ref="G4_Al"/>
+            <fraction n="0.128145" ref="G4_Si"/>
+            <fraction n="0.027171" ref="G4_K"/>
+            <fraction n="0.070615" ref="G4_Ca"/> -->
+        <!-- </material> -->
+
+        <!-- Howlite material copied from DetectorConstruction.cc mass fractions -->
+        <!-- <material name="Howlite" state="solid">
+            <D value="2.58" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/>
+            <fraction n="0.5723899" ref="G4_O"/>
+            <fraction n="0.2048364" ref="G4_Ca"/>
+            <fraction n="0.1381232" ref="G4_B"/>
+            <fraction n="0.0717717" ref="G4_Si"/>
+            <fraction n="0.0128788" ref="G4_H"/>
+        </material> -->
+
+        <!-- <material name = "FerroanNoriticAnorthosite" state="solid">
+            <D value="3.0" unit="g/cm3"/>
+            <T value="293.15" unit="K"/>
+            <P value="1" unit="bar"/>
+            <fraction n="0.4497951" ref="G4_O"/>
+            <fraction n="0.2070582" ref="G4_Si"/>
+            <fraction n="0.1572021" ref="G4_Al"/>
+            <fraction n="0.0310920" ref="G4_Fe"/>
+            <fraction n="0.0004647" ref="G4_Mn"/>
+            <fraction n="0.0229140" ref="G4_Mg"/>
+            <fraction n="0.1236431" ref="G4_Ca"/>
+            <fraction n="0.0015580" ref="G4_Na"/>
+            <fraction n="0.0001328" ref="G4_K"/>
+            <fraction n="0.0004600" ref="G4_Cr"/>
+            <fraction n="0.0001500" ref="G4_Sr"/>
+        </material> -->
+
         <material name="Anorthosite2" state="solid">
             <D value="3.0" unit="g/cm3"/>
             <T value="293.15" unit="K"/>
@@ -134,8 +187,8 @@
             <fraction n="0.0004931626446" ref="G4_P"/>
             <fraction n="0.0002122859605" ref="G4_S"/>
         </material>
-    </materials>
 
+    </materials>
 
     <solids>
         <!-- Tessellated cuboid (12 triangles) -->

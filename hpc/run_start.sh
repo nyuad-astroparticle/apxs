@@ -1,6 +1,6 @@
 #!/bin/bash
 # Number of tasks
-#SBATCH --ntasks 4096
+#SBATCH --ntasks 2048
 # Set Memory
 #SBATCH --mem 64GB
 # Set WALLTIME
@@ -23,10 +23,10 @@ source load_modules.sh
 # module load gcc cmake mpich expat
 
 # Run the application
-cd /scratch/ss14729/apxs/build_40b/
+cd /scratch/ss14729/apxs/build1/
 start_time=`date +%s`
-mpiexec -n 4096 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac
-# mpiexec -n 10 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac
+# mpiexec -n 2048 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac > /dev/null 2>&1
+mpiexec -n 2048 ./apxs -g ./geometry/new_geom/outlxs.gdml -m ./macros/test_new_geom.mac 
 end_time=`date +%s`
 echo execution time was `expr $end_time - $start_time` s.
 echo "SIMULATION COMPLETED!"
