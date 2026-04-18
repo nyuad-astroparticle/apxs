@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-cd /scratch/ss14729/apxs/build_0/output
+cd /scratch/ss14729/apxs/build/output
 
 if [[ $# -ne 1 ]]; then
   echo "Usage: $0 <new_dir_name>"
