@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Usage: ./output.sh <new_dir_name>
+# Usage: ./output.sh <zip_name>
 
 set -euo pipefail
 
-cd /scratch/ss14729/apxs/build/output
+build_dir="/scratch/ss14729/apxs/build_80"
 
 if [[ $# -ne 1 ]]; then
-  echo "Usage: $0 <new_dir_name>"
+  echo "Usage: $0 <zip_name>"
   exit 1
 fi
 
-dest="$1"
-mkdir -p "$dest"
-mv -- *.csv "$dest"/
-zip -r "${dest}.zip" "$dest"
+zip_name="${1%.zip}"
+
+cd "$build_dir"
+zip -r "${zip_name}.zip" output/

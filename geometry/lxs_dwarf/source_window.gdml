@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schema/gdml.xsd">
+
+    <define>
+    </define>
+
+    <solids>
+        <tube name = "source_window_solid" rmin="0" rmax="5.0/2.0" z="0.5" deltaphi="360.0" startphi="0.0" aunit="deg" lunit= "mm"/>
+    </solids>
+
+    <structure>
+        <volume name="source_window">
+            <materialref ref="G4_Be"/>
+            <solidref ref="source_window_solid"/>
+            <positionref ref="source_window_position"/>
+            <auxiliary auxtype="Color" auxvalue="1 0 0"/>
+            <auxiliary auxtype="opacity" auxvalue="1"/>
+        </volume>
+    </structure>
+
+    <setup name="Default" version="1.0">
+            <world ref="source_window"/>
+    </setup>
+
+</gdml>

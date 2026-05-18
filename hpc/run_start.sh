@@ -23,10 +23,10 @@ source load_modules.sh
 # module load gcc cmake mpich expat
 
 # Run the application
-cd /scratch/ss14729/apxs/build/
+cd /scratch/ss14729/apxs/build_100/
 start_time=`date +%s`
 # mpiexec -n 2048 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac > /dev/null 2>&1
-mpiexec -n 4096 ./apxs -g ./geometry/lxs_dwarf_calib/out_lxsdwarfcalib.gdml -m ./macros/test_new_geom.mac 
+mpiexec -n 4096 ./apxs -g ./geometry/lxs_dwarf/out_lxsdwarf.gdml -m ./macros/test_new_geom.mac 
 end_time=`date +%s`
 echo execution time was `expr $end_time - $start_time` s.
 echo "SIMULATION COMPLETED!"
