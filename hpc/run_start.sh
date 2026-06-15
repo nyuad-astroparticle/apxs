@@ -4,7 +4,7 @@
 # Set Memory
 #SBATCH --mem 64GB
 # Set WALLTIME
-#SBATCH --time 48:00:00
+#SBATCH --time 24:00:00
 # Set output and error files
 #SBATCH -o start-job.%J.out
 #SBATCH -e start-job.%J.err
@@ -23,7 +23,7 @@ source load_modules.sh
 # module load gcc cmake mpich expat
 
 # Run the application
-cd /scratch/ss14729/apxs/build_100/
+cd /scratch/ss14729/apxs/build_ne/
 start_time=`date +%s`
 # mpiexec -n 2048 ./apxs -g ./geometry/new_geom/output.gdml -m ./macros/test_new_geom.mac > /dev/null 2>&1
 mpiexec -n 4096 ./apxs -g ./geometry/lxs_dwarf/out_lxsdwarf.gdml -m ./macros/test_new_geom.mac 
