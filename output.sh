@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-build_dir="/scratch/ss14729/apxs/build_ne"
+build_dir="/scratch/ss14729/apxs/build"
 
 if [[ $# -ne 1 ]]; then
   echo "Usage: $0 <zip_name>"

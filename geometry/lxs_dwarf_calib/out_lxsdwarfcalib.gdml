@@ -3,7 +3,8 @@
 
     <define>
         <!-- required variables -->
-        <variable name="distance" value="20.0"/>
+        <variable name="distance" value="100.0"/>
+        <variable name="calib_dist" value="20.0"/>
 
         <!-- rotations -->
         <rotation name="total_rotation" x="90" y="0" z="0" unit="degree"/> 
@@ -11,14 +12,15 @@
         <rotation name="sdd_rotation" x="0" y="0" z="180" unit="degree"/>
 
         <!-- positions -->
-        <position name="source_position1" x="974.01" y="1452.07" z="594.67" unit="mm"/>
+        <position name="source_position1" x="938.21" y="1452.07" z="594.67" unit="mm"/>
         <position name="source_position2" x="938.21" y="1452.07" z="594.67" unit="mm"/>
-        <position name="source_window_position1" x="860.69" y="1357.47" z="705.01" unit="mm"/>
+        <position name="source_window_position1" x="824.89" y="1357.47" z="705.01" unit="mm"/>
         <position name="source_window_position2" x="824.89" y="1357.47" z="705.01" unit="mm"/>
         <position name="anorthosite_position"  x="851.877" y="1342.018" z="719.450 + distance" unit="mm"/>
         <position name="sdd_position" x="842.99" y="1358.018" z="708.300" unit="mm"/>
         <position name="holder_position" x="-31.877" y="42.018" z="0.0" unit="mm"/>
-        <position name="calib_ring_position" x="818.807" y="1333.718" z="719.450 + 9.9" unit="mm"/>
+        <position name="calib_pb_pos" x="157.807" y="70.718" z="1588.55 + calib_dist" unit="mm"/>
+        <position name="calib_ti_pos" x="157.807" y="70.718" z="1588.55 + calib_dist" unit="mm"/>
     </define>
 
     <materials>
@@ -547,13 +549,19 @@
                 <rotationref ref="total_rotation"/>
             </physvol>
 
-            <!-- calib ring -->
+            <!-- calib ring titanium -->
             <physvol>
-                <file name="geometry/lxs_dwarf_calib/calib_ring.gdml"/>
-                <positionref ref="calib_ring_position"/>
+                <file name="geometry/lxs_dwarf_calib/calib_ti.gdml"/>
+                <positionref ref="calib_ti_pos"/>
                 <rotationref ref="total_rotation"/>
             </physvol>
 
+            <!-- calib ring lead -->
+            <physvol>
+                <file name="geometry/lxs_dwarf_calib/calib_pb.gdml"/>
+                <positionref ref="calib_pb_pos"/>
+                <rotationref ref="total_rotation"/>
+            </physvol>
         </volume>
     </structure>
 
